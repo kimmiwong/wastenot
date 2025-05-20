@@ -33,17 +33,44 @@ export default function ShowItems() {
     }
 
     return (
-        <>
-        <ul>
-            {data && data.map(item => (
-                <li key={item.id}>
-                        <div>{item.name}</div>
-                        <div>{item.expiration_date}</div>
-                        <div>{item.category}</div>
-                </li>
-            ))}
-        </ul>
-        </>
+        <div className="item-container">
+            <div className = "pantry-items">
+                <h3>Pantry Items</h3>
+                <ul>
+                    {data && data.map(item =>
+
+                        item.category === "pantry" ? (
+
+                            <li key={item.id}>
+                                <div>{item.name}</div>
+                                <div>{item.expiration_date}</div>
+                                <div></div>
+                        </li>
+                        ) : null
+
+                    )}
+                </ul>
+            </div>
+
+
+            <div className = "fridge-items">
+                <h3>Fridge Items</h3>
+                <ul>
+                    {data && data.map(item =>
+
+                        item.category === "fridge" ? (
+
+                            <li key={item.id}>
+                                <div>{item.name}</div>
+                                <div>{item.expiration_date}</div>
+                                <div></div>
+                        </li>
+                        ) : null
+
+                    )}
+                </ul>
+            </div>
+        </div>
 
     );
 };
