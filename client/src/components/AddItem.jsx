@@ -1,0 +1,83 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+
+export default function AddItem() {
+
+
+    const [name, setName] = useState('')
+    const [expirationDate, setExpirationDate] = useState('')
+    const [category, setCategory] = useState('')
+
+    const handleSubmit = async(e) =>    {
+        e.preventDefault();
+        console.log('form submitted', {name, expirationDate, category})
+
+
+
+        try {
+
+            const response = await fetch('http://localhost:8000/api/pantry', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify ({
+                    'name': name,
+                    'expiration_date': expirationDate,
+                    'category': category
+                })
+
+            });
+
+            if (!response.ok) throw new Error ('Failed to add food item')
+
+
+        }
+
+        catch(error) {console.error('Error adding food item', error)
+
+
+        }
+
+
+
+    }
+
+
+    return (
+
+        <div className = 'add-item-container'>
+            <h2>Add new food item</h2>
+            <form className = 'add-item-form' onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor='name'>Food Name:</label>
+                    <input type='text' id='name' value={name} onChange={e => setName(e.target.value)}></input>
+                </div>
+
+                <div>
+                    <label htmlFor='expiration-date'>Expiration Date:</label>
+                    <input type='date' id='expiration-date' value={expirationDate} onChange={e => setExpirationDate(e.target.value)}></input>
+                </div>
+
+                <div>
+                    <label htmlFor='category'>Category:</label>
+                    <select id='category' value={category} onChange={e => setCategory(e.target.value)}>
+                        <option value='fridge'>Fridge/Freezer</option>
+                        <option value='pantry'>Pantry</option>
+                    </select>
+                </div>
+                <button type='submit'>Add Food Item</button>
+
+
+
+
+            </form>
+
+
+
+
+        </div>
+
+    )
+
+
+}
