@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-export default function EditItem({fetchItems, id}) {
-    console.log(id)
+export default function EditItem({fetchItems, id, closeModal}) {
+
 
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
@@ -10,9 +10,6 @@ export default function EditItem({fetchItems, id}) {
     const handleSubmit = async(e) =>    {
 
         e.preventDefault()
-        console.log('form submitted', {name, expirationDate, category, id})
-        console.log(id)
-
 
         try {
 
@@ -22,14 +19,14 @@ export default function EditItem({fetchItems, id}) {
                 body: JSON.stringify ({
                     'name': name,
                     'expiration_date': expirationDate,
-                    'category': category,
-                    'id': id
+                    'category': category
+
                 })
 
             });
 
             if(!response.ok) throw new Error ('Failed to edit food item')
-
+            closeModal()
             fetchItems()
 
         }
