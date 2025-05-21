@@ -7,7 +7,7 @@ DATABASE_URL = "postgresql+psycopg://postgres:postgres@localhost:5432/pantry"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-def get_items() -> list[FoodOut]:
+def get_food_items() -> list[FoodOut]:
     db = SessionLocal()
     db_items = db.query(DBFood).all()
     items = []
@@ -21,7 +21,7 @@ def get_items() -> list[FoodOut]:
     db.close()
     return items
 
-def create_item(item: FoodIn) -> FoodOut:
+def create_food_item(item: FoodIn) -> FoodOut:
     db = SessionLocal()
     db_item= DBFood(**item.model_dump())
     db.add(db_item)
@@ -36,7 +36,7 @@ def create_item(item: FoodIn) -> FoodOut:
     db.close()
     return item
 
-def update_item(id: int, item: FoodUpdate) -> FoodOut:
+def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     db = SessionLocal()
     db_item = db.query(DBFood).filter(DBFood.id==id).first()
     if item.name is not None:
@@ -57,7 +57,7 @@ def update_item(id: int, item: FoodUpdate) -> FoodOut:
         expiration_date=db_item.expiration_date,
         category=db_item.category)
 
-def delete_item(id: int) -> bool:
+def delete_food_item(id: int) -> bool:
     db = SessionLocal()
     db_item = db.query(DBFood).filter(DBFood.id==id).first()
     db.delete(db_item)

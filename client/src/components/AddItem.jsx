@@ -5,19 +5,21 @@ import { Link } from 'react-router-dom'
 export default function AddItem() {
 
 
+
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('pantry')
 
     const handleSubmit = async(e) =>    {
-        e.preventDefault();
+
+
         console.log('form submitted', {name, expirationDate, category})
 
 
 
         try {
 
-            const response = await fetch('http://localhost:8000/api/pantry', {
+            const response = await fetch('http://localhost:8000/api/food-items', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify ({
@@ -28,17 +30,13 @@ export default function AddItem() {
 
             });
 
-            if (!response.ok) throw new Error ('Failed to add food item')
-
+            if(!response.ok) throw new Error ('Failed to add food item')
 
         }
 
         catch(error) {console.error('Error adding food item', error)
 
-
         }
-
-
 
     }
 
@@ -60,20 +58,14 @@ export default function AddItem() {
 
                 <div>
                     <label htmlFor='category'>Category:</label>
-                    <select id='category' value={category} onChange={e => setCategory(e.target.value)}>
-                        <option value='fridge'>Fridge/Freezer</option>
+                    <select id='category' name='category' value={category} onChange={e => setCategory(e.target.value)}>
                         <option value='pantry'>Pantry</option>
+                        <option value='fridge'>Fridge/Freezer</option>
                     </select>
                 </div>
                 <button type='submit'>Add Food Item</button>
 
-
-
-
             </form>
-
-
-
 
         </div>
 
