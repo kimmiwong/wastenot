@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import EditModal from './EditModal';
 
 export default function ShowItems() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-
-
-    // function handleRemove(id) {
-    //     const newData = data.filter((item) => item.id !==id);
-    //     setData(newData)
-    // }
-
+    const [showModal, setShowModal] = useState(false);
 
     async function deleteItem(id) {
 
@@ -75,6 +70,13 @@ export default function ShowItems() {
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
+                                <button type='button' onClick ={() => setShowModal(true)}>Edit item</button>
+
+                                {showModal && (
+                                    <EditModal onClose={() => setShowModal(false)}>
+                                        <h2>hello</h2>
+                                    </EditModal>
+                                )}
                         </li>
                         ) : null
 
@@ -94,6 +96,13 @@ export default function ShowItems() {
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
+                                <button type='button' onClick ={() => setShowModal(true)}>Edit item</button>
+
+                                {showModal && (
+                                    <EditModal onClose={() => setShowModal(false)}>
+                                        <h2>hello</h2>
+                                    </EditModal>
+                                )}
 
                         </li>
                         ) : null
