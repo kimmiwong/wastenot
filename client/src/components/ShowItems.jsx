@@ -8,6 +8,17 @@ export default function ShowItems() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null)
+
+    function openEdit(itemId) {
+        setSelectedItem(itemId)
+
+    }
+
+    function closeEdit() {
+        setSelectedItem(null)
+
+    }
 
     async function deleteItem(id) {
 
@@ -64,20 +75,22 @@ export default function ShowItems() {
 
                         item.category === "pantry" ? (
 
-                            <li key={item.id}>
+                        <li key={item.id}>
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
-                                <button type='button' onClick ={() => setShowModal(true)}>Edit item</button>
+                                <button type='button' onClick ={() => openEdit(item.id)}>Edit item</button>
 
-                                {showModal && (
-                                    <EditModal onClose={() => setShowModal(false)}>
-                                        <EditItem fetchItems={fetchData} id={item.id} />
-                                    </EditModal>
-                                )}
+
                         </li>
                         ) : null
 
+                    )}
+
+                    {selectedItem && (
+                        <EditModal onClose={closeEdit}>
+                            <EditItem fetchItems={fetchData} id={selectedItem} closeModal={closeEdit} />
+                        </EditModal>
                     )}
                 </ul>
             </div>
@@ -94,17 +107,18 @@ export default function ShowItems() {
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
-                                <button type='button' onClick ={() => setShowModal(true)}>Edit item</button>
+                                <button type='button' onClick ={() => openEdit(item.id)}>Edit item</button>
 
-                                {showModal && (
-                                    <EditModal onClose={() => setShowModal(false)}>
-                                        <EditItem fetchItems={fetchData} id={item.id} />
-                                    </EditModal>
-                                )}
+
 
                         </li>
                         ) : null
 
+                    )}
+                    {selectedItem && (
+                        <EditModal onClose={closeEdit}>
+                            <EditItem fetchItems={fetchData} id={selectedItem} closeModal={closeEdit} />
+                        </EditModal>
                     )}
                 </ul>
             </div>
