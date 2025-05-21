@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import EditModal from './EditModal';
+import EditItem from './EditItem';
 
 export default function ShowItems() {
     const [data, setData] = useState(null);
@@ -28,24 +29,21 @@ export default function ShowItems() {
 
     }
 
-
-
+    const fetchData = async () => {
+        try {
+            setIsLoading(true)
+            const res = await fetch('http://localhost:8000/api/food-items')
+            const json = await res.json();
+            setData(json);
+        } catch (error) {
+            setError(error);
+            console.error("Error fetching items", error)
+        } finally {
+            setIsLoading(false)
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true)
-                const res = await fetch('http://localhost:8000/api/food-items')
-                const json = await res.json();
-                setData(json);
-            } catch (error) {
-                setError(error);
-                console.error("Error fetching items", error)
-            } finally {
-                setIsLoading(false)
-            }
-        };
-
         fetchData();
     }, []);
 
@@ -74,7 +72,7 @@ export default function ShowItems() {
 
                                 {showModal && (
                                     <EditModal onClose={() => setShowModal(false)}>
-                                        <h2>hello</h2>
+                                        <EditItem fetchItems={fetchData} id={item.id} />
                                     </EditModal>
                                 )}
                         </li>
@@ -100,7 +98,7 @@ export default function ShowItems() {
 
                                 {showModal && (
                                     <EditModal onClose={() => setShowModal(false)}>
-                                        <h2>hello</h2>
+                                        <EditItem fetchItems={fetchData} id={item.id} />
                                     </EditModal>
                                 )}
 
