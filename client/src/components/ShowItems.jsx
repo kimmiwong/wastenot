@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import EditModal from './EditModal';
 import EditItem from './EditItem';
+import ItemTable from './ItemTable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
+
+
+
 
 export default function ShowItems() {
     const [data, setData] = useState(null);
@@ -27,14 +35,15 @@ export default function ShowItems() {
                 method: 'DELETE'
             })
 
-            if(!response.ok) throw new Error ('Failed to delete food item')
+            if (!response.ok) throw new Error('Failed to delete food item')
 
-            const newData = data.filter((item) => item.id !==id);
+            const newData = data.filter((item) => item.id !== id);
             setData(newData)
 
         }
 
-        catch(error) {console.error('Error deleting food item', error)
+        catch (error) {
+            console.error('Error deleting food item', error)
 
         }
 
@@ -68,21 +77,38 @@ export default function ShowItems() {
 
     return (
         <div className="item-container">
-            <div className = "pantry-items">
+            <div className="pantry-items">
                 <h3>Pantry Items</h3>
-                <ul>
+                <ItemTable>
                     {data && data.map(item =>
 
                         item.category === "pantry" ? (
 
-                        <li key={item.id}>
-                                <div>{item.name}</div>
-                                <div>{item.expiration_date}</div>
-                                <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
-                                <button type='button' onClick ={() => openEdit(item.id)}>Edit item</button>
+                            <tr key={item.id}>
+                                <input
+                                    className="checkbox"
+                                    type="checkbox"
+                                />
+                                <td>{item.name}</td>
+                                <td>{item.expiration_date}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => deleteItem(item.id)}
+                                        className="delete-button"
+                                        aria-label="Delete item"
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
 
 
-                        </li>
+                                    <button type="button" onClick={() => openEdit(item.id)} aria-label="Edit item">
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </button>
+
+                                </td>
+
+                            </tr>
                         ) : null
 
                     )}
@@ -92,26 +118,43 @@ export default function ShowItems() {
                             <EditItem fetchItems={fetchData} id={selectedItem} closeModal={closeEdit} />
                         </EditModal>
                     )}
-                </ul>
+                </ItemTable>
             </div>
 
 
-            <div className = "fridge-items">
+            <div className="fridge-items">
                 <h3>Fridge Items</h3>
-                <ul>
+                <ItemTable>
                     {data && data.map(item =>
 
                         item.category === "fridge" ? (
 
-                            <li key={item.id}>
-                                <div>{item.name}</div>
-                                <div>{item.expiration_date}</div>
-                                <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
-                                <button type='button' onClick ={() => openEdit(item.id)}>Edit item</button>
+                            <tr key={item.id}>
+                                <input
+                                    className="checkbox"
+                                    type="checkbox"
+                                />
+                                <td>{item.name}</td>
+                                <td>{item.expiration_date}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => deleteItem(item.id)}
+                                        className="delete-button"
+                                        aria-label="Delete item"
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    </button>
 
 
+                                    <button type="button" onClick={() => openEdit(item.id)} aria-label="Edit item">
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </button>
 
-                        </li>
+                                </td>
+
+
+                            </tr>
                         ) : null
 
                     )}
@@ -120,7 +163,7 @@ export default function ShowItems() {
                             <EditItem fetchItems={fetchData} id={selectedItem} closeModal={closeEdit} />
                         </EditModal>
                     )}
-                </ul>
+                </ItemTable>
             </div>
         </div>
 
