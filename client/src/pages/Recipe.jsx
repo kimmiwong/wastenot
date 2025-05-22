@@ -47,9 +47,13 @@ export default function Recipe() {
         <ul>
           {recipes.map((recipe) => (
             <li key={recipe.id}>
-              <h3>{recipe.title}</h3>
-              <img src={recipe.image} alt={recipe.title} />
-              <a href={recipe.sourceUrl}>View Instructions</a>
+              <div>
+                <h3>{recipe.title}</h3>
+                <img src={recipe.image} alt={recipe.title} />
+                <p>
+                  <a href={recipe.sourceUrl}>View Instructions</a>
+                </p>
+              </div>
             </li>
           ))}
         </ul>

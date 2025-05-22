@@ -21,6 +21,7 @@ def fetch_recipes(ingredients: str):
         data = response.json()
 
         if not data:
+            print("No recipes found by Spoonacular.")
             return []
 
         ids = ",".join(str(recipe["id"]) for recipe in data)
