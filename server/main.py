@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from schema import FoodIn, FoodOut, FoodUpdate
 import db
 from fastapi.middleware.cors import CORSMiddleware
+from recipes import fetch_recipes
 
 app = FastAPI()
 
@@ -41,3 +42,11 @@ async def delete_food_item(id: int):
     if not deleted_item:
         raise HTTPException(status_code=404, detail="Item not found")
     return True
+
+
+@app.get("/api/recipes")
+def get_recipes(ingredients: str):
+    recipes = fetch_recipes(ingredients)
+    if not recipes:
+        raise HTTPException(status_code=404, detail="Recipes not found")
+    return recipes

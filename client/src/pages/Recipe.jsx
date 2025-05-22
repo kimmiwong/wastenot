@@ -16,30 +16,30 @@ export default function Recipe() {
       }
 
       const items = await itemResponse.json();
-      const ingredients = items.map((item) => item.name);
+      const ingredients = items
+        .map((item) => item.name.trim().toLowerCase())
+        .join(",+");
+      console.log(ingredients);
+      const response = await fetch(`http://localhost:8000/api/recipes?ingredients=${ingredients}`);
 
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=4`
-      );
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
 
-      const recipeId = await response.json();
-      const id = recipeId.map((recipe) => recipe.id);
+      const data = await response.json();
+      setRecipes(data);
 
-      const recipeInfo = await fetch(
-        `https://api.spoonacular.com/recipes/${id}/information`
-      );
-      const recipe = recipeInfo.map((recipe) => ({
-        title: recipe.title,
-        image: recipe.image,
-        sourceURL: recipe.sourceURL,
-      }));
-
-      setRecipes(recipe);
     } catch (error) {
       console.error("Error occurred while loading recipes.", error);
+      setError(error)
+    } finally {
+        setLoading(false);
     }
   };
   useEffect(() => {
     getRecipe();
   }, []);
+
+  return()
+
 }
