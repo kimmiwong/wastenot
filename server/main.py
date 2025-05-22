@@ -1,8 +1,11 @@
+from dotenv import load_dotenv
+load_dotenv()
 from fastapi import FastAPI, HTTPException
 from schema import FoodIn, FoodOut, FoodUpdate
 import db
 from fastapi.middleware.cors import CORSMiddleware
 from recipes import fetch_recipes
+
 
 app = FastAPI()
 

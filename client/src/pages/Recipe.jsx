@@ -19,8 +19,10 @@ export default function Recipe() {
       const ingredients = items
         .map((item) => item.name.trim().toLowerCase())
         .join(",+");
-      console.log(ingredients);
-      const response = await fetch(`http://localhost:8000/api/recipes?ingredients=${ingredients}`);
+
+      const response = await fetch(
+        `http://localhost:8000/api/recipes?ingredients=${ingredients}`
+      );
 
       if (!response.ok) {
         throw new Error(`${response.status}`);
@@ -28,18 +30,30 @@ export default function Recipe() {
 
       const data = await response.json();
       setRecipes(data);
-
     } catch (error) {
       console.error("Error occurred while loading recipes.", error);
-      setError(error)
+      setError(error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {
     getRecipe();
   }, []);
 
-  return()
-
+  return (
+    <>
+      <div>
+        <ul>
+          {recipes.map((recipe) => (
+            <li key={recipe.id}>
+              <h3>{recipe.title}</h3>
+              <img src={recipe.image} alt={recipe.title} />
+              <a href={recipe.sourceUrl}>View Instructions</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 }

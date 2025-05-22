@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 
-api_key = os.environ.get("API_KEY")
+api_key = os.getenv("API_KEY")
 
 def fetch_recipes(ingredients: str):
 
