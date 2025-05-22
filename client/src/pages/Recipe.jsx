@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import selectedIngredient from './components/ShowItems' //importing the ingredients that the user clicked
 
 export default function Recipe() {
   const [loading, setLoading] = useState(false);
@@ -18,7 +17,7 @@ export default function Recipe() {
 
       const items = await itemResponse.json();
       const ingredients = items
-      // we need to make ingredients just the things that the user selected
+        // we need to make ingredients just the things that the user selected
         .map((item) => item.name.trim().toLowerCase())
         .join(",+");
 
