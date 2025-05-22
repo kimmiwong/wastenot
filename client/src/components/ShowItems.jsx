@@ -7,8 +7,10 @@ export default function ShowItems() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedIngredient, setSelectedIngredient] = useState([]);
+    // const [sortedButton, setSortedButton] = useState(false);
+
 
     function openEdit(itemId) {
         setSelectedItem(itemId)
@@ -19,6 +21,14 @@ export default function ShowItems() {
         setSelectedItem(null)
 
     }
+
+    // function sortItems(data) {
+    //     const sortedList = data.sort((a, b) => {
+    //         return new Date(a.expiration_date) - new Date(b.expiration_date);
+    //     })
+    //     if (sortedButton) return sortedList
+    //     return data
+    // }
 
     async function deleteItem(id) {
 
@@ -70,18 +80,19 @@ export default function ShowItems() {
         <div className="item-container">
             <div className = "pantry-items">
                 <h3>Pantry Items</h3>
+                {/* <button type='button' onClick={() => setSortedButton(!sortedButton)}>Sort by expiration date</button> */}
                 <ul>
+                    {/* {sortItems().map(item => */}
                     {data && data.map(item =>
 
                         item.category === "pantry" ? (
 
                         <li key={item.id}>
+                            <input type="checkbox" onChange={e => setSelectedIngredient(e.target.value)} />
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
                                 <button type='button' onClick ={() => openEdit(item.id)}>Edit item</button>
-
-
                         </li>
                         ) : null
 
@@ -104,6 +115,7 @@ export default function ShowItems() {
                         item.category === "fridge" ? (
 
                             <li key={item.id}>
+                                <input type="checkbox" />
                                 <div>{item.name}</div>
                                 <div>{item.expiration_date}</div>
                                 <button type='button' onClick ={() =>deleteItem(item.id)}>Delete item</button>
