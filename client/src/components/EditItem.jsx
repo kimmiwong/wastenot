@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function EditItem({fetchItems, id, closeModal}) {
 
@@ -6,8 +6,51 @@ export default function EditItem({fetchItems, id, closeModal}) {
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
     const [category, setCategory] = useState('pantry')
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
-    const handleSubmit = async(e) =>    {
+
+    const pullDetails = async(e) => {
+
+        try {
+            setIsLoading(true)
+
+            const res = await fetch(`http://localhost:8000/api/food-items/${id}`)
+            const json = await res.json()
+            setName(json.name)
+            setExpirationDate(json.expiration_date)
+            setCategory(json.category)
+
+
+        }
+
+        catch(error) {
+            setError(error)
+            console.error('Error fetching food item details', error)
+
+        }
+
+        finally {
+            setIsLoading(false)
+
+        }
+
+
+    }
+
+    useEffect(()=> {
+        pullDetails()
+    },[id])
+
+    if (error) {
+        return <p>Error getting food item details</p>
+    }
+
+    if (isLoading) {
+        return <p>Loading data...</p>
+    }
+
+    const handleSubmit = async(e) => {
 
         e.preventDefault()
 

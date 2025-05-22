@@ -31,6 +31,11 @@ async def create_food_item(item: FoodIn) -> FoodOut:
     return item
 
 
+@app.get("/api/food-items/{id}")
+async def get_food_item(id: int) -> FoodOut:
+    return db.get_food_item(id)
+
+
 @app.put("/api/food-items/{id}")
 async def update_food_item(id: int, item: FoodUpdate):
     updated_item = db.update_food_item(id, item)

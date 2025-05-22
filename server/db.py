@@ -64,3 +64,15 @@ def delete_food_item(id: int) -> bool:
     db.commit()
     db.close()
     return True
+
+def get_food_item(id: int) -> FoodOut:
+    db = SessionLocal()
+    db_item = db.query(DBFood).filter(DBFood.id == id).first()
+    db.close()
+    return FoodOut(
+        id=db_item.id,
+        name=db_item.name,
+        expiration_date=db_item.expiration_date,
+        category=db_item.category
+
+    )
