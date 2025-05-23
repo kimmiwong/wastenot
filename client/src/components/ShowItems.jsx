@@ -20,10 +20,24 @@ export default function ShowItems() {
     const [sortedButton, setSortedButton] = useState(false);
 
 
-    function openEdit(itemId) {
-        setSelectedItem(itemId)
+  function openEdit(itemId) {
+    setSelectedItem(itemId);
+  }
 
+  function closeEdit() {
+    setSelectedItem(null);
+  }
+
+  function sortItems(data) {
+    console.log("!", data);
+    if (sortedButton) {
+      data.sort((a, b) => {
+        return new Date(a.expiration_date) - new Date(b.expiration_date);
+      });
     }
+    console.log(sortedButton);
+    return data;
+  }
 
     function closeEdit() {
         setSelectedItem(null)
@@ -54,39 +68,37 @@ export default function ShowItems() {
             setData(newData)
 
         }
+      );
 
         catch (error) {
             console.error('Error deleting food item', error)
 
         }
 
+      const newData = data.filter((item) => item.id !== id);
+      setData(newData);
+    } catch (error) {
+      console.error("Error deleting food item", error);
     }
+  }
 
-    const fetchData = async () => {
-        try {
-            setIsLoading(true)
-            const res = await fetch('http://localhost:8000/api/food-items')
-            const json = await res.json();
-            setData(json);
-        } catch (error) {
-            setError(error);
-            console.error("Error fetching items", error)
-        } finally {
-            setIsLoading(false)
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    if (error) {
-        return <p>Something went wrong. Please refresh.</p>
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("http://localhost:8000/api/food-items");
+      const json = await res.json();
+      setData(json);
+    } catch (error) {
+      setError(error);
+      console.error("Error fetching items", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    if (isLoading) {
-        return <p>Loading games...</p>
-    }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
     return (
         <div className="item-container">
@@ -98,7 +110,9 @@ export default function ShowItems() {
                 <ItemTable>
                     {sortItems(data).map((item) =>
 
-                        item.category === "pantry" ? (
+  if (isLoading) {
+    return <p>Loading games...</p>;
+  }
 
                             <tr key={item.id}>
                                 <input
@@ -118,6 +132,17 @@ export default function ShowItems() {
                                         <FontAwesomeIcon icon={faTrashCan} />
                                     </button>
 
+          {selectedItem && (
+            <EditModal onClose={closeEdit}>
+              <EditItem
+                fetchItems={fetchData}
+                id={selectedItem}
+                closeModal={closeEdit}
+              />
+            </EditModal>
+          )}
+        </ul>
+      </div>
 
                                     <button type="button" onClick={() => openEdit(item.id)} aria-label="Edit item">
                                         <FontAwesomeIcon icon={faEdit} />
