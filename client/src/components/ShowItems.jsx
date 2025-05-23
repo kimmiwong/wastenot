@@ -12,11 +12,13 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function ShowItems() {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedIngredient, setSelectedIngredient] = useState([]);
+    const [sortedButton, setSortedButton] = useState(false);
+
 
     function openEdit(itemId) {
         setSelectedItem(itemId)
@@ -26,6 +28,17 @@ export default function ShowItems() {
     function closeEdit() {
         setSelectedItem(null)
 
+    }
+
+    function sortItems(data) {
+        console.log("!", data);
+        if (sortedButton) {
+            data.sort((a, b) => {
+                return new Date(a.expiration_date) - new Date(b.expiration_date);
+            });
+        }
+        console.log(sortedButton);
+        return data;
     }
 
     async function deleteItem(id) {
@@ -79,8 +92,11 @@ export default function ShowItems() {
         <div className="item-container">
             <div className="pantry-items">
                 <h3>Pantry Items</h3>
+                <button type="button" onClick={() => setSortedButton(!sortedButton)}>
+                    Sort by expiration date
+                </button>
                 <ItemTable>
-                    {data && data.map(item =>
+                    {sortItems(data).map((item) =>
 
                         item.category === "pantry" ? (
 
@@ -88,6 +104,7 @@ export default function ShowItems() {
                                 <input
                                     className="checkbox"
                                     type="checkbox"
+                                    onChange={(e) => setSelectedIngredient(e.target.value)}
                                 />
                                 <td>{item.name}</td>
                                 <td>{item.expiration_date}</td>
@@ -124,8 +141,12 @@ export default function ShowItems() {
 
             <div className="fridge-items">
                 <h3>Fridge Items</h3>
+                <button type="button" onClick={() => setSortedButton(!sortedButton)}>
+                    Sort by expiration date
+                </button>
+
                 <ItemTable>
-                    {data && data.map(item =>
+                    {sortItems(data).map((item) =>
 
                         item.category === "fridge" ? (
 
@@ -133,6 +154,7 @@ export default function ShowItems() {
                                 <input
                                     className="checkbox"
                                     type="checkbox"
+                                    onChange={(e) => setSelectedIngredient(e.target.value)}
                                 />
                                 <td>{item.name}</td>
                                 <td>{item.expiration_date}</td>

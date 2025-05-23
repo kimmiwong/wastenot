@@ -11,7 +11,6 @@ export default function AddItem() {
     const [category, setCategory] = useState('pantry')
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
 
 
         console.log('form submitted', { name, expirationDate, category })
@@ -45,47 +44,44 @@ export default function AddItem() {
 
     return (
 
-        <div className='add-item-container'>
-            <h2>Add new food item</h2>
-            <form className="add-item-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">Food Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </div>
+        <div className="top-section">
+            <div className="form-overlay">
+                <h2>Add new food item</h2>
+                <form className="add-item-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Food Name:</label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
 
-                <div className="form-group">
-                    <input
-                        type="date"
-                        id="expiration-date"
-                        value={expirationDate}
-                        onChange={e => setExpirationDate(e.target.value)}
-                    />
+                    <div className="form-group">
+                        <label htmlFor='expiration-date'>Expiration Date:</label>
+                        <input type='date' id='expiration-date' value={expirationDate} onChange={e => setExpirationDate(e.target.value)}></input>
 
-                </div>
+                    </div>
 
+                    <div className="form-group">
+                        <label htmlFor="category">Category:</label>
+                        <select
+                            id="category"
+                            name="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <option value="pantry">Pantry</option>
+                            <option value="fridge">Fridge/Freezer</option>
+                        </select>
+                    </div>
 
-
-                <div className="form-group">
-                    <label htmlFor="category">Category:</label>
-                    <select
-                        id="category"
-                        name="category"
-                        value={category}
-                        onChange={e => setCategory(e.target.value)}
-                    >
-                        <option value="pantry">Pantry</option>
-                        <option value="fridge">Fridge/Freezer</option>
-                    </select>
-                </div>
-
-                <button type="submit">Add Food Item</button>
-            </form>
+                    <button type="submit">Add Food Item</button>
+                </form>
+            </div>
         </div>
+
 
     )
 
