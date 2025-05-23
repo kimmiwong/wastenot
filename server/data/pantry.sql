@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS food_items (
     name VARCHAR(100),
     expiration_date DATE,
     category_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE;
+    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
 );
 
 INSERT INTO food_items (name, expiration_date, category_id)
