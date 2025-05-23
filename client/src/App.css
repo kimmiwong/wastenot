@@ -1,14 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
+
+html {
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Patrick Hand SC', cursive;
+  background: #ffffff;
+}
+
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  min-height: 100vh;
+  width: 100%;
   padding: 2rem;
   text-align: center;
+  box-sizing: border-box;
 }
 
 
 .item-container {
-
   display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  gap: 2rem;
+  width: 100%;
+  flex-wrap: wrap;
+
+}
+
+.pantry-items,
+.fridge-items {
+  flex: 1 1 45%;
+  padding: 1rem;
+  border: black, solid;
+  border-radius: 8px;
+  box-shadow: 0 10px 13px rgba(0, 0, 0, 0.05);
+  display: center;
 }
 
 .modal-overlay {
@@ -42,4 +74,149 @@
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
+}
+
+.add-item-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+
+.add-item-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  background-color: rgba(255, 255, 255, 0.427);
+}
+
+.add-item-form .form-group {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+}
+
+.top-section {
+  position: relative;
+  background-image: url('src/assets/Banner.png');
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-overlay {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  width: 90%;
+  max-width: 500px;
+}
+
+.add-item-form .form-group {
+  margin-bottom: 12px;
+}
+
+
+.add-item-form label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.add-item-form input,
+.add-item-form select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0);
+  cursor: pointer;
+}
+
+.add-item-form button {
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  background-color: #EB6424;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-item-form button:hover {
+  background-color: #EB6424;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tab-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tab-buttons .active {
+  background: #000;
+  color: white;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #eb6424;
+}
+
+.delete-button:hover {
+  color: #eb6424
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox:checked::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 4px;
+  height: 9px;
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }

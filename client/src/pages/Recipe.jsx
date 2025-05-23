@@ -17,7 +17,6 @@ export default function Recipe() {
 
       const items = await itemResponse.json();
       const ingredients = items
-        // we need to make ingredients just the things that the user selected
         .map((item) => item.name.trim().toLowerCase())
         .join(",+");
 
@@ -48,13 +47,9 @@ export default function Recipe() {
         <ul>
           {recipes.map((recipe) => (
             <li key={recipe.id}>
-              <div>
-                <h3>{recipe.title}</h3>
-                <img src={recipe.image} alt={recipe.title} />
-                <p>
-                  <a href={recipe.sourceUrl}>View Instructions</a>
-                </p>
-              </div>
+              <h3>{recipe.title}</h3>
+              <img src={recipe.image} alt={recipe.title} />
+              <a href={recipe.sourceUrl}>View Instructions</a>
             </li>
           ))}
         </ul>
