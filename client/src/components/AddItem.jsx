@@ -8,7 +8,7 @@ export default function AddItem() {
 
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
-    const [category, setCategory] = useState('pantry')
+    const [category, setCategory] = useState(1)
 
     const handleSubmit = async (e) => {
 
@@ -25,7 +25,7 @@ export default function AddItem() {
                 body: JSON.stringify({
                     'name': name,
                     'expiration_date': expirationDate,
-                    'category': category
+                    'category_id': category
                 })
 
             });
@@ -72,15 +72,15 @@ export default function AddItem() {
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                         >
-                            <option value="pantry">Pantry</option>
-                            <option value="fridge">Fridge/Freezer</option>
+                            <option value="1">Pantry</option>
+                            <option value="2">Fridge/Freezer</option>
                         </select>
                     </div>
 
                     <button type="submit">Add Food Item</button>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
 
 
     )

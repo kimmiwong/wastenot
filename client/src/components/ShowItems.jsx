@@ -7,10 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
-
-
-
-
 export default function ShowItems() {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +14,7 @@ export default function ShowItems() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedIngredient, setSelectedIngredient] = useState([]);
     const [sortedButton, setSortedButton] = useState(false);
+    const [sortedData, setSortedData] = useState([]);
 
 
     function openEdit(itemId) {
@@ -36,9 +33,11 @@ export default function ShowItems() {
             data.sort((a, b) => {
                 return new Date(a.expiration_date) - new Date(b.expiration_date);
             });
+            console.log("data sorted", data)
         }
         console.log(sortedButton);
-        return data;
+        console.log("date", data, "sorted date", sortedData)
+        return sortedData;
     }
 
     async function deleteItem(id) {
@@ -68,6 +67,10 @@ export default function ShowItems() {
             const res = await fetch('http://localhost:8000/api/food-items')
             const json = await res.json();
             setData(json);
+            console.log("data", data)
+            setSortedData(json);
+            console.log("Sorted Data", sortedData)
+
         } catch (error) {
             setError(error);
             console.error("Error fetching items", error)
@@ -85,20 +88,19 @@ export default function ShowItems() {
     }
 
     if (isLoading) {
-        return <p>Loading games...</p>
+        return <p>Loading...</p>
     }
 
     return (
         <div className="item-container">
+            <button type="button" onClick={() => setSortedButton(!sortedButton)}>Sort by {sortedButton === true ? 'Name' : 'Expiration Date'}
+            </button>
             <div className="pantry-items">
                 <h3>Pantry Items</h3>
-                <button type="button" onClick={() => setSortedButton(!sortedButton)}>
-                    Sort by expiration date
-                </button>
                 <ItemTable>
                     {sortItems(data).map((item) =>
 
-                        item.category === "pantry" ? (
+                        item.category_id === 1 ? (
 
                             <tr key={item.id}>
                                 <input
@@ -141,14 +143,10 @@ export default function ShowItems() {
 
             <div className="fridge-items">
                 <h3>Fridge Items</h3>
-                <button type="button" onClick={() => setSortedButton(!sortedButton)}>
-                    Sort by expiration date
-                </button>
-
                 <ItemTable>
                     {sortItems(data).map((item) =>
 
-                        item.category === "fridge" ? (
+                        item.category_id === 2 ? (
 
                             <tr key={item.id}>
                                 <input

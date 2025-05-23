@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react"
 
-export default function EditItem({fetchItems, id, closeModal}) {
+export default function EditItem({ fetchItems, id, closeModal }) {
 
 
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
-    const [category, setCategory] = useState('pantry')
+    const [category, setCategory] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
 
-    const pullDetails = async(e) => {
+    const pullDetails = async (e) => {
 
         try {
             setIsLoading(true)
@@ -24,7 +24,7 @@ export default function EditItem({fetchItems, id, closeModal}) {
 
         }
 
-        catch(error) {
+        catch (error) {
             setError(error)
             console.error('Error fetching food item details', error)
 
@@ -38,9 +38,9 @@ export default function EditItem({fetchItems, id, closeModal}) {
 
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         pullDetails()
-    },[id])
+    }, [id])
 
     if (error) {
         return <p>Error getting food item details</p>
@@ -50,7 +50,7 @@ export default function EditItem({fetchItems, id, closeModal}) {
         return <p>Loading data...</p>
     }
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault()
 
@@ -58,23 +58,24 @@ export default function EditItem({fetchItems, id, closeModal}) {
 
             const response = await fetch(`http://localhost:8000/api/food-items/${id}`, {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify ({
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                     'name': name,
                     'expiration_date': expirationDate,
-                    'category': category
+                    'category_id': category
 
                 })
 
             });
 
-            if(!response.ok) throw new Error ('Failed to edit food item')
+            if (!response.ok) throw new Error('Failed to edit food item')
             closeModal()
             fetchItems()
 
         }
 
-        catch(error) {console.error('Error editing food item', error)
+        catch (error) {
+            console.error('Error editing food item', error)
 
         }
 
@@ -82,9 +83,9 @@ export default function EditItem({fetchItems, id, closeModal}) {
 
     return (
 
-        <div className = 'edit-item-container'>
+        <div className='edit-item-container'>
             <h2>Edit food item</h2>
-            <form className = 'edit-item-form' onSubmit={handleSubmit}>
+            <form className='edit-item-form' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='name'>Food Name:</label>
                     <input type='text' id='name' defaultValue={name} onChange={e => setName(e.target.value)}></input>
@@ -98,8 +99,8 @@ export default function EditItem({fetchItems, id, closeModal}) {
                 <div>
                     <label htmlFor='category'>Category:</label>
                     <select id='category' name='category' defaultValue={category} onChange={e => setCategory(e.target.value)}>
-                        <option value='pantry'>Pantry</option>
-                        <option value='fridge'>Fridge/Freezer</option>
+                        <option value='1'>Pantry</option>
+                        <option value='2'>Fridge/Freezer</option>
                     </select>
                 </div>
                 <button type='submit'>Done</button>
