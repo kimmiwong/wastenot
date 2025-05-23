@@ -9,7 +9,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_food_items() -> list[FoodOut]:
     db = SessionLocal()
-    db_items = db.query(DBFood).all()
+    db_items = db.query(DBFood).order_by(DBFood.name).all()
     items = []
     for db_item in db_items:
         items.append(FoodOut(
