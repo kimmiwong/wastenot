@@ -5,7 +5,7 @@ from datetime import date
 class FoodIn(BaseModel):
     name: str
     expiration_date: date
-    category: str
+    category_id: int
 
 
 class FoodOut(FoodIn):
@@ -15,4 +15,4 @@ class FoodOut(FoodIn):
 class FoodUpdate(BaseModel):
     name: str | None = None
     expiration_date: date | None = None
-    category: str | None = None
+    category_id: int | None = None

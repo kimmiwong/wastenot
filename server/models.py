@@ -10,4 +10,10 @@ class DBFood(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     expiration_date = Column(Date, nullable=False)
-    category = Column(String, nullable=False)
+    category_id = Column(Integer, ForeignKey('category.category_id'), nullable=False)
+
+class DBCategory(Base):
+    __tablename__= "category"
+
+    category_id = Column(Integer, primary_key=True, index=True)
+    category_name = Column(String, nullable=False)

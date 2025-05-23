@@ -16,7 +16,7 @@ def get_food_items() -> list[FoodOut]:
             id=db_item.id,
             name=db_item.name,
             expiration_date=db_item.expiration_date,
-            category=db_item.category
+            category_id=db_item.category_id
         ))
     db.close()
     return items
@@ -31,7 +31,7 @@ def create_food_item(item: FoodIn) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category=db_item.category
+        category_id=db_item.category_id
     )
     db.close()
     return item
@@ -44,8 +44,8 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     if item.expiration_date is not None:
         db_item.expiration_date = item.expiration_date
 
-    if item.category is not None:
-        db_item.category  = item.category
+    if item.category_id is not None:
+        db_item.category_id  = item.category_id
 
     db.commit()
     db.refresh(db_item)
@@ -55,7 +55,7 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category=db_item.category)
+        category_id=db_item.category_id)
 
 def delete_food_item(id: int) -> bool:
     db = SessionLocal()
@@ -73,6 +73,6 @@ def get_food_item(id: int) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category=db_item.category
+        category_id=db_item.category_id
 
     )
