@@ -75,12 +75,14 @@ export default function ShowItems() {
   const selectedIngredients = (itemName, isChecked) => {
     console.log(itemName, isChecked);
     if (isChecked) {
-      return setSelectedIngredient(...selectedIngredient, itemName);
+      return setSelectedIngredient([...selectedIngredient, itemName]);
     } else {
-      return selectedIngredient.filter((item) => item !== itemName);
+      return setSelectedIngredient(
+        selectedIngredient.filter((name) => name !== itemName)
+      );
     }
   };
-
+  console.log(selectedIngredient);
   useEffect(() => {
     fetchData();
   }, []);
@@ -159,7 +161,9 @@ export default function ShowItems() {
                   <input
                     className="checkbox"
                     type="checkbox"
-                    onChange={(e) => setSelectedIngredient(e.target.value)}
+                    onChange={(e) =>
+                      selectedIngredients(item.name, e.target.checked)
+                    }
                   />
                 </td>
                 <td>{item.name}</td>
