@@ -11,7 +11,11 @@ export default function Home() {
                 <AddItem />
                 <ShowItems />
             </div>
-            <Link to='/Recipe'>Recipe Page</Link>
+            <div className="recipe-button-wrapper">
+                <Link to="/recipes" className="recipe-button">
+                    Generate Recipe
+                </Link>
+            </div>
         </div >
     )
 }
