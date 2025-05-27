@@ -44,7 +44,7 @@ return (
             <li key={notification.notification_id}>{notification.message}</li>
         ))}
        </ul>) :
-       (<p>Nothing expiring within 2 days!</p>)}
+       (<p>Nothing expiring yet!</p>)}
     </div>
 
 )

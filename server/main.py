@@ -59,12 +59,8 @@ def get_recipes(ingredients: str):
         raise HTTPException(status_code=404, detail="Recipes not found")
     return recipes
 
+
 @app.get("/api/notifications", response_model=list[NotificationOut])
 def get_notifications() -> list[NotificationOut]:
-    return db.get_notifications()
-
-
-@app.get("/api/test-run-scheduler")
-def test_run_scheduler():
     db.check_expiring_items()
-    return {"message": "Scheduler manually triggered."}
+    return db.get_notifications()

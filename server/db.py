@@ -89,22 +89,34 @@ def get_food_item(id: int) -> FoodOut:
 def check_expiring_items():
     db = SessionLocal()
     today = datetime.now(timezone.utc).date()
-    for days_left in [2, 1, 0]:
-        target_date = today + timedelta(days=days_left)
-        db_items = db.query(DBFood).filter(DBFood.expiration_date == target_date).all()
-        for db_item in db_items:
-            if days_left == 0:
-                message = f"'{db_item.name}' expires today!"
-            else:
-                message = f"'{db_item.name}' expires in {days_left} day(s)."
-            db_notification = DBNotification(message=message)
-            db.add(db_notification)
+    db_food_items = db.query(DBFood).all()
+
+    for db_food_item in db_food_items:
+        days_diff = (db_food_item.expiration_date - today).days
+
+        if days_diff > 2:
+            existing = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
+            if existing:
+                db.delete(existing)
+            continue
+
+        if days_diff == 2:
+            message = f"{db_food_item.name} expires in 2 days!"
+        elif days_diff == 1:
+             message = f"{db_food_item.name} expires in 1 day!"
+        elif days_diff == 0:
+             message = f"{db_food_item.name} expires today!"
+        elif days_diff < 0:
+             message = f"{db_food_item.name} expired {abs(days_diff)} day(s) ago!"
+
+        db_notification = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
+        if db_notification:
+            db_notification.message = message
+            db_notification.created_at = datetime.now(timezone.utc)
+        else:
+            db.add(DBNotification(message=message, food_id=db_food_item.id))
     db.commit()
     db.close()
-
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(check_expiring_items, 'interval', days=1)
-    scheduler.start()
 
 
 def get_notifications() -> list[NotificationOut]:
@@ -115,7 +127,8 @@ def get_notifications() -> list[NotificationOut]:
         notifications.append(NotificationOut(
             notification_id=db_notification.notification_id,
             message=db_notification.message,
-            created_at=db_notification.created_at
+            created_at=db_notification.created_at,
+            food_id=db_notification.food_id
         ))
     db.close()
     return notifications

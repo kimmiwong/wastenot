@@ -21,7 +21,11 @@ class FoodUpdate(BaseModel):
 class NotificationIn(BaseModel):
     message: str
     created_at: datetime
+    food_id: int
 
 
 class NotificationOut(NotificationIn):
     notification_id: int
+
+    class Config:
+        orm_mode = True
