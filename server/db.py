@@ -1,11 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate
-from models import DBFood
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationIn, NotificationOut
+from models import DBFood, DBNotification
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta, timezone
+
 DATABASE_URL = "postgresql+psycopg://postgres:postgres@localhost:5432/pantry"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 def get_food_items() -> list[FoodOut]:
     db = SessionLocal()
@@ -21,6 +25,7 @@ def get_food_items() -> list[FoodOut]:
     db.close()
     return items
 
+
 def create_food_item(item: FoodIn) -> FoodOut:
     db = SessionLocal()
     db_item= DBFood(**item.model_dump())
@@ -35,6 +40,7 @@ def create_food_item(item: FoodIn) -> FoodOut:
     )
     db.close()
     return item
+
 
 def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     db = SessionLocal()
@@ -57,6 +63,7 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
         expiration_date=db_item.expiration_date,
         category_id=db_item.category_id)
 
+
 def delete_food_item(id: int) -> bool:
     db = SessionLocal()
     db_item = db.query(DBFood).filter(DBFood.id==id).first()
@@ -64,6 +71,7 @@ def delete_food_item(id: int) -> bool:
     db.commit()
     db.close()
     return True
+
 
 def get_food_item(id: int) -> FoodOut:
     db = SessionLocal()
@@ -76,3 +84,51 @@ def get_food_item(id: int) -> FoodOut:
         category_id=db_item.category_id
 
     )
+
+
+def check_expiring_items():
+    db = SessionLocal()
+    today = datetime.now(timezone.utc).date()
+    db_food_items = db.query(DBFood).all()
+
+    for db_food_item in db_food_items:
+        days_diff = (db_food_item.expiration_date - today).days
+
+        if days_diff > 2:
+            existing = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
+            if existing:
+                db.delete(existing)
+            continue
+
+        if days_diff == 2:
+            message = f"{db_food_item.name} expires in 2 days!"
+        elif days_diff == 1:
+             message = f"{db_food_item.name} expires in 1 day!"
+        elif days_diff == 0:
+             message = f"{db_food_item.name} expires today!"
+        elif days_diff < 0:
+             message = f"{db_food_item.name} expired {abs(days_diff)} day(s) ago!"
+
+        db_notification = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
+        if db_notification:
+            db_notification.message = message
+            db_notification.created_at = datetime.now(timezone.utc)
+        else:
+            db.add(DBNotification(message=message, food_id=db_food_item.id))
+    db.commit()
+    db.close()
+
+
+def get_notifications() -> list[NotificationOut]:
+    db = SessionLocal()
+    db_notifications = db.query(DBNotification).order_by(DBNotification.created_at.desc()).all()
+    notifications = []
+    for db_notification in db_notifications:
+        notifications.append(NotificationOut(
+            notification_id=db_notification.notification_id,
+            message=db_notification.message,
+            created_at=db_notification.created_at,
+            food_id=db_notification.food_id
+        ))
+    db.close()
+    return notifications
