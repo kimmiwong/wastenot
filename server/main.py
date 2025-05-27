@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI, HTTPException
-from schema import FoodIn, FoodOut, FoodUpdate
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationIn, NotificationOut
 import db
 from fastapi.middleware.cors import CORSMiddleware
 from recipes import fetch_recipes
@@ -20,18 +20,18 @@ app.add_middleware(
 )
 
 
-@app.get("/api/food-items")
+@app.get("/api/food-items", response_model=list[FoodOut])
 async def get_food_items() -> list[FoodOut]:
     return db.get_food_items()
 
 
-@app.post("/api/food-items")
+@app.post("/api/food-items", response_model = FoodOut)
 async def create_food_item(item: FoodIn) -> FoodOut:
     item = db.create_food_item(item)
     return item
 
 
-@app.get("/api/food-items/{id}")
+@app.get("/api/food-items/{id}", response_model = FoodOut)
 async def get_food_item(id: int) -> FoodOut:
     return db.get_food_item(id)
 
@@ -58,3 +58,13 @@ def get_recipes(ingredients: str):
     if not recipes:
         raise HTTPException(status_code=404, detail="Recipes not found")
     return recipes
+
+@app.get("/api/notifications", response_model=list[NotificationOut])
+def get_notifications() -> list[NotificationOut]:
+    return db.get_notifications()
+
+
+@app.get("/api/test-run-scheduler")
+def test_run_scheduler():
+    db.check_expiring_items()
+    return {"message": "Scheduler manually triggered."}

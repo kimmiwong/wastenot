@@ -20,3 +20,9 @@ category_name VARCHAR (100)
 INSERT INTO category (category_name)
 VALUES ('pantry'),
 ('fridge');
+
+CREATE TABLE IF NOT EXISTS notifications (
+    notification_id SERIAL PRIMARY KEY,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

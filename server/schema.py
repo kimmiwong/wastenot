@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 
 
 class FoodIn(BaseModel):
@@ -16,3 +16,12 @@ class FoodUpdate(BaseModel):
     name: str | None = None
     expiration_date: date | None = None
     category_id: int | None = None
+
+
+class NotificationIn(BaseModel):
+    message: str
+    created_at: datetime
+
+
+class NotificationOut(NotificationIn):
+    notification_id: int
