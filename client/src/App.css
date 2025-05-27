@@ -4,15 +4,19 @@ html {
   font-size: 18px;
 }
 
+
 body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-family: 'Patrick Hand SC', cursive;
-  background: #ffffff;
+  background: #fdfaf3;
 }
 
+.page-content {
+  padding-top: 90px;
+}
 
 #root {
   min-height: 100vh;
@@ -137,7 +141,7 @@ body {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: flex-end;
-  background-color: rgba(255, 255, 255, 0.427);
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .add-item-form .form-group {
@@ -156,6 +160,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .form-overlay {
@@ -305,4 +311,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .exp-date-button:hover {
   text-decoration: none;
   color: white;
+}
+
+.carousel-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.carousel-slide {
+  padding: 0 10px;
+  height: 100%;
+}
+
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 350px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.recipe-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #7c6a0a;
+  min-height: 3em;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-link {
+  color: #fa9500;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.recipe-link:hover {
+  text-decoration: underline;
+}
+
+.slick-dots li button:before {
+  color: #eb6424;
+  font-size: 12px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #7c6a0a;
 }

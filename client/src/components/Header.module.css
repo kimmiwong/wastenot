@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
 
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 90px;
-    padding-left: var(--mantine-spacing-md);
-    padding-right: var(--mantine-spacing-md);
-    border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    background-color: #fdfaf3;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .inner {
@@ -22,7 +26,7 @@
 }
 
 .logo {
-    height: 95px;
+    height: 70px;
     object-fit: contain;
 }
 
@@ -39,5 +43,8 @@ body {
 
 
 .link {
-    display: f
+    text-decoration: none;
+    color: #4b4b4b;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
 }

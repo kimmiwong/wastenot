@@ -5,14 +5,14 @@ import SimpleHeader from '../components/Header'
 
 export default function Home() {
     return (
-        <div>
+        <div className='page-content'>
             <SimpleHeader />
             <div>
                 <AddItem />
                 <ShowItems />
             </div>
             <div className="recipe-button-wrapper">
-                <Link to="/recipes" className="recipe-button">
+                <Link to="/recipe" className="recipe-button">
                     Generate Recipe
                 </Link>
             </div>

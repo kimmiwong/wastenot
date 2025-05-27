@@ -1,10 +1,11 @@
-import { Box, Anchor } from '@mantine/core';
+import { Box } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import WasteNotLogo from '../assets/WasteNotLogo.png';
 import classes from './Header.module.css';
 
 export default function SimpleHeader() {
     return (
-        <Box pb={20}>
+        <Box>
             <header className={classes.header}>
                 <div className={classes.inner}>
                     <div className={classes.leftSection}>
@@ -12,9 +13,9 @@ export default function SimpleHeader() {
                         <span className={classes.logoText}>WasteNot</span>
                     </div>
 
-                    <Anchor href="#" className={classes.link} size="md" weight={500}>
+                    <Link to="/" className={classes.link} size="md" weight={500}>
                         Home
-                    </Anchor>
+                    </Link>
                 </div>
             </header>
         </Box>
