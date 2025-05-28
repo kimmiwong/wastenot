@@ -1,16 +1,16 @@
-const EditModal = ({ isOpen, closeModal, children }) => {
-    if (!isOpen) {
-        return null;
-    }
+const ShelfLifeModal = ({ isOpen, closeModal, children }) => {
+  if (!isOpen) {
+    return null;
+  }
 
-    return (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="modal-close" onClick={closeModal}>✕</button>
-            {children}
-          </div>
-        </div>
-      );
-    };
+  return (
+    <div className="shelflife-overlay">
+      <div className="shelflife-content">
+        <button className="shelflife-close" onClick={closeModal}>✕</button>
+        {children}
+      </div>
+    </div>
+  );
+};
 
-    export default EditModal;
+export default ShelfLifeModal;
