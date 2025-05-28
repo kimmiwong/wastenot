@@ -37,6 +37,7 @@ export default function Recipe() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getRecipe();
   }, [selectedIngredient]);
