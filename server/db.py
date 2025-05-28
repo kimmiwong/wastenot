@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from schema import FoodIn, FoodOut, FoodUpdate, NotificationIn, NotificationOut
 from models import DBFood, DBNotification
-from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta, timezone
 
 DATABASE_URL = "postgresql+psycopg://postgres:postgres@localhost:5432/pantry"
