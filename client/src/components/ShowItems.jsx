@@ -134,6 +134,7 @@ export default function ShowItems() {
                     <input
                       className="checkbox"
                       type="checkbox"
+                      checked={selectedIngredient.includes(item.name)}
                       onChange={(e) =>
                         selectedIngredients(item.name, e.target.checked)
                       }
@@ -191,6 +192,7 @@ export default function ShowItems() {
                     <input
                       className="checkbox"
                       type="checkbox"
+                      checked={selectedIngredient.includes(item.name)}
                       onChange={(e) =>
                         selectedIngredients(item.name, e.target.checked)
                       }
