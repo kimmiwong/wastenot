@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import ShowItems from "../components/ShowItems";
 import AddItem from "../components/AddItem";
 import SimpleHeader from "../components/Header";
-import Notification from "../components/Notification";
 import { useIngredients } from "../context/RecipesContext";
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
     <div className="page-content">
       <SimpleHeader />
       <div>
-        <Notification />
         <AddItem />
         <ShowItems />
       </div>

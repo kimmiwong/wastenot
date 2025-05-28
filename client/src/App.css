@@ -125,6 +125,39 @@ body {
   cursor: pointer;
 }
 
+
+.shelflife-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.shelflife-content {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 700px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.shelflife-close {
+  position: absolute;
+  top: 1rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
 .add-item-container {
   max-width: 1000px;
   margin: 2rem auto;
@@ -203,6 +236,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .add-item-form button {
   padding: 0.5rem;
+  font-family: 'Patrick Hand SC', cursive;
   margin-bottom: 0.75rem;
   background-color: #EB6424;
   color: white;
@@ -265,10 +299,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .exp-date-button {
   padding: 8px 16px;
-  font-size: 14px;
-  background-color: #f47c3c;
+  font-size: 18px;
+  background-color: #eb6424;
   border: none;
-  border-radius: 4px;
+  font-family: 'Patrick Hand SC', cursive;
+  border-radius: 7px;
   color: white;
   cursor: pointer;
 }
@@ -277,12 +312,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+
 }
 
 .recipe-button {
   padding: 0.5rem 1rem;
   background-color: #eb6424;
   color: white;
+  margin-right: 1rem;
   font-size: 1rem;
   border: none;
   border-radius: 10px;
@@ -292,29 +329,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transition: background-color 0.2s ease;
 }
 
+
+.clear-button {
+  padding: 0.5rem 1rem;
+  background-color: #eb6424;
+  color: white;
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clear-button:hover {
+  background-color: #8b3c17;
+}
+
 .recipe-button:hover {
   background-color: #8b3c17;
 }
 
 .recipe-button,
-.exp-date-button {
+.exp-date-button,
+.clear-button {
   color: white;
   text-decoration: none;
 }
 
 .recipe-button:visited,
-.exp-date-button:visited {
+.exp-date-button:visited,
+.clear-button:visited {
   color: white;
 }
 
 .recipe-button:hover,
-.exp-date-button:hover {
+.exp-date-button:hover,
+.clear-button:hover {
   text-decoration: none;
   color: white;
 }
 
 .carousel-wrapper {
-  max-width: 1200px;
+  max-width: 2200px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -374,4 +433,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .slick-prev:before,
 .slick-next:before {
   color: #7c6a0a;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.dropdown-button {
+  color: #7c6a0a;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 1rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 250px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border-radius: 8px;
+}
+
+.notification {
+  color: #eb6424;
+}
+
+.no-exp-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
 }
