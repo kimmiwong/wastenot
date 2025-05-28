@@ -22,7 +22,9 @@
     "react-router": "^7.6.0",
     "react-router-dom": "^7.6.0",
     "react-slick": "^0.30.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "@googlemaps/markerclusterer": "^2.5.1",
+    "@vis.gl/react-google-maps": "latest"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

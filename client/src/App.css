@@ -375,3 +375,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .slick-next:before {
   color: #7c6a0a;
 }
+
+.map-container {
+  height: 400px;
+}
