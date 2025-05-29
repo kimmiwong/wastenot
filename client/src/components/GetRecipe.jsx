@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import RecipeCarousel from "../components/RecipeCarousel";
-import SimpleHeader from "../components/Header";
+import RecipeCarousel from "./RecipeCarousel";
+import SimpleHeader from "./Header";
 import { useContext } from "react";
 import { useIngredients } from "../context/RecipesContext";
 

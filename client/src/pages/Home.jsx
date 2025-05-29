@@ -24,6 +24,9 @@ export default function Home() {
         >
           Clear Selection
         </button>
+        <div>
+          <Link to="/Favorites">Favorites</Link>
+        </div>
       </div>
     </div>
   );
