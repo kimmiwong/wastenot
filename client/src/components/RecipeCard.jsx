@@ -5,7 +5,7 @@ export default function RecipeCard({ recipe }) {
             {recipe.image && (
                 <img src={recipe.image} alt={recipe.title} className="recipe-image" />
             )}
-            <a href={recipe.sourceUrl} className="recipe-link">
+            <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer" className="recipe-link">
                 View Instructions
             </a>
         </div>
