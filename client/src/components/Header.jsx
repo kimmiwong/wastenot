@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import WasteNotLogo from '../assets/WasteNotLogo.png';
 import classes from './Header.module.css';
@@ -9,7 +9,8 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 export default function SimpleHeader() {
     const [isOpen, setIsOpen] = useState(false);
-    const [notifications, setNotifications] = useState([])
+    const [notifications, setNotifications] = useState([]);
+    const dropdownRef = useRef(null);
 
     const fetchNotifications = async () => {
 
@@ -40,6 +41,18 @@ export default function SimpleHeader() {
         fetchNotifications()
     }, [notifications]);
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
@@ -54,7 +67,7 @@ export default function SimpleHeader() {
                         </Link>
                         <span className={classes.logoText}>WasteNot</span>
                     </div>
-                    <div className='dropdown-wrapper'>
+                    <div className='dropdown-wrapper' ref={dropdownRef}>
                         <div className="dropdown-button" onClick={toggleOpen}>
                             {notifications.length > 0 && <span className='notification'>({notifications.length})</span>}
                             <FontAwesomeIcon icon={faBell} />
