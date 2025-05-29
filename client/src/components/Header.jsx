@@ -5,7 +5,7 @@ import WasteNotLogo from '../assets/WasteNotLogo.png';
 import classes from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-
+import { faHeart } from "@fortawesome/free-solid-svg-icons"
 
 export default function SimpleHeader() {
     const [isOpen, setIsOpen] = useState(false);
@@ -54,6 +54,9 @@ export default function SimpleHeader() {
                         </Link>
                         <span className={classes.logoText}>WasteNot</span>
                     </div>
+                    <Link to="/Favorites" className='favorite-link'>
+                        <FontAwesomeIcon icon={faHeart} style={{ color: "#eb6424", }} />
+                    </Link>
                     <div className='dropdown-wrapper'>
                         <div className="dropdown-button" onClick={toggleOpen}>
                             {notifications.length > 0 && <span className='notification'>({notifications.length})</span>}

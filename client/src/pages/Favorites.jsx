@@ -1,9 +1,12 @@
+import SimpleHeader from "../components/Header";
 import { useFavorites } from "../context/FavoritesContext";
+
 
 export default function Favorites() {
   const { selectedFavorites } = useFavorites();
   return (
     <div>
+      <SimpleHeader />
       <ul>
         {selectedFavorites.map((recipe) => (
           <li key={recipe.id}>
