@@ -130,32 +130,43 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
 .shelflife-content {
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  width: 90%;
-  max-width: 700px;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff00;
+  border-radius: 12px;
+  max-width: 80vw;
+  max-height: 90vh;
+  overflow: auto;
 }
 
 .shelflife-close {
   position: absolute;
-  top: 1rem;
-  right: 0.75rem;
-  background: none;
+  top: 1px;
+  right: 45px;
+  background: transparent;
   border: none;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  z-index: 1001;
+}
+
+.Shelf-Life {
+  max-width: 80%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
 }
 
 .add-item-container {
@@ -437,34 +448,80 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .dropdown-wrapper {
   position: relative;
-  padding-right: 1.5rem;
 }
 
 .dropdown-button {
-  color: #7c6a0a;
   cursor: pointer;
-  font-size: 22px;
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dropdown-button:hover {
+  background-color: #f3f3f3;
+}
+
+.notification {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #eb6424;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-weight: bold;
 }
 
 .dropdown {
   position: absolute;
   top: 40px;
-  right: 1rem;
+  right: 9px;
   background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 250px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 16px;
   z-index: 1000;
-  border-radius: 8px;
+  animation: fadeIn 0.3s ease;
 }
 
-.notification {
-  color: #eb6424;
+.dropdown h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #fa9500;
 }
 
-.no-exp-button {
-  display: flex;
-  justify-content: flex-end;
-  margin-left: auto;
+.dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #fa9500;
+}
+
+.dropdown p {
+  color: #fa9500;
+  font-size: 0.95rem;
+  margin: 0;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
