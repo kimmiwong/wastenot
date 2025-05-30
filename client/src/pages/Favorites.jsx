@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import SimpleHeader from "../components/Header";
 import { useFavorites } from "../context/FavoritesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -5,6 +6,7 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 export default function Favorites() {
   const { selectedFavorites, deleteFavorite } = useFavorites();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -27,6 +29,9 @@ export default function Favorites() {
           </li>
         ))}
       </ul>
+      <div>
+        <button onClick={() => navigate("/recipe")}>Back to Recipes</button>
+      </div>
     </div>
   );
 }
