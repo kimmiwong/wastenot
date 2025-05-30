@@ -47,6 +47,9 @@ export default function SimpleHeader() {
                         </Link>
                         <span className={classes.logoText}>WasteNot</span>
                     </div>
+                    <Link to="/Favorites" className="favorite-link">
+                        <FontAwesomeIcon icon={faHeart} style={{ color: "#eb6424" }} />
+                    </Link>
                     <div className="dropdown-wrapper" ref={dropdownRef}>
                         <div className="dropdown-button" onClick={toggleOpen}>
                             {notifications.length > 0 && (
