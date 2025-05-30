@@ -6,7 +6,7 @@ import classes from "./Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { useNotifications } from "../context/NotificationsContext";
+import { useNotifications } from "../context/NotificationsContext"
 
 export default function SimpleHeader() {
     const [isOpen, setIsOpen] = useState(false);
