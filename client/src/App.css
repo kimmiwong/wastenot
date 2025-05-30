@@ -450,15 +450,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 400px;
 }
 
-body {
+/* body {
   margin: 0;
   font-family: sans-serif;
-}
+} */
 
-#root {
+/* #root {
   width: 100vw;
   height: 100vh;
-}
+} */
 
 .CompostMap {
   --gmpx-color-surface: #f6f5ff;
@@ -471,6 +471,9 @@ body {
   background: var(--gmpx-color-surface);
   inset: 0;
   position: fixed;
+  top: 35%;
+
+
 }
 
 .MainContainer {
@@ -497,9 +500,6 @@ body {
   display: contents;
 }
 
-#root, .SplitLayoutContainer, .CompostMap {
-  pointer-events: auto !important;
-}
 
 .dropdown-wrapper {
   position: relative;
@@ -579,4 +579,9 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.compost-container {
+  height: 25vh;
+  overflow: scroll;
 }
