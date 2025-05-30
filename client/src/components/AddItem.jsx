@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TextInput, Select, Button } from '@mantine/core';
 import ShelfLifeModal from './ShelflifeModal'
-import ShelfLife from '../assets/ShelfLife.png';
+import ShelfLife from '../assets/shelf.png';
 
 
 export default function AddItem() {

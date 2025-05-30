@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import { RecipesProvider } from "./context/RecipesContext.jsx";
 import { FavoritesProvider } from "./context/FavoritesContext.jsx";
 
+import { NotificationsProvider } from "./context/NotificationsContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -15,6 +16,9 @@ createRoot(document.getElementById("root")).render(
           <FavoritesProvider>
             <App />
           </FavoritesProvider>
+          <NotificationsProvider>
+            <App />
+          </NotificationsProvider>
         </RecipesProvider>
       </BrowserRouter>
     </MantineProvider>

@@ -2,7 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from schema import FoodIn, FoodOut, FoodUpdate, NotificationIn, NotificationOut
 from models import DBFood, DBNotification
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 DATABASE_URL = "postgresql+psycopg://postgres:postgres@localhost:5432/pantry"
 
@@ -87,7 +88,7 @@ def get_food_item(id: int) -> FoodOut:
 
 def check_expiring_items():
     db = SessionLocal()
-    today = datetime.now(timezone.utc).date()
+    today = datetime.now(ZoneInfo("America/New_York")).date()
     db_food_items = db.query(DBFood).all()
 
     for db_food_item in db_food_items:

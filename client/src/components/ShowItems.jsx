@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useIngredients } from "../context/RecipesContext";
+import { useNotifications } from "../context/NotificationsContext";
 
 export default function ShowItems() {
   const [data, setData] = useState([]);
@@ -15,6 +16,7 @@ export default function ShowItems() {
   const { selectedIngredient, setSelectedIngredient } = useIngredients();
   const [sortedButton, setSortedButton] = useState(false);
   const [sortedData, setSortedData] = useState([]);
+  const { fetchNotifications } = useNotifications();
 
   function openEdit(itemId) {
     setSelectedItem(itemId);
@@ -62,6 +64,7 @@ export default function ShowItems() {
 
       const newData = data.filter((item) => item.id !== id);
       setData(newData);
+      await fetchNotifications();
     } catch (error) {
       console.error("Error deleting food item", error);
     }

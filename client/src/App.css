@@ -133,14 +133,23 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
+  align-items: center;
   align-items: center;
   z-index: 1000;
 }
 
 .shelflife-content {
   position: relative;
+  background-color: #ffffff00;
+  border-radius: 12px;
+  max-width: 80vw;
+  max-height: 90vh;
+  overflow: auto;
   background-color: #ffffff00;
   border-radius: 12px;
   max-width: 80vw;
@@ -153,9 +162,24 @@ body {
   top: 1px;
   right: 45px;
   background: transparent;
+  top: 1px;
+  right: 45px;
+  background: transparent;
   border: none;
   font-size: 1.5rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  z-index: 1001;
+}
+
+.Shelf-Life {
+  max-width: 80%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
   z-index: 1001;
 }
 
@@ -446,6 +470,61 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #7c6a0a;
 }
 
+.map-container {
+  height: 400px;
+}
+
+/* body {
+  margin: 0;
+  font-family: sans-serif;
+} */
+
+/* #root {
+  width: 100vw;
+  height: 100vh;
+} */
+
+.CompostMap {
+  --gmpx-color-surface: #f6f5ff;
+  --gmpx-color-on-primary: #f8e8ff;
+  --gmpx-color-on-surface: #000;
+  --gmpx-color-on-surface-variant: #636268;
+  --gmpx-color-primary: #8a5cf4;
+  --gmpx-fixed-panel-height-column-layout: 420px;
+  --gmpx-fixed-panel-width-row-layout: 340px;
+  background: var(--gmpx-color-surface);
+  inset: 0;
+  position: fixed;
+  top: 35%;
+
+
+}
+
+.MainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.SplitLayoutContainer {
+  height: 100%;
+}
+
+.CompostPicker {
+  --gmpx-color-surface: #fff;
+  flex-grow: 1;
+  margin: 1rem;
+}
+
+.CloseButton {
+  display: block;
+  margin: 1rem;
+}
+
+.SlotDiv {
+  display: contents;
+}
+
+
 .dropdown-wrapper {
   position: relative;
 }
@@ -472,13 +551,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 50%;
   padding: 2px 6px;
   font-weight: bold;
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dropdown-button:hover {
+  background-color: #f3f3f3;
+}
+
+.notification {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #eb6424;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-weight: bold;
 }
 
 .dropdown {
   position: absolute;
   top: 40px;
   right: 9px;
+  right: 9px;
   background-color: white;
+  width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 16px;
   width: 260px;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
