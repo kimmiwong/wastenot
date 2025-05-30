@@ -21,7 +21,7 @@ const DEFAULT_CENTER = { lat: 38, lng: -98 };
 const DEFAULT_ZOOM = 5;
 const DEFAULT_ZOOM_WITH_LOCATION = 10;
 
-const TestCompostMap = () => {
+const CompostMap = () => {
   const overlayLayoutRef = useRef(null);
   const pickerRef = useRef(null);
   const [compostMarkers, setCompostMarkers] = useState([]);
@@ -142,4 +142,4 @@ const TestCompostMap = () => {
   );
 };
 
-export default TestCompostMap;
+export default CompostMap;
