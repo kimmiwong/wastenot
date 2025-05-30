@@ -3,7 +3,7 @@ import RecipeCard from './RecipeCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-export default function RecipeCarousel({ recipes }) {
+export default function RecipeCarousel({ recipes, showTrashInsteadOfHeart }) {
     const settings = {
         dots: true,
         infinite: true,
@@ -26,7 +26,8 @@ export default function RecipeCarousel({ recipes }) {
         <Slider {...settings}>
             {recipes.map((recipe) => (
                 <div key={recipe.id} className='carousel-slide'>
-                    <RecipeCard recipe={recipe} />
+                    <RecipeCard recipe={recipe}
+                        showTrashInsteadOfHeart={showTrashInsteadOfHeart} />
                 </div>
             ))}
         </Slider>
