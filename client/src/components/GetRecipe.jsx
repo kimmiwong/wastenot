@@ -9,6 +9,7 @@ export default function Recipe() {
   const [error, setError] = useState(null);
   const [recipes, setRecipes] = useState([]);
   const { selectedIngredient } = useIngredients();
+
   const getRecipe = async () => {
     try {
       setLoading(true);
@@ -19,10 +20,6 @@ export default function Recipe() {
 
       const response = await fetch(
         `http://localhost:8000/api/recipes?ingredients=${ingredients}`
-      );
-      console.log("Fetching recipes with:", ingredients);
-      console.log(
-        `URL: http://localhost:8000/api/recipes?ingredients=${ingredients}`
       );
       if (!response.ok) {
         throw new Error(`${response.status}`);
