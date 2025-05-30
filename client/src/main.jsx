@@ -13,11 +13,10 @@ createRoot(document.getElementById("root")).render(
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <BrowserRouter>
         <RecipesProvider>
-          <FavoritesProvider>
-            <App />
-          </FavoritesProvider>
           <NotificationsProvider>
-            <App />
+            <FavoritesProvider>
+              <App />
+            </FavoritesProvider>
           </NotificationsProvider>
         </RecipesProvider>
       </BrowserRouter>
