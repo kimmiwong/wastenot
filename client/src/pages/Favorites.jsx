@@ -3,7 +3,6 @@ import { useFavorites } from "../context/FavoritesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-
 export default function Favorites() {
   const { selectedFavorites, deleteFavorite } = useFavorites();
 
@@ -16,8 +15,8 @@ export default function Favorites() {
             <h3 className="fav-title">{recipe.title}</h3>
             <img src={recipe.image} alt={recipe.title} />
             <a
-              href={recipe.sourecUrl}
-              target="blank"
+              href={recipe.sourceUrl}
+              target="_blank"
               rel="noopener nonreferrer"
             >
               View Recipe
@@ -25,7 +24,6 @@ export default function Favorites() {
             <button onClick={() => deleteFavorite(recipe.id)}>
               <FontAwesomeIcon icon={faTrashCan} />
             </button>
-
           </li>
         ))}
       </ul>
