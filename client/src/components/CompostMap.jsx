@@ -124,6 +124,10 @@ const CompostMap = () => {
               gestureHandling="greedy"
               fullscreenControl={false}
               zoomControl={true}
+              onCameraChanged={(ev) => {
+              setMapCenter(ev.detail.center);
+              setMapZoom(ev.detail.zoom);
+              }}
             >
               {compostMarkers.map((compostPlace, i) => (
                 <AdvancedMarker
