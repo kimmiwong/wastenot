@@ -470,60 +470,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #7c6a0a;
 }
 
-.map-container {
-  height: 400px;
-}
 
-/* body {
-  margin: 0;
-  font-family: sans-serif;
-} */
-
-/* #root {
-  width: 100vw;
-  height: 100vh;
-} */
-
-.CompostMap {
-  --gmpx-color-surface: #f6f5ff;
-  --gmpx-color-on-primary: #f8e8ff;
-  --gmpx-color-on-surface: #000;
-  --gmpx-color-on-surface-variant: #636268;
-  --gmpx-color-primary: #8a5cf4;
-  --gmpx-fixed-panel-height-column-layout: 420px;
-  --gmpx-fixed-panel-width-row-layout: 340px;
-  background: var(--gmpx-color-surface);
-  inset: 0;
-  position: fixed;
-  top: 35%;
-
-
-}
-
-.MainContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.SplitLayoutContainer {
-  height: 100%;
+gmpx-overlay-layout {
+  --gmpx-color-surface: #babd8d;
+  --gmpx-color-on-surface: #362f05;
+  --gmpx-color-primary: #7c6a0a;
+  --gmpx-color-on-primary: #ffffff;
+  --gmpx-color-outline: #7c6a0a;
+  --gmpx-shape-corner-full: 10px;
 }
 
 .CompostPicker {
   --gmpx-color-surface: #fff;
   flex-grow: 1;
   margin: 1rem;
+
 }
 
 .CloseButton {
   display: block;
   margin: 1rem;
 }
-
-.SlotDiv {
-  display: contents;
-}
-
 
 .dropdown-wrapper {
   position: relative;
@@ -575,7 +542,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .dropdown {
   position: absolute;
-  top: 40px;
+  top: 70px;
   right: 9px;
   right: 9px;
   background-color: white;
@@ -630,8 +597,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
+.fav-wrapper {
+  position: relative;
+}
+
 .favorite-link {
-  margin-left: auto;
+  cursor: pointer;
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.favorite-link :hover {
+  background-color: #f3f3f376;
 }
 
 .fav-button {
@@ -642,6 +621,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #8b3c17;
 }
 
+.right-section {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.compost-logo {
+  height: 45px;
+  width: 45px;
+  margin-top: 8px;
+  object-fit: contain;
+}
 
 .back-link {
   position: absolute;
@@ -653,6 +646,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s;
+  font-family: 'Patrick Hand SC', cursive;
 }
 
 .back-button {
@@ -662,6 +656,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
+  font-family: 'Patrick Hand SC', cursive;
 }
 
 .back-button:hover {
@@ -669,60 +664,115 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .compost-container {
-  height: 25vh;
-  overflow: scroll;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: flex-start;
 }
 
-map-container {
-  height: 400px;
+.compost-instructions-panel {
+  max-width: 350px;
+  padding: 2rem;
+  background-color: #fdfaf3;
+  border-radius: 8px;
+  overflow-y: auto;
+  height: 100%;
+  font-family: 'Patrick Hand SC', cursive;
 }
 
-/* body {
-  margin: 0;
-  font-family: sans-serif;
-} */
-
-/* #root {
-  width: 100vw;
-  height: 100vh;
-} */
-
-.CompostMap {
-  --gmpx-color-surface: #f6f5ff;
-  --gmpx-color-on-primary: #f8e8ff;
-  --gmpx-color-on-surface: #000;
-  --gmpx-color-on-surface-variant: #636268;
-  --gmpx-color-primary: #8a5cf4;
-  --gmpx-fixed-panel-height-column-layout: 420px;
-  --gmpx-fixed-panel-width-row-layout: 340px;
-  background: var(--gmpx-color-surface);
-  inset: 0;
-  position: fixed;
-  top: 35%;
-
-
+.compost-instructions-panel h1 {
+  font-size: 2rem;
+  color: #7c6a0a;
+  margin-bottom: 1rem;
 }
 
-.MainContainer {
+.compost-instructions-panel ol {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.compost-instructions-panel li {
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.icon-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #babd8d;
+  color: #fff;
+  font-size: 1rem;
+  padding: 5px 8px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+.icon-tooltip-wrapper:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.compost-map-container {
+  display: flex;
+  height: 125vh;
+  width: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.sidebar-left {
+  width: 20%;
+  background-color: #f4f4f4;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.main-map {
+  flex: 1;
+  position: relative;
+}
+
+.sidebar-right {
+  width: 20%;
+  background-color: #babd8d;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  overflow-y: auto;
+  border-radius: 8px;
 }
 
-.SplitLayoutContainer {
-  height: 100%;
+.picker-container {
+  margin-bottom: 1rem;
 }
 
-.CompostPicker {
-  --gmpx-color-surface: #fff;
-  flex-grow: 1;
-  margin: 1rem;
+.overview-section {
+  flex: 1;
+  background-color: #babd8d;
 }
 
-.CloseButton {
-  display: block;
-  margin: 1rem;
+.overlay-panel {
+  padding: 1rem;
+  background-color: #babd8d;
 }
 
-.SlotDiv {
-  display: contents;
+.close-button {
+  margin-bottom: 1rem;
 }

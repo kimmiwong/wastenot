@@ -11,10 +11,10 @@ import {
   PlaceDirectionsButton,
   IconButton,
   PlaceOverview,
-  SplitLayout,
   OverlayLayout,
   PlacePicker,
 } from "@googlemaps/extended-component-library/react";
+import CompostInstructions from "./CompostInstructions";
 
 const googleAPIKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const DEFAULT_CENTER = { lat: 38, lng: -98 };
@@ -38,7 +38,7 @@ const CompostMap = () => {
 
     const request = {
       location: compostLocation.location,
-      radius: 50000, // in meters
+      radius: 50000,
       keyword: "residential compost",
     };
 
@@ -53,69 +53,14 @@ const CompostMap = () => {
   }, [compostLocation]);
 
   return (
-    <div className="CompostMap">
-      <APIProvider
-        apiKey={googleAPIKey}
-        version="beta"
-      >
-        <SplitLayout rowReverse rowLayoutMinWidth={700}>
-          <div className="SlotDiv" slot="fixed">
-            <OverlayLayout ref={overlayLayoutRef}>
-              <div className="SlotDiv" slot="main">
-                <PlacePicker
-                  className="CompostPicker"
-                  ref={pickerRef}
-                  forMap="gmap"
-                  country={["us", "ca"]}
-                  placeholder="Enter your location"
-                  onPlaceChange={() => {
-                    const place = pickerRef.current?.value;
-                    if (!place) {
-                      setCompostLocation(undefined);
-                      setMapCenter(DEFAULT_CENTER);
-                      setMapZoom(DEFAULT_ZOOM);
-                    } else {
-                      setCompostLocation(place);
-                      setMapCenter(place.location);
-                      setMapZoom(DEFAULT_ZOOM_WITH_LOCATION);
-                    }
-                  }}
-                />
-                <PlaceOverview
-                  size="large"
-                  place={compostLocation}
-                  googleLogoAlreadyDisplayed
-                >
-                  <div slot="action" className="SlotDiv">
-                    <IconButton
-                      slot="action"
-                      variant="filled"
-                      onClick={() => overlayLayoutRef.current?.showOverlay()}
-                    >
-                      See Reviews
-                    </IconButton>
-                  </div>
-                  <div slot="action" className="SlotDiv">
-                    <PlaceDirectionsButton slot="action" variant="filled">
-                      Directions
-                    </PlaceDirectionsButton>
-                  </div>
-                </PlaceOverview>
-              </div>
-              <div slot="overlay" className="SlotDiv">
-                <IconButton
-                  className="CloseButton"
-                  onClick={() => overlayLayoutRef.current?.hideOverlay()}
-                >
-                  Close
-                </IconButton>
-                <PlaceDataProvider place={compostLocation}>
-                  <PlaceReviews />
-                </PlaceDataProvider>
-              </div>
-            </OverlayLayout>
+    <div className="compost-map-container">
+      <APIProvider apiKey={googleAPIKey} version="beta">
+        <div className="layout">
+          <div>
+            <CompostInstructions />
           </div>
-          <div className="SplitLayoutContainer" slot="main">
+
+          <div className="main-map">
             <Map
               id="gmap"
               mapId="8c732c82e4ec29d9"
@@ -125,22 +70,84 @@ const CompostMap = () => {
               fullscreenControl={false}
               zoomControl={true}
               onCameraChanged={(ev) => {
-              setMapCenter(ev.detail.center);
-              setMapZoom(ev.detail.zoom);
+                setMapCenter(ev.detail.center);
+                setMapZoom(ev.detail.zoom);
               }}
             >
-              {compostMarkers.map((compostPlace, i) => (
+              {compostMarkers.map((place, i) => (
                 <AdvancedMarker
                   key={i}
-                  position={compostPlace.geometry.location}
-                  onClick={() => setCompostLocation(compostPlace)}
+                  position={place.geometry.location}
+                  onClick={() => setCompostLocation(place)}
                 >
-                <Pin background="#34A853" borderColor="#000" glyphColor="#fff" />
+                  <Pin background="#34A853" borderColor="#000" glyphColor="#fff" />
                 </AdvancedMarker>
               ))}
             </Map>
           </div>
-        </SplitLayout>
+
+          <div className="sidebar-right">
+            <div className="picker-container">
+              <PlacePicker
+                className="CompostPicker"
+                ref={pickerRef}
+                forMap="gmap"
+                country={["us", "ca"]}
+                placeholder="Enter your location"
+                onPlaceChange={() => {
+                  const place = pickerRef.current?.value;
+                  if (!place) {
+                    setCompostLocation(undefined);
+                    setMapCenter(DEFAULT_CENTER);
+                    setMapZoom(DEFAULT_ZOOM);
+                  } else {
+                    setCompostLocation(place);
+                    setMapCenter(place.location);
+                    setMapZoom(DEFAULT_ZOOM_WITH_LOCATION);
+                  }
+                }}
+              />
+            </div>
+
+            <OverlayLayout ref={overlayLayoutRef}>
+              <div slot="main" className="overview-section">
+                <PlaceOverview
+                  size="large"
+                  place={compostLocation}
+                  googleLogoAlreadyDisplayed
+                >
+                  <div slot="action">
+                    <IconButton
+                      variant="filled"
+                      onClick={() => overlayLayoutRef.current?.showOverlay()}
+                    >
+                      See Reviews
+                    </IconButton>
+                  </div>
+                  <div slot="action">
+                    <PlaceDirectionsButton variant="filled">
+                      Directions
+                    </PlaceDirectionsButton>
+                  </div>
+                </PlaceOverview>
+              </div>
+
+              <div slot="overlay" className="overlay-panel">
+                <IconButton
+                  className="close-button"
+                  onClick={() => overlayLayoutRef.current?.hideOverlay()}
+                >
+                  Close
+                </IconButton>
+                {compostLocation && (
+                  <PlaceDataProvider place={compostLocation}>
+                    <PlaceReviews />
+                  </PlaceDataProvider>
+                )}
+              </div>
+            </OverlayLayout>
+          </div>
+        </div>
       </APIProvider>
     </div>
   );
