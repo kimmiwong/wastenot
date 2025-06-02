@@ -15,30 +15,33 @@ Found in the requirements.txt file
 ### Installing
 
 Database:
-*Start Docker: docker compose up -d
-*Access PostgreSQL container: docker exec -it postgres_db psql -U postgres
-*Connect to database: \c pantry
-*Load schema: \i data/pantry.sql
+
+- Start Docker: `docker compose up -d`
+- Access PostgreSQL container: `docker exec -it postgres_db psql -U postgres`
+- Connect to database: `\c pantry`
+- Load schema: `\i data/pantry.sql`
 
 Backend:
-*Install libraries: pip install "fastapi[standard]" sqlalchemy psycopg pydantic python-dotenv
-*Install from requirements: pip install -r requirements.txt
-\*Run dev server: fastapi dev main.py
+
+- Install libraries: `pip install "fastapi[standard]" sqlalchemy psycopg pydantic python-dotenv`
+- Install from requirements: `pip install -r requirements.txt`
+- Run dev server: `fastapi dev main.py`
 
 Frontend:
-*Install dependencies: npm install
-Which other dependencies?
-*Start dev server: npm run dev
+
+- Install dependencies: `npm install`
+  Which other dependencies?
+- Start dev server: `npm run dev`
 
 (do we need to change these to production servers on back and front ends?)
 
 ### Executing program
 
-\*View page at http://localhost:5173/
+- View page at http://localhost:5173/
 
-\*You will need to get a Spoonacular API key at https://spoonacular.com/food-api/console#Dashboard. Add the key to the .env file in the server folder.
+- You will need to get a Spoonacular API key at https://spoonacular.com/food-api/console#Dashboard. Add the key to the .env file in the server folder.
 
-\*You will also need to get a Google Maps API key at https://developers.google.com/maps/documentation/javascript/get-api-key. Add the key to the .env file in the client folder.
+- You will also need to get a Google Maps API key at https://developers.google.com/maps/documentation/javascript/get-api-key. Add the key to the .env file in the client folder.
 
 ## Help
 
@@ -46,21 +49,21 @@ If you get an error when you try to retrieve recipes, it's probably because you 
 
 ## Authors
 
-_Jonathan Kwan
-jkwan14@gmail.com
-_https://github.com/jkwan14
+- Jonathan Kwan
+  jkwan14@gmail.com
+  https://github.com/jkwan14
 
-_Lindsey Lawson
-lawsonlindsey36@yahoo.com
-_https://github.com/lil2319
+- Lindsey Lawson
+  lawsonlindsey36@yahoo.com
+  https://github.com/lil2319
 
-_Rebecca Loewenstein-Harting
-rebeccalh01@gmail.com
-_https://github.com/rebeccalh01
+- Rebecca Loewenstein-Harting
+  rebeccalh01@gmail.com
+  https://github.com/rebeccalh01
 
-_Kimmi Wong
-kimmiwong94@gmail.com
-_https://github.com/kimmiwong
+- Kimmi Wong
+  kimmiwong94@gmail.com
+  https://github.com/kimmiwong
 
 ## Version History
 
@@ -68,5 +71,5 @@ _https://github.com/kimmiwong
 
 ## Acknowledgments
 
-*Spoonacular API: https://spoonacular.com/food-api/
-*Google Maps API: https://developers.google.com/maps
+- Spoonacular API: https://spoonacular.com/food-api/
+- Google Maps API: https://developers.google.com/maps
