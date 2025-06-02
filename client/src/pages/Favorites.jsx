@@ -8,21 +8,24 @@ import RecipeCarousel from "../components/RecipeCarousel";
 export default function Favorites() {
   const { selectedFavorites } = useFavorites();
   const navigate = useNavigate();
-
   return (
     <div className="page-content">
       <SimpleHeader />
       <div className="back-link">
-        <button className="back-button" onClick={() => navigate("/recipe")}> <FontAwesomeIcon icon={faLeftLong} />Back to Recipes</button>
+        <button className="back-button" onClick={() => navigate("/recipe")}>
+          {" "}
+          <FontAwesomeIcon icon={faLeftLong} />
+          Back to Recipes
+        </button>
       </div>
       <div className="carousel-wrapper">
         <h1>Favorite Recipes</h1>
         {selectedFavorites.length > 0 ? (
           <RecipeCarousel recipes={selectedFavorites} showTrashInsteadOfHeart />
         ) : (
-          <p>You have not favoried any recipes yet</p>
+          <p>You have not favorited any recipes yet</p>
         )}
       </div>
-    </div >
+    </div>
   );
 }
