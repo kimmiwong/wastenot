@@ -1,18 +1,17 @@
 export default function CompostInstructions() {
-    console.log("compost instructions")
 
     return (
         <div className="compost-instructions-panel">
-            <h2>How to get started with composting</h2>
+            <h1>How to get started with composting</h1>
 
-            <h1>For taking compost to a collection site:</h1>
+            <h2>For taking compost to a collection site:</h2>
             <ol>
                 <li>You will need a large container with a tight-fitting lid. Some people prefer to keep their compost in the freezer to reduce any unpleasant smells.</li>
                 <li>Place all of your food scraps in the compost container. Fruits, vegetables, grains, eggshells, and coffee grounds are acceptable for composting at every location. Check your local dropoff site for guidance on meat, fish, and cooking oils.</li>
                 <li>Bring your compost to the dropoff location when your bin is full. Once a week is recommended to avoid attracting pests.</li>
             </ol>
 
-            <h1>For composting at home:</h1>
+            <h2>For composting at home:</h2>
             <ol>
                 <li>There are many methods of composting at home. Some involve purchasing materials such as a tumbler or a worm bin. The method described here is the most economical one.</li>
                 <li>Choose an area of your yard that is not accessible to children or pets. Create a bin that can hold a large amount of compost using materials such as chicken wire and fenceposts. Recycling materials that you already have on hand is a great way to make this project even more sustainable.</li>
