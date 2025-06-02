@@ -4,14 +4,13 @@ export const RecipesContext = createContext();
 
 export const RecipesProvider = ({ children }) => {
   const [selectedIngredient, setSelectedIngredient] = useState([]);
+
   return (
-    <div>
-      <RecipesContext.Provider
-        value={{ selectedIngredient, setSelectedIngredient }}
-      >
-        {children}
-      </RecipesContext.Provider>
-    </div>
+    <RecipesContext.Provider
+      value={{ selectedIngredient, setSelectedIngredient }}
+    >
+      {children}
+    </RecipesContext.Provider>
   );
 };
 
