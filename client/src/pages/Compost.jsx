@@ -1,19 +1,11 @@
-import CompostMap from "../components/CompostMap"
-import CompostInstructions from "../components/CompostInstructions"
+import CompostMap from "../components/CompostMap";
+import SimpleHeader from "../components/Header";
 
 export default function Compost() {
-    console.log('something happened')
-
     return (
-        <>
-
-        <div className="compost-container">
-        <div><CompostInstructions /> </div>
-        <div><CompostMap /></div>
-
-
+        <div className="page-content">
+            <SimpleHeader />
+            <CompostMap />
         </div>
-        </>
-
-    )
+    );
 }

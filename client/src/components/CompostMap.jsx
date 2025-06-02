@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import CompostInstructions from "./CompostInstructions";
 import {
   AdvancedMarker,
   Map,
@@ -38,7 +39,7 @@ const CompostMap = () => {
 
     const request = {
       location: compostLocation.location,
-      radius: 50000, // in meters
+      radius: 50000,
       keyword: "residential compost",
     };
 
@@ -54,14 +55,16 @@ const CompostMap = () => {
 
   return (
     <div className="CompostMap">
-      <APIProvider
-        apiKey={googleAPIKey}
-        version="beta"
-      >
-        <SplitLayout rowReverse rowLayoutMinWidth={700}>
-          <div className="SlotDiv" slot="fixed">
+      <APIProvider apiKey={googleAPIKey} version="beta">
+        <SplitLayout rowLayoutMinWidth={700}>
+          <div slot="fixed">
+            <CompostInstructions />
+          </div>
+
+          <div slot="main" className="SplitLayoutContainer">
             <OverlayLayout ref={overlayLayoutRef}>
-              <div className="SlotDiv" slot="main">
+              <div slot="main" className="map-layout-wrapper">
+                {/* PlacePicker stays above */}
                 <PlacePicker
                   className="CompostPicker"
                   ref={pickerRef}
@@ -81,27 +84,63 @@ const CompostMap = () => {
                     }
                   }}
                 />
-                <PlaceOverview
-                  size="large"
-                  place={compostLocation}
-                  googleLogoAlreadyDisplayed
-                >
-                  <div slot="action" className="SlotDiv">
-                    <IconButton
-                      slot="action"
-                      variant="filled"
-                      onClick={() => overlayLayoutRef.current?.showOverlay()}
+
+                {/* Map and PlaceOverview side-by-side */}
+                <div className="map-overview-row">
+                  <div className="map-column">
+                    <Map
+                      id="gmap"
+                      mapId="8c732c82e4ec29d9"
+                      center={mapCenter}
+                      zoom={mapZoom}
+                      gestureHandling="greedy"
+                      fullscreenControl={false}
+                      zoomControl={true}
+                      onCameraChanged={(ev) => {
+                        setMapCenter(ev.detail.center);
+                        setMapZoom(ev.detail.zoom);
+                      }}
                     >
-                      See Reviews
-                    </IconButton>
+                      {compostMarkers.map((compostPlace, i) => (
+                        <AdvancedMarker
+                          key={i}
+                          position={compostPlace.geometry.location}
+                          onClick={() => setCompostLocation(compostPlace)}
+                        >
+                          <Pin background="#34A853" borderColor="#000" glyphColor="#fff" />
+                        </AdvancedMarker>
+                      ))}
+                    </Map>
                   </div>
-                  <div slot="action" className="SlotDiv">
-                    <PlaceDirectionsButton slot="action" variant="filled">
-                      Directions
-                    </PlaceDirectionsButton>
+
+                  <div className="overview-column">
+                    <PlaceOverview
+                      size="large"
+                      place={compostLocation}
+                      googleLogoAlreadyDisplayed
+                    >
+                      <div slot="action" className="SlotDiv">
+                        <IconButton
+                          slot="action"
+                          variant="filled"
+                          onClick={() => overlayLayoutRef.current?.showOverlay()}
+                        >
+                          See Reviews
+                        </IconButton>
+                      </div>
+                      <div slot="action" className="SlotDiv">
+                        <PlaceDirectionsButton slot="action" variant="filled">
+                          Directions
+                        </PlaceDirectionsButton>
+                      </div>
+                    </PlaceOverview>
+                    <PlaceDataProvider place={compostLocation}>
+                      <PlaceReviews />
+                    </PlaceDataProvider>
                   </div>
-                </PlaceOverview>
+                </div>
               </div>
+
               <div slot="overlay" className="SlotDiv">
                 <IconButton
                   className="CloseButton"
@@ -109,36 +148,8 @@ const CompostMap = () => {
                 >
                   Close
                 </IconButton>
-                <PlaceDataProvider place={compostLocation}>
-                  <PlaceReviews />
-                </PlaceDataProvider>
               </div>
             </OverlayLayout>
-          </div>
-          <div className="SplitLayoutContainer" slot="main">
-            <Map
-              id="gmap"
-              mapId="8c732c82e4ec29d9"
-              center={mapCenter}
-              zoom={mapZoom}
-              gestureHandling="greedy"
-              fullscreenControl={false}
-              zoomControl={true}
-              onCameraChanged={(ev) => {
-              setMapCenter(ev.detail.center);
-              setMapZoom(ev.detail.zoom);
-              }}
-            >
-              {compostMarkers.map((compostPlace, i) => (
-                <AdvancedMarker
-                  key={i}
-                  position={compostPlace.geometry.location}
-                  onClick={() => setCompostLocation(compostPlace)}
-                >
-                <Pin background="#34A853" borderColor="#000" glyphColor="#fff" />
-                </AdvancedMarker>
-              ))}
-            </Map>
           </div>
         </SplitLayout>
       </APIProvider>
