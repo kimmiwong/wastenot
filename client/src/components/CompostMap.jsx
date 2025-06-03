@@ -87,6 +87,7 @@ const CompostMap = () => {
           </div>
 
           <div className="sidebar-right">
+            <h2>Search for composting locations near you:</h2>
             <div className="picker-container">
               <PlacePicker
                 className="CompostPicker"
