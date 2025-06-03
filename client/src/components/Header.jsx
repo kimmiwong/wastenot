@@ -54,7 +54,7 @@ export default function SimpleHeader() {
                         </div>
                         <div className="fav-wrapper icon-tooltip-wrapper">
                             <Link to="/Favorites" className="favorite-link">
-                                <FontAwesomeIcon icon={faHeart} style={{ color: "#eb6424" }} />
+                                <FontAwesomeIcon icon={faHeart} style={{ color: "#eb6424", height: "25px" }} />
                                 <span className="tooltip-text">Favorites</span>
                             </Link>
                         </div>
@@ -64,7 +64,7 @@ export default function SimpleHeader() {
                                 {notifications.length > 0 && (
                                     <span className="notification">({notifications.length})</span>
                                 )}
-                                <FontAwesomeIcon icon={faBell} />
+                                <FontAwesomeIcon icon={faBell} style={{ height: "25px" }} />
                                 {isOpen && (
                                     <div className="dropdown">
                                         <h2>Notifications</h2>

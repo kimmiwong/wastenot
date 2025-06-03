@@ -180,7 +180,7 @@ export default function ShowItems() {
         </div>
 
         <div className="fridge-items">
-          <h3>Fridge Items</h3>
+          <h3>Fridge/Freezer Items</h3>
           <ItemTable>
             {sortItems(data).map((item) =>
               item.category_id === 2 ? (

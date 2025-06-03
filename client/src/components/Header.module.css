@@ -26,13 +26,13 @@
 }
 
 .logo {
-    height: 70px;
+    height: 80px;
     object-fit: contain;
 }
 
 .logoText {
     font-family: 'Patrick Hand SC', cursive;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 }

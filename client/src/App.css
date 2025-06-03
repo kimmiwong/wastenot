@@ -224,7 +224,7 @@ body {
   background-image: url('src/assets/Banner.png');
   background-size: cover;
   background-position: center;
-  height: 400px;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,6 +262,7 @@ body {
   border-radius: 6px;
   background-color: rgb(255, 255, 255);
   color: black;
+  font-family: 'Patrick Hand SC', cursive;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -494,6 +495,7 @@ gmpx-overlay-layout {
 
 .dropdown-wrapper {
   position: relative;
+  padding-right: 10px;
 }
 
 .dropdown-button {
@@ -630,9 +632,10 @@ gmpx-overlay-layout {
 
 
 .compost-logo {
-  height: 45px;
-  width: 45px;
+  height: 55px;
+  width: 55px;
   margin-top: 8px;
+  padding: 9px;
   object-fit: contain;
 }
 
