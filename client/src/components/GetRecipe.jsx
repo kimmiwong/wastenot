@@ -41,7 +41,7 @@ export default function Recipe() {
     <div className="page-content">
       <SimpleHeader />
       <div className="carousel-wrapper">
-        <h1>Generated Recipes</h1>
+        <h1>Your WasteNot Menu</h1>
         {loading && <p>Loading...</p>}
         {error && <p>Error loading recipes.</p>}
         {!loading && !error && <RecipeCarousel recipes={recipes} />}
