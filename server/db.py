@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate, NotificationIn, NotificationOut
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut
 from models import DBFood, DBNotification
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -28,7 +28,7 @@ def get_food_items() -> list[FoodOut]:
 
 def create_food_item(item: FoodIn) -> FoodOut:
     db = SessionLocal()
-    db_item= DBFood(**item.model_dump())
+    db_item = DBFood(**item.model_dump())
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
@@ -44,14 +44,14 @@ def create_food_item(item: FoodIn) -> FoodOut:
 
 def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     db = SessionLocal()
-    db_item = db.query(DBFood).filter(DBFood.id==id).first()
+    db_item = db.query(DBFood).filter(DBFood.id == id).first()
     if item.name is not None:
         db_item.name = item.name
     if item.expiration_date is not None:
         db_item.expiration_date = item.expiration_date
 
     if item.category_id is not None:
-        db_item.category_id  = item.category_id
+        db_item.category_id = item.category_id
 
     db.commit()
     db.refresh(db_item)
@@ -61,12 +61,13 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id)
+        category_id=db_item.category_id
+        )
 
 
 def delete_food_item(id: int) -> bool:
     db = SessionLocal()
-    db_item = db.query(DBFood).filter(DBFood.id==id).first()
+    db_item = db.query(DBFood).filter(DBFood.id == id).first()
     db.delete(db_item)
     db.commit()
     db.close()
@@ -103,13 +104,13 @@ def check_expiring_items():
         if days_diff == 2:
             message = f"{db_food_item.name} expires in 2 days!"
         elif days_diff == 1:
-             message = f"{db_food_item.name} expires in 1 day!"
+            message = f"{db_food_item.name} expires in 1 day!"
         elif days_diff == 0:
-             message = f"{db_food_item.name} expires today!"
+            message = f"{db_food_item.name} expires today!"
         elif days_diff == -1:
-             message = f"{db_food_item.name} expired 1 day ago!"
+            message = f"{db_food_item.name} expired 1 day ago!"
         elif days_diff < -1:
-             message = f"{db_food_item.name} expired {abs(days_diff)} days ago!"
+            message = f"{db_food_item.name} expired {abs(days_diff)} days ago!"
 
         db_notification = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
         if db_notification:

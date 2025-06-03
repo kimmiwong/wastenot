@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 app = FastAPI()
 
 origins = ["http://localhost:5173"]
@@ -27,13 +26,13 @@ async def get_food_items() -> list[FoodOut]:
     return db.get_food_items()
 
 
-@app.post("/api/food-items", response_model = FoodOut)
+@app.post("/api/food-items", response_model=FoodOut)
 async def create_food_item(item: FoodIn) -> FoodOut:
     item = db.create_food_item(item)
     return item
 
 
-@app.get("/api/food-items/{id}", response_model = FoodOut)
+@app.get("/api/food-items/{id}", response_model=FoodOut)
 async def get_food_item(id: int) -> FoodOut:
     return db.get_food_item(id)
 
