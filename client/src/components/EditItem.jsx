@@ -17,7 +17,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
             const json = await res.json()
             setName(json.name)
             setExpirationDate(json.expiration_date)
-            setCategory(json.category)
+            setCategory(json.category_id)
         }
 
         catch (error) {
@@ -88,8 +88,8 @@ export default function EditItem({ fetchItems, id, closeModal }) {
                 <div>
                     <label htmlFor='category'>Category:</label>
                     <select id='category' name='category' defaultValue={category} onChange={e => setCategory(e.target.value)}>
-                        <option value='1'>Pantry</option>
-                        <option value='2'>Fridge/Freezer</option>
+                        <option value="1">Pantry</option>
+                        <option value="2">Fridge/Freezer</option>
                     </select>
                 </div>
                 <button type='submit'>Done</button>
