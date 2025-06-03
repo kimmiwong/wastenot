@@ -37,8 +37,8 @@ async def get_food_item(id: int) -> FoodOut:
     return db.get_food_item(id)
 
 
-@app.put("/api/food-items/{id}")
-async def update_food_item(id: int, item: FoodUpdate):
+@app.put("/api/food-items/{id}", response_model=FoodOut)
+async def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     updated_item = db.update_food_item(id, item)
     if not updated_item:
         raise HTTPException(status_code=404, detail="Item not found")
