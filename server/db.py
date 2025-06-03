@@ -106,8 +106,10 @@ def check_expiring_items():
              message = f"{db_food_item.name} expires in 1 day!"
         elif days_diff == 0:
              message = f"{db_food_item.name} expires today!"
-        elif days_diff < 0:
-             message = f"{db_food_item.name} expired {abs(days_diff)} day(s) ago!"
+        elif days_diff == -1:
+             message = f"{db_food_item.name} expired 1 day ago!"
+        elif days_diff < -1:
+             message = f"{db_food_item.name} expired {abs(days_diff)} days ago!"
 
         db_notification = db.query(DBNotification).filter(DBNotification.food_id == db_food_item.id).first()
         if db_notification:
