@@ -114,7 +114,6 @@ export default function ShowItems() {
   }
 
   return (
-
     <div className="item-container">
       <div className="exp-date-wrapper">
         <button
@@ -134,9 +133,7 @@ export default function ShowItems() {
               item.category_id === 1 ? (
                 <tr
                   key={item.id}
-                  className={
-                    isExpired(item.expiration_date) ? "row-expired" : ""
-                  }
+                  className={isExpired(item.expiration_date) ? "row-expired" : ""}
                 >
                   <td>
                     <input
@@ -171,16 +168,6 @@ export default function ShowItems() {
                   </td>
                 </tr>
               ) : null
-            )}
-
-            {selectedItem && (
-              <EditModal onClose={closeEdit}>
-                <EditItem
-                  fetchItems={fetchData}
-                  id={selectedItem}
-                  closeModal={closeEdit}
-                />
-              </EditModal>
             )}
           </ItemTable>
         </div>
@@ -192,9 +179,7 @@ export default function ShowItems() {
               item.category_id === 2 ? (
                 <tr
                   key={item.id}
-                  className={
-                    isExpired(item.expiration_date) ? "row-expired" : ""
-                  }
+                  className={isExpired(item.expiration_date) ? "row-expired" : ""}
                 >
                   <td>
                     <input
@@ -230,19 +215,18 @@ export default function ShowItems() {
                 </tr>
               ) : null
             )}
-            {selectedItem && (
-              <EditModal onClose={closeEdit}>
-                <EditItem
-                  fetchItems={fetchData}
-                  id={selectedItem}
-                  closeModal={closeEdit}
-                />
-              </EditModal>
-            )}
           </ItemTable>
         </div>
       </div>
+      {selectedItem && (
+        <EditModal onClose={closeEdit}>
+          <EditItem
+            fetchItems={fetchData}
+            id={selectedItem}
+            closeModal={closeEdit}
+          />
+        </EditModal>
+      )}
     </div>
-
   );
 }
