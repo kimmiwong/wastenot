@@ -17,7 +17,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const addFavorite = (recipe) => {
     setSelectedFavorites((selectedFavorites) =>
-      selectedFavorites.some((fav_reciipe) => fav_reciipe.id === recipe.id)
+      selectedFavorites.some((fav_recipe) => fav_recipe.id === recipe.id)
         ? selectedFavorites
         : [...selectedFavorites, recipe]
     );

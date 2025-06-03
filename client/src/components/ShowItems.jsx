@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import EditModal from "./EditModal";
 import EditItem from "./EditItem";
 import ItemTable from "./ItemTable";
@@ -15,7 +15,6 @@ export default function ShowItems() {
   const [selectedItem, setSelectedItem] = useState(null);
   const { selectedIngredient, setSelectedIngredient } = useIngredients();
   const [sortedButton, setSortedButton] = useState(false);
-  const [sortedData, setSortedData] = useState([]);
   const { fetchNotifications } = useNotifications();
 
   function openEdit(itemId) {
@@ -39,6 +38,7 @@ export default function ShowItems() {
 
     return data;
   }
+
   function isExpired(expirationDate) {
     const today = new Date();
     const expDate = new Date(expirationDate);
@@ -48,6 +48,7 @@ export default function ShowItems() {
 
     const diffTime = today - expDate;
     const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
     return diffDays > 1;
   }
 
@@ -63,8 +64,11 @@ export default function ShowItems() {
       if (!response.ok) throw new Error("Failed to delete food item");
 
       const newData = data.filter((item) => item.id !== id);
+
       setData(newData);
+
       await fetchNotifications();
+
     } catch (error) {
       console.error("Error deleting food item", error);
     }
@@ -77,26 +81,26 @@ export default function ShowItems() {
       const json = await res.json();
       setData(json);
 
-      setSortedData(json);
     } catch (error) {
       setError(error);
       console.error("Error fetching items", error);
+
     } finally {
       setIsLoading(false);
     }
   };
 
   const selectedIngredients = (itemName, isChecked) => {
-    console.log(itemName, isChecked);
     if (isChecked) {
       return setSelectedIngredient([...selectedIngredient, itemName]);
+
     } else {
       return setSelectedIngredient(
         selectedIngredient.filter((name) => name !== itemName)
       );
     }
   };
-  console.log(selectedIngredient);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -110,6 +114,7 @@ export default function ShowItems() {
   }
 
   return (
+
     <div className="item-container">
       <div className="exp-date-wrapper">
         <button
@@ -120,6 +125,7 @@ export default function ShowItems() {
           Sort by {sortedButton === true ? "Name" : "Expiration Date"}
         </button>
       </div>
+
       <div className="item-sections">
         <div className="pantry-items">
           <h3>Pantry Items</h3>
@@ -237,5 +243,6 @@ export default function ShowItems() {
         </div>
       </div>
     </div>
+
   );
 }

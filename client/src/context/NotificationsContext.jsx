@@ -7,6 +7,7 @@ export const NotificationsProvider = ({ children }) => {
 
   const fetchNotifications = async () => {
     try {
+
       const res = await fetch("http://localhost:8000/api/notifications");
       if (!res.ok) {
         throw new Error(`${res.status}`);
@@ -14,14 +15,17 @@ export const NotificationsProvider = ({ children }) => {
 
       const json = await res.json();
       setNotifications(json);
+
     } catch (error) {
       console.error("Error occurred while loading recipes.", error);
     }
+
   };
 
   useEffect(() => {
     fetchNotifications();
   }, []);
+
   return (
     <NotificationsContext.Provider
       value={{ notifications, fetchNotifications }}

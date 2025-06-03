@@ -4,7 +4,6 @@ html {
   font-size: 18px;
 }
 
-
 body {
   margin: 0;
   padding: 0;
@@ -25,7 +24,6 @@ body {
   text-align: center;
   box-sizing: border-box;
 }
-
 
 .item-table {
   width: 100%;
@@ -125,7 +123,6 @@ body {
   cursor: pointer;
 }
 
-
 .shelflife-overlay {
   position: fixed;
   top: 0;
@@ -202,7 +199,6 @@ body {
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
-
 .add-item-form {
   display: flex;
   flex-direction: row;
@@ -246,7 +242,6 @@ body {
   margin-bottom: 12px;
 }
 
-
 .add-item-form label {
   font-weight: bold;
   margin-bottom: 0.25rem;
@@ -286,7 +281,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .add-item-form button:hover {
   background-color: #8b3c17;
 }
-
 
 .delete-button {
   background: none;
@@ -364,7 +358,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 
 .clear-button {
   padding: 0.5rem 1rem;
@@ -470,7 +463,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .slick-next:before {
   color: #7c6a0a;
 }
-
 
 gmpx-overlay-layout {
   --gmpx-color-surface: #babd8d;
@@ -629,7 +621,6 @@ gmpx-overlay-layout {
   align-items: center;
   gap: 1rem;
 }
-
 
 .compost-logo {
   height: 55px;

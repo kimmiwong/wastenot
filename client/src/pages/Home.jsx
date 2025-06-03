@@ -3,9 +3,13 @@ import ShowItems from "../components/ShowItems";
 import AddItem from "../components/AddItem";
 import SimpleHeader from "../components/Header";
 import { useIngredients } from "../context/RecipesContext";
+
 export default function Home() {
+
   const { setSelectedIngredient } = useIngredients();
+
   return (
+
     <div className="page-content">
       <SimpleHeader />
       <div>
@@ -25,5 +29,6 @@ export default function Home() {
         </button>
       </div>
     </div>
+
   );
 }

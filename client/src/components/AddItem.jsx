@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react'
-import { TextInput, Select, Button } from '@mantine/core';
+import { useState } from 'react'
 import ShelfLifeModal from './ShelflifeModal'
 import ShelfLife from '../assets/shelf.png';
 
-
 export default function AddItem() {
-
-
 
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
@@ -16,10 +12,6 @@ export default function AddItem() {
     const closeModal = () => { setIsModalOpen(false) }
 
     const handleSubmit = async (e) => {
-
-        console.log('form submitted', { name, expirationDate, category })
-
-
 
         try {
 
@@ -45,7 +37,6 @@ export default function AddItem() {
 
     }
 
-
     return (
 
         <div className="top-section">
@@ -65,7 +56,6 @@ export default function AddItem() {
                     <div className="form-group">
                         <label htmlFor='expiration-date'>Expiration Date:</label>
                         <input type='date' id='expiration-date' value={expirationDate} onChange={e => setExpirationDate(e.target.value)}></input>
-
                     </div>
 
                     <div className="form-group">
@@ -92,8 +82,6 @@ export default function AddItem() {
             </div >
         </div >
 
-
     )
-
 
 }

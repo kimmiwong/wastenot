@@ -6,9 +6,12 @@ import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import RecipeCarousel from "../components/RecipeCarousel";
 
 export default function Favorites() {
+
   const { selectedFavorites } = useFavorites();
   const navigate = useNavigate();
+
   return (
+
     <div className="page-content">
       <SimpleHeader />
       <div className="back-link">
@@ -27,5 +30,6 @@ export default function Favorites() {
         )}
       </div>
     </div>
+
   );
 }

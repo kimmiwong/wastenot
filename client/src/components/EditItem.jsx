@@ -2,13 +2,11 @@ import { useState, useEffect } from "react"
 
 export default function EditItem({ fetchItems, id, closeModal }) {
 
-
     const [name, setName] = useState('')
     const [expirationDate, setExpirationDate] = useState('')
     const [category, setCategory] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
-
 
     const pullDetails = async (e) => {
 
@@ -20,21 +18,16 @@ export default function EditItem({ fetchItems, id, closeModal }) {
             setName(json.name)
             setExpirationDate(json.expiration_date)
             setCategory(json.category)
-
-
         }
 
         catch (error) {
             setError(error)
             console.error('Error fetching food item details', error)
-
         }
 
         finally {
             setIsLoading(false)
-
         }
-
 
     }
 
@@ -55,7 +48,6 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         e.preventDefault()
 
         try {
-
             const response = await fetch(`http://localhost:8000/api/food-items/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -63,7 +55,6 @@ export default function EditItem({ fetchItems, id, closeModal }) {
                     'name': name,
                     'expiration_date': expirationDate,
                     'category_id': category
-
                 })
 
             });
@@ -71,12 +62,10 @@ export default function EditItem({ fetchItems, id, closeModal }) {
             if (!response.ok) throw new Error('Failed to edit food item')
             closeModal()
             fetchItems()
-
         }
 
         catch (error) {
             console.error('Error editing food item', error)
-
         }
 
     }
@@ -104,9 +93,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
                     </select>
                 </div>
                 <button type='submit'>Done</button>
-
             </form>
-
         </div>
     )
 

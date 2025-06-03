@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import RecipeCarousel from "./RecipeCarousel";
 import SimpleHeader from "./Header";
-import { useContext } from "react";
 import { useIngredients } from "../context/RecipesContext";
 
 export default function Recipe() {
@@ -13,7 +12,6 @@ export default function Recipe() {
   const getRecipe = async () => {
     try {
       setLoading(true);
-      console.log("selectedIngredient:", selectedIngredient);
       const ingredients = selectedIngredient
         .map((name) => name.trim().toLowerCase().split(" ").join("+"))
         .join(",+");
