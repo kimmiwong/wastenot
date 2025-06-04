@@ -5,7 +5,7 @@ from models import DBFood, DBNotification
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
-DATABASE_URL = "postgresql://fastapi:3xbRH2IG9Q7VAanubzzEChMbuykA053q@dpg-d108v4e3jp1c739o6pp0-a/pantry_sq2f"
+DATABASE_URL = "postgresql+psycopg://fastapi:3xbRH2IG9Q7VAanubzzEChMbuykA053q@dpg-d108v4e3jp1c739o6pp0-a/pantry_sq2f"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

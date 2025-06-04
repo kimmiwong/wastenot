@@ -21,7 +21,7 @@ export default function Recipe() {
         .join(",+");
 
       const response = await fetch(
-        `http://localhost:8000/api/recipes?ingredients=${ingredients}`
+        `https://wastenot-nh0i.onrender.com/api/recipes?ingredients=${ingredients}`
       );
       if (!response.ok) {
         throw new Error(`${response.status}`);

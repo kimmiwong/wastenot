@@ -55,7 +55,7 @@ export default function ShowItems() {
   async function deleteItem(id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/food-items/${id}`,
+        `https://wastenot-nh0i.onrender.com/api/food-items/${id}`,
         {
           method: "DELETE",
         }
@@ -77,7 +77,7 @@ export default function ShowItems() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/food-items");
+      const res = await fetch("https://wastenot-nh0i.onrender.com/api/food-items");
       const json = await res.json();
       setData(json);
 

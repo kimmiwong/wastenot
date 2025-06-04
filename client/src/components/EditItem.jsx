@@ -16,7 +16,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         try {
             setIsLoading(true)
 
-            const res = await fetch(`http://localhost:8000/api/food-items/${id}`)
+            const res = await fetch(`https://wastenot-nh0i.onrender.com/api/food-items/${id}`)
             const json = await res.json()
             setName(json.name)
             setExpirationDate(json.expiration_date)
@@ -49,7 +49,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         e.preventDefault()
 
         try {
-            const response = await fetch(`http://localhost:8000/api/food-items/${id}`, {
+            const response = await fetch(`https://wastenot-nh0i.onrender.com/api/food-items/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

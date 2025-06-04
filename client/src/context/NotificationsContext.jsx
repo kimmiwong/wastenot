@@ -8,7 +8,7 @@ export const NotificationsProvider = ({ children }) => {
   const fetchNotifications = async () => {
     try {
 
-      const res = await fetch("http://localhost:8000/api/notifications");
+      const res = await fetch("https://wastenot-nh0i.onrender.com/api/notifications");
       if (!res.ok) {
         throw new Error(`${res.status}`);
       }
