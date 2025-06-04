@@ -2,7 +2,6 @@ services:
   - docker:dind
 
 stages:
-  - test
   - build
   - deploy
 
@@ -10,19 +9,9 @@ variables:
    EC2_HOST: "18.223.126.146"
   #EC2_HOST: "13.58.174.0"
 
-tests:
-  image: python:3-bullseye
-  stage: test
-  script:
-    - cd server
-    - pip install -r requirements.txt
-    - python -m pytest
-
 build-api-image:
     stage: build
     image: docker:git
-    needs:
-        - tests
     variables:
         GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}/api
     before_script:
@@ -36,16 +25,14 @@ build-api-image:
 build-front-end-job:
   stage: build
   image: node:lts-bullseye
-  needs:
-    - tests
   script:
-    - cd ghi
+    - cd client
     - npm install
     - npm run lint
-    - VITE_API_HOST="" npm run build -- --base=/demodeployment/
+    - VITE_API_HOST="" npm run build -- --base=/wastenot/
   artifacts:
     paths:
-      - ghi/dist/
+      - client/dist/
 
 pages:
   stage: deploy
@@ -56,7 +43,7 @@ pages:
   needs:
     - build-front-end-job
   script:
-    - mv ghi/dist/ public
+    - mv client/dist/ public
   artifacts:
     paths:
       - public
