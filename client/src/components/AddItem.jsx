@@ -11,7 +11,7 @@ export default function AddItem() {
     const openModal = () => { setIsModalOpen(true) }
     const closeModal = () => { setIsModalOpen(false) }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
 
         try {
 

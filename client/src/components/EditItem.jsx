@@ -8,7 +8,10 @@ export default function EditItem({ fetchItems, id, closeModal }) {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    const pullDetails = async (e) => {
+
+
+    useEffect(() => {
+        const pullDetails = async () => {
 
         try {
             setIsLoading(true)
@@ -30,8 +33,6 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         }
 
     }
-
-    useEffect(() => {
         pullDetails()
     }, [id])
 

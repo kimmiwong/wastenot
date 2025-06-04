@@ -10,17 +10,21 @@ variables:
   #EC2_HOST: "13.58.174.0"
 
 build-api-image:
-    stage: build
-    image: docker:git
-    variables:
-        GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}/api
-    before_script:
-        - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
-    script:
-        - docker build --tag $GITLAB_IMAGE:latest ./api
-        - docker push $GITLAB_IMAGE:latest
-    only:
-        - main
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    GITLAB_IMAGE: $CI_REGISTRY_IMAGE/api
+  before_script:
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token $CI_REGISTRY --password-stdin
+  script:
+    - docker build -t $GITLAB_IMAGE:latest ./api
+    - docker push $GITLAB_IMAGE:latest
+  only:
+    - main
+
 
 build-front-end-job:
   stage: build

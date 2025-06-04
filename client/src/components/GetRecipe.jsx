@@ -9,7 +9,11 @@ export default function Recipe() {
   const [recipes, setRecipes] = useState([]);
   const { selectedIngredient } = useIngredients();
 
-  const getRecipe = async () => {
+
+
+  useEffect(() => {
+
+    const getRecipe = async () => {
     try {
       setLoading(true);
       const ingredients = selectedIngredient
@@ -32,8 +36,6 @@ export default function Recipe() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
     getRecipe();
   }, [selectedIngredient]);
 

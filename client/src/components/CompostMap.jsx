@@ -1,3 +1,5 @@
+/* global google */
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   AdvancedMarker,

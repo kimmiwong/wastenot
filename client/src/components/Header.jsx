@@ -16,7 +16,7 @@ export default function SimpleHeader() {
 
     useEffect(() => {
         fetchNotifications();
-    }, []);
+    }, [fetchNotifications]);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
