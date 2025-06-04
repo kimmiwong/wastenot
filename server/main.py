@@ -10,7 +10,7 @@ load_dotenv()
 
 app = FastAPI()
 
-origins = ["http://localhost:5173", "dpg-d108v4e3jp1c739o6pp0-a", "https://wastenot-frontend-e09l.onrender.com"]
+origins = ["http://localhost:5173", "dpg-d108v4e3jp1c739o6pp0-a", "https://wastenot-frontend-e09l.onrender.com", "https://www.wastenotkitchen.com", "https://wastenotkitchen.com"]
 
 app.add_middleware(
     CORSMiddleware,
