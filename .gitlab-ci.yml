@@ -15,15 +15,17 @@ build-api-image:
   services:
     - docker:dind
   variables:
-    DOCKER_DRIVER: overlay2
-    GITLAB_IMAGE: $CI_REGISTRY_IMAGE/api
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_TLS_CERTDIR: ""
+    GITLAB_IMAGE: ${CI_REGISTRY_IMAGE}/api
   before_script:
     - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token $CI_REGISTRY --password-stdin
   script:
-    - docker build -t $GITLAB_IMAGE:latest ./api
+    - docker build --tag $GITLAB_IMAGE:latest ./api
     - docker push $GITLAB_IMAGE:latest
   only:
     - main
+
 
 
 build-front-end-job:
