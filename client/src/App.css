@@ -217,7 +217,7 @@ body {
 
 .top-section {
   position: relative;
-  background-image: url('src/assets/Banner.png');
+  background-image: url('./assets/Banner.png');
   background-size: cover;
   background-position: center;
   height: 450px;
