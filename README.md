@@ -6,6 +6,15 @@ WasteNot - An app to reduce food waste in every kitchen
 
 Our app is inspired by one simple principle - we hate food waste! It is estimated that food waste accounts for 30%-40% of the United States food supply. Of that, almost half is thrown away in our own homes. Not only is this a huge waste of resources (one pound of food waste per person per day), it's also expensive (about $700 per person each year)! WasteNot provides a simple solution to help combat this problem - keep track of all your food items in one location, monitor their expiration dates, and get recipes for ingredients you need to use soon. You can also favorite recipes to refer back to at a later time. If a food item is no longer edible, WasteNot provides helpful tips for composting at home or finding a composting location near you. By making the process easy and accessible to all users, we hope that we can make a dent in this pressing global issue.
 
+### Technology Stack
+
+| Category   | Technologies Used |
+| ---------- | ----------------- |
+| Backend    | Python, FastAPI   |
+| Database   | PostgreSQL        |
+| Frontend   | React, JavaScript |
+| Deployment | Docker, Render    |
+
 ## Getting Started
 
 ### Dependencies
@@ -32,8 +41,6 @@ Frontend:
 - Install dependencies: `npm install`
 - Start dev server: `npm run dev`
 
-(do we need to change these to production servers on back and front ends?)
-
 ### Executing program
 
 - View page at http://localhost:5173/
@@ -41,6 +48,8 @@ Frontend:
 - You will need to get a Spoonacular API key at https://spoonacular.com/food-api/console#Dashboard. Add the key to the .env file in the server folder.
 
 - You will also need to get a Google Maps API key at https://developers.google.com/maps/documentation/javascript/get-api-key. Add the key to the .env file in the client folder.
+
+- Our production app is hosted through Render at https://wastenot-frontend-e09l.onrender.com. Our domain name is https://www.wastenotkitchen.com.
 
 ## Help
 
