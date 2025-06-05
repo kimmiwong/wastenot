@@ -16,6 +16,7 @@ export default function ShowItems() {
   const { selectedIngredient, setSelectedIngredient } = useIngredients();
   const [sortedButton, setSortedButton] = useState(false);
   const { fetchNotifications } = useNotifications();
+  const apiHost = import.meta.env.VITE_API_HOST;
 
   function openEdit(itemId) {
     setSelectedItem(itemId);
@@ -55,7 +56,7 @@ export default function ShowItems() {
   async function deleteItem(id) {
     try {
       const response = await fetch(
-        `https://wastenot-nh0i.onrender.com/api/food-items/${id}`,
+        `${apiHost}/api/food-items/${id}`,
         {
           method: "DELETE",
         }
@@ -77,7 +78,7 @@ export default function ShowItems() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("https://wastenot-nh0i.onrender.com/api/food-items");
+      const res = await fetch(`${apiHost}/api/food-items`);
       const json = await res.json();
       setData(json);
 

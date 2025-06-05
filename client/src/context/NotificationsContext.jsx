@@ -4,11 +4,12 @@ export const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
+  const apiHost = import.meta.env.VITE_API_HOST;
 
   const fetchNotifications = async () => {
     try {
 
-      const res = await fetch("https://wastenot-nh0i.onrender.com/api/notifications");
+      const res = await fetch(`${apiHost}/api/notifications`);
       if (!res.ok) {
         throw new Error(`${res.status}`);
       }

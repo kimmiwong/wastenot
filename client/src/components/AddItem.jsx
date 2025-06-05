@@ -14,8 +14,9 @@ export default function AddItem() {
     const handleSubmit = async () => {
 
         try {
+            const apiHost = import.meta.env.VITE_API_HOST;
 
-            const response = await fetch('https://wastenot-nh0i.onrender.com/api/food-items', {
+            const response = await fetch(`${apiHost}/api/food-items`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

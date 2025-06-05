@@ -7,6 +7,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
     const [category, setCategory] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
+    const apiHost = import.meta.env.VITE_API_HOST;
 
 
 
@@ -16,7 +17,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         try {
             setIsLoading(true)
 
-            const res = await fetch(`https://wastenot-nh0i.onrender.com/api/food-items/${id}`)
+            const res = await fetch(`${apiHost}/api/food-items/${id}`)
             const json = await res.json()
             setName(json.name)
             setExpirationDate(json.expiration_date)
@@ -49,7 +50,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         e.preventDefault()
 
         try {
-            const response = await fetch(`https://wastenot-nh0i.onrender.com/api/food-items/${id}`, {
+            const response = await fetch(`${apiHost}/api/food-items/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
