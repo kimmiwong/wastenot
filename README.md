@@ -6,6 +6,8 @@ WasteNot - An app to reduce food waste in every kitchen
 
 Our app is inspired by one simple principle - we hate food waste! It is estimated that food waste accounts for 30%-40% of the United States food supply. Of that, almost half is thrown away in our own homes. Not only is this a huge waste of resources (one pound of food waste per person per day), it's also expensive (about $700 per person each year)! WasteNot provides a simple solution to help combat this problem - keep track of all your food items in one location, monitor their expiration dates, and get recipes for ingredients you need to use soon. You can also favorite recipes to refer back to at a later time. If a food item is no longer edible, WasteNot provides helpful tips for composting at home or finding a composting location near you. By making the process easy and accessible to all users, we hope that we can make a dent in this pressing global issue.
 
+![Our app](server/data/Screenshot.png)
+
 ### Technology Stack
 
 | Category   | Technologies Used |
@@ -32,7 +34,6 @@ Database:
 
 Backend:
 
-- Install libraries: `pip install "fastapi[standard]" sqlalchemy psycopg pydantic python-dotenv`
 - Install from requirements: `pip install -r requirements.txt`
 - Run dev server: `fastapi dev main.py` or `uvicorn main:app --reload`
 
