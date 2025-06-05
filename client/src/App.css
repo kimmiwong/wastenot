@@ -13,6 +13,7 @@ body {
   background: #fdfaf3;
 }
 
+
 .page-content {
   padding-top: 90px;
 }
@@ -221,6 +222,7 @@ body {
   background-size: cover;
   background-position: center;
   height: 450px;
+  bottom: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
