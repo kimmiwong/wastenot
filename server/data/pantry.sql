@@ -29,3 +29,20 @@ CREATE TABLE IF NOT EXISTS notifications (
     food_id INT NOT NULL UNIQUE,
     FOREIGN KEY (food_id) REFERENCES food_items(id) ON DELETE CASCADE
 );
+
+
+CREATE TABLE IF NOT EXISTS account (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    hashed_password TEXT NOT NULL,
+    session_token TEXT UNIQUE,
+    session_expires_at TIMESTAMP
+);
+
+INSERT INTO account (username, hashed_password)
+VALUES
+    ('bob', '$2b$12$W7bE7obZRr/OPC6BcijR6OmDmYibJLxXRX4JqKzPK5sLj92Hd2ZA2'),
+    ('admin', '$2b$12$240eLIQqLhdMtSfhpQro2ON0LbCj9DiQSRyDzcU9NcGRrHXdeGrkS');
+-- passwords are:
+-- bob: bobbers
+-- admin: admin
