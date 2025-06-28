@@ -15,23 +15,24 @@ export default function Home() {
     <div className="page-content">
       <SimpleHeader />
 
-      {"User info goes here if logged in, otherwise some message"}
-      {user ? (
-        <>
-          <p>
-            Welcome, <b>{user.username}</b>!
-          </p>
-          <Link to="/logout">Logout</Link>
-        </>
-      ) : (
-        <>
-          <p>You are not logged in.</p>
-          <Link to="/login">Login</Link> | <Link to="/signup">Sign up</Link>
-        </>
-      )}
-
+      {"Show user info if logged in, else show a generic message"}
       <div>
-        <AddItem />
+        {user ? (
+          <>
+            <p>
+              Welcome, <b>{user.username}</b>!
+            </p>
+            <Link to="/logout">Logout</Link>
+          </>
+        ) : (
+          <>
+            <p>You are not logged in.</p>
+            <Link to="/login">Login</Link> | <Link to="/signup">Sign up</Link>
+          </>
+        )}
+      </div>
+      <div>
+        {/* <AddItem /> */}
         <ShowItems />
       </div>
       <div className="recipe-button-wrapper">

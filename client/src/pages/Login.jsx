@@ -1,14 +1,12 @@
-// @ts-check
 import { useState } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const API_BASE = "http://localhost:8000";
+const apiHost = import.meta.env.VITE_API_HOST;
 
 /**
  * Login page component. Handles login form submission and updates user context.
- * @returns {import('react').ReactElement}
  */
 export default function Login() {
   // Local state for error messages.
@@ -19,8 +17,6 @@ export default function Login() {
 
   /**
    * Handles login form submission using React 19's form action pattern.
-   * @param {FormData} formData
-   * @returns {Promise<void>}
    */
   async function handleLogin(formData) {
     setError("");
@@ -30,7 +26,7 @@ export default function Login() {
       password: formData.get("password"),
     };
     // Call the backend login endpoint. 'credentials: "include"' sends cookies for session auth.
-    const res = await fetch(`${API_BASE}/api/login`, {
+    const res = await fetch(`${apiHost}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails
 from models import DBFood, DBNotification, DBAccount
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
@@ -11,7 +11,7 @@ import bcrypt
 
 load_dotenv()
 database_url = os.getenv("DATABASE_URL")
-SESSION_LIFE_MINUTES = 5
+SESSION_LIFE_MINUTES = 120
 
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -262,7 +262,6 @@ def get_user_public_details(username: str):
     Fetch public details for a user by username. Returns a UserPublicDetails
     object if found, or None if not found.
     """
-    from schemas import UserPublicDetails
 
     with SessionLocal() as db:
         account = (

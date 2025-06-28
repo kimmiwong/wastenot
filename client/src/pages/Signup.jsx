@@ -1,13 +1,11 @@
-// @ts-check
 import { useState } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate, Link } from "react-router-dom";
 
-const API_BASE = "http://localhost:8000";
+const apiHost = import.meta.env.VITE_API_HOST;
 
 /**
  * Signup page component. Handles signup form submission and updates user context.
- * @returns {import('react').ReactElement}
  */
 export default function Signup() {
   // Local state for error messages.
@@ -18,8 +16,6 @@ export default function Signup() {
 
   /**
    * Handles signup form submission using React 19's form action pattern.
-   * @param {FormData} formData
-   * @returns {Promise<void>}
    */
   async function handleSignup(formData) {
     setError("");
@@ -36,7 +32,7 @@ export default function Signup() {
       password,
     };
     // Call the backend signup endpoint. 'credentials: "include"' sends cookies for session auth.
-    const res = await fetch(`${API_BASE}/api/signup`, {
+    const res = await fetch(`${apiHost}/api/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
