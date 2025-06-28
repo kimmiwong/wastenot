@@ -41,7 +41,7 @@ export default function Signup() {
     if (res.ok) {
       // On success, update user context and redirect to home.
       await refreshUser();
-      navigate("/");
+      navigate("/Home");
     } else {
       // On error, show error message from backend.
       const err = await res.json();
@@ -74,7 +74,7 @@ export default function Signup() {
       {/* Show error message if signup fails. */}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {/* Add navigation links for users who need to login or forgot their password. */}
-      Already have an account? <Link to="/login">Login here</Link>
+      Already have an account? <Link to="/">Login here</Link>
     </main>
   );
 }

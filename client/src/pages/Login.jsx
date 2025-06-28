@@ -35,7 +35,7 @@ export default function Login() {
     if (res.ok) {
       // On success, update user context and redirect to home.
       await refreshUser();
-      navigate("/");
+      navigate("/Home");
     } else {
       // On error, show error message from backend.
       const err = await res.json();
@@ -45,7 +45,7 @@ export default function Login() {
 
   return (
     <main>
-      <h1>Login</h1>
+      <h1>Welcome to WasteNot</h1>
       {/* Form uses React 19's action pattern for submission. */}
       <form action={handleLogin}>
         <label>

@@ -11,11 +11,11 @@ import Logout from "./pages/Logout";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/Home" element={<Home />} />
       <Route path="/recipe" element={<Recipe />} />
       <Route path="/Favorites" element={<Favorites />} />
       <Route path="/Compost" element={<Compost />} />
-      <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/logout" element={<Logout />} />
     </Routes>
