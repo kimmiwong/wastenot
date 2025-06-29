@@ -842,6 +842,12 @@ gmpx-overlay-layout {
   background-color: white;
 }
 
+.label-multiline {
+  display: inline-block;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
 .logo {
   height: 7rem;
   object-fit: contain;
@@ -862,7 +868,7 @@ gmpx-overlay-layout {
 
 .login-form input {
   color: black;
-  margin-left: 1rem;
+  margin-left: 4rem;
   margin-right: 3rem;
   width: 20rem;
   padding: 12px;
@@ -879,9 +885,12 @@ gmpx-overlay-layout {
 }
 
 .input-group label {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-left: 1rem;
   font-size: 20px;
   color: #7c6a0a;
+  display: block;
+  line-height: 1.2;
 
 }
 
@@ -901,7 +910,7 @@ gmpx-overlay-layout {
 .login-btn {
   width: 17rem;
   margin-left: 2rem;
-  margin-right: 0rem;
+  margin-top: 1rem;
   padding: 12px;
   background: #eb6424;
   border: none;

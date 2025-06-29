@@ -79,7 +79,10 @@ export default function Login() {
               <input id="password" name="password" type="password" required />
             </div>
             <div className="input-group">
-              <label htmlFor="password2">Confirm Password:</label>
+              <label htmlFor="password2" className="label-multiline">
+                Confirm
+                Password:
+              </label>
               <input id="password2" name="password2" type="password" required />
             </div>
             <button type="submit" className="login-btn">
