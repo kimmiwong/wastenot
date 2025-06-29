@@ -144,27 +144,17 @@ def get_notifications() -> list[NotificationOut]:
 
 
 def validate_username_password(username: str, password: str) -> str | None:
-    """
-    Validate a username and password against the database. If valid,
-    generates a new session token, updates the session expiration, and
-    returns the session token. Returns None if credentials are invalid.
-    """
-    # retrieve the user account from the database
     with SessionLocal() as db:
         account = (
             db.query(DBAccount).filter(DBAccount.username == username).first()
         )
         if not account:
             return None
-
-        # validate the provided credentials (username & password)
         valid_credentials = bcrypt.checkpw(
             password.encode(), account.hashed_password.encode()
         )
         if not valid_credentials:
             return None
-
-        # create a new session token and set the expiration date
         session_token = token_urlsafe()
         account.session_token = session_token
         expires = datetime.now() + timedelta(minutes=SESSION_LIFE_MINUTES)
@@ -175,12 +165,6 @@ def validate_username_password(username: str, password: str) -> str | None:
 
 
 def validate_session(username: str, session_token: str) -> bool:
-    """
-    Validate a session token for a given username. Returns True if the
-    session is valid and not expired, and updates the session expiration.
-    Returns False otherwise.
-    """
-    # retrieve the user account for the given session token
     with SessionLocal() as db:
         account = (
             db.query(DBAccount)
@@ -193,24 +177,17 @@ def validate_session(username: str, session_token: str) -> bool:
         if not account:
             return False
 
-        # validate that it is not expired
         if datetime.now() >= account.session_expires_at:
             return False
 
-        # update the expiration date and save to the database
         expires = datetime.now() + timedelta(minutes=SESSION_LIFE_MINUTES)
-        # assign as datetime, not isoformat
+
         account.session_expires_at = expires
         db.commit()
         return True
 
 
 def invalidate_session(username: str, session_token: str) -> None:
-    """
-    Invalidate a user's session by setting the session token to a unique
-    expired value.
-    """
-    # retrieve the user account for the given session token
     with SessionLocal() as db:
         account = (
             db.query(DBAccount)
@@ -223,26 +200,14 @@ def invalidate_session(username: str, session_token: str) -> None:
         if not account:
             return
 
-        # set the token to an invalid value that is unique
         account.session_token = f"expired-{token_urlsafe()}"
         db.commit()
 
 
 def create_user_account(username: str, password: str) -> bool:
-    """
-    Create a new user account with the given username and password.
-    Returns True if the account was created successfully, or False if the
-    username exists.
-    """
-    # Create a new user account.
-    # Returns True if successful, False if username exists.
     with SessionLocal() as db:
-        # Check if username already exists
         if db.query(DBAccount).filter(DBAccount.username == username).first():
             return False
-        # Hash the password using bcrypt before storing it in the database.
-        # bcrypt.hashpw returns a hashed password as bytes,
-        # which we decode to a string.
         hashed_password = bcrypt.hashpw(
             password.encode(), bcrypt.gensalt()
         ).decode()
@@ -258,11 +223,6 @@ def create_user_account(username: str, password: str) -> bool:
 
 
 def get_user_public_details(username: str):
-    """
-    Fetch public details for a user by username. Returns a UserPublicDetails
-    object if found, or None if not found.
-    """
-
     with SessionLocal() as db:
         account = (
             db.query(DBAccount).filter(DBAccount.username == username).first()
