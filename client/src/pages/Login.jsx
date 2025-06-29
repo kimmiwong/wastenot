@@ -1,31 +1,24 @@
 import { useState } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import wastenot from "../assets/WasteNotLogo.png";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
-/**
- * Login page component. Handles login form submission and updates user context.
- */
 export default function Login() {
-  // Local state for error messages.
   const [error, setError] = useState("");
-  // useUser provides refreshUser to update user context after login.
+  const [showSignup, setShowSignup] = useState(false);
   const { refreshUser } = useUser();
   const navigate = useNavigate();
 
-  /**
-   * Handles login form submission using React 19's form action pattern.
-   */
-  async function handleLogin(formData) {
+  async function handleLogin(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
     setError("");
-    // Prepare login data from form fields.
     const data = {
       username: formData.get("username"),
       password: formData.get("password"),
     };
-    // Call the backend login endpoint. 'credentials: "include"' sends cookies for session auth.
     const res = await fetch(`${apiHost}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -33,37 +26,114 @@ export default function Login() {
       body: JSON.stringify(data),
     });
     if (res.ok) {
-      // On success, update user context and redirect to home.
       await refreshUser();
       navigate("/Home");
     } else {
-      // On error, show error message from backend.
       const err = await res.json();
       setError(err.detail || "Login failed");
     }
   }
 
+  // Signup form submit handler
+  async function handleSignup(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    setError("");
+    const username = formData.get("username");
+    const password = formData.get("password");
+    const password2 = formData.get("password2");
+    if (password !== password2) {
+      setError("Passwords do not match");
+      return;
+    }
+    const data = { username, password };
+    const res = await fetch(`${apiHost}/api/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      await refreshUser();
+      navigate("/Home");
+    } else {
+      const err = await res.json();
+      setError(err.detail || "Signup failed");
+    }
+  }
+
   return (
-    <main>
-      <h1>Welcome to WasteNot</h1>
-      {/* Form uses React 19's action pattern for submission. */}
-      <form action={handleLogin}>
-        <label>
-          Username:
-          <input name="username" required />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input name="password" type="password" required />
-        </label>
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      {/* Show error message if login fails. */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {/* Add navigation links for users who need to sign up or forgot their password. */}
-      Don't have an account? <Link to="/signup">Sign up here</Link>
-    </main>
+    <div className="container">
+      <div className="login-panel">
+        <img src={wastenot} alt="WasteNot Logo" className="logo" />
+        <h1 className="title">Welcome to WasteNot</h1>
+
+        {showSignup ? (
+          <form className="login-form" onSubmit={handleSignup}>
+            <div className="input-group">
+              <label htmlFor="username">Username:</label>
+              <input id="username" name="username" required />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">Password:</label>
+              <input id="password" name="password" type="password" required />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password2">Confirm Password:</label>
+              <input id="password2" name="password2" type="password" required />
+            </div>
+            <button type="submit" className="login-btn">
+              Sign Up
+            </button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <p className="signup-text">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setError("");
+                  setShowSignup(false);
+                }}
+                className="toggle-link"
+              >
+                Login
+              </button>
+            </p>
+          </form>
+        ) : (
+          <form className="login-form" onSubmit={handleLogin}>
+            <div className="input-group">
+              <label htmlFor="username">Username:</label>
+              <input id="username" name="username" required />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">Password:</label>
+              <input id="password" name="password" type="password" required />
+            </div>
+            <button type="submit" className="login-btn">
+              Login
+            </button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <p className="signup-text">
+              Don’t have an account?{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setError("");
+                  setShowSignup(true);
+                }}
+                className="toggle-link"
+              >
+                Sign up here
+              </button>
+            </p>
+          </form>
+        )}
+      </div>
+
+      <div className="visual-panel">
+        <h1>An app to reduce food waste in every kitchen</h1>
+      </div>
+    </div>
   );
 }

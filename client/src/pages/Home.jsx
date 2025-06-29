@@ -8,24 +8,11 @@ import { useUser } from "../context/UserProvider";
 export default function Home() {
   const { setSelectedIngredient } = useIngredients();
   // useUser provides the current user and a refresh function from context.
-  const { user } = useUser();
   return (
     <div className="page-content">
       <SimpleHeader />
-      {user ? (
-        <>
-          <p>
-            Welcome, <b>{user.username}</b>!
-          </p>
-          <Link to="/logout">Logout</Link>
-        </>
-      ) : (
-        <>
-          <p>You are not logged in.</p>
-        </>
-      )}
       <div>
-        {/* <AddItem /> */}
+        <AddItem />
         <ShowItems />
       </div>
       <div className="recipe-button-wrapper">

@@ -578,12 +578,7 @@ gmpx-overlay-layout {
   position: absolute;
   top: 70px;
   right: 9px;
-  right: 9px;
   background-color: white;
-  width: 260px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  padding: 16px;
   width: 260px;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -809,4 +804,161 @@ gmpx-overlay-layout {
 
 .close-button {
   margin-bottom: 1rem;
+}
+
+.welcome {
+  text-align: right;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.welcome p {
+  margin: 0;
+
+}
+
+.welcome a {
+  margin-right: 28px;
+  color: #fa9500;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.welcome a:hover {
+  color: #8b3c17;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.login-panel {
+  flex: 1;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+}
+
+.logo {
+  height: 80px;
+  object-fit: contain;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.divider {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #888;
+}
+
+.login-form input {
+  color: black;
+  margin-right: 70px;
+  width: 50%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid black;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: white;
+  box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.1);
+}
+
+
+.input-group {
+  display: flex;
+  align-items: center;
+  color: #7c6a0a;
+}
+
+.input-group label {
+  width: 165px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #7c6a0a;
+
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.form-footer a {
+  color: #7c6a0a;
+  text-decoration: none;
+}
+
+.login-btn {
+  width: 50%;
+  padding: 12px;
+  background: #eb6424;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+.signup-text {
+  margin-top: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.signup-text a {
+  color: #7c6a0a;
+  text-decoration: none;
+}
+
+.sign:hover {
+  color: #babd8d;
+}
+
+.visual-panel {
+  background-image: url('./assets/hero.jpg');
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 40px;
+}
+
+.visual-panel h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: black;
+  line-height: 1.4;
+  z-index: 2;
+}
+
+.toggle-link {
+  background: none;
+  border: none;
+  color: #7c6a0a;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
 }

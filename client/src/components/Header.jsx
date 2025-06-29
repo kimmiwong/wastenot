@@ -8,6 +8,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNotifications } from "../context/NotificationsContext";
 import compostLogo from "../assets/compostLogo.PNG";
+import { useUser } from "../context/UserProvider";
 
 export default function SimpleHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function SimpleHeader() {
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
-
+  const { user } = useUser();
   return (
     <Box>
       <header className={classes.header}>
@@ -48,8 +49,21 @@ export default function SimpleHeader() {
             </Link>
             <span className={classes.logoText}>WasteNot</span>
           </div>
-
           <div className="right-section">
+            <div className="welcome">
+              {user ? (
+                <>
+                  <p>
+                    Welcome, <b>{user.username}</b>!
+                  </p>
+                  <Link to="/logout">Logout</Link>
+                </>
+              ) : (
+                <>
+                  <p>You are not logged in.</p>
+                </>
+              )}
+            </div>
             <div className="icon-tooltip-wrapper">
               <Link to="/Compost" className="compost-link">
                 <img
