@@ -3,13 +3,12 @@ import ShowItems from "../components/ShowItems";
 import AddItem from "../components/AddItem";
 import SimpleHeader from "../components/Header";
 import { useIngredients } from "../context/RecipesContext";
+import { useUser } from "../context/UserProvider";
 
 export default function Home() {
-
   const { setSelectedIngredient } = useIngredients();
-
+  // useUser provides the current user and a refresh function from context.
   return (
-
     <div className="page-content">
       <SimpleHeader />
       <div>
@@ -29,6 +28,5 @@ export default function Home() {
         </button>
       </div>
     </div>
-
   );
 }
