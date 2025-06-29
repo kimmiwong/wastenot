@@ -872,7 +872,6 @@ gmpx-overlay-layout {
   box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.1);
 }
 
-
 .input-group {
   display: flex;
   align-items: center;
@@ -947,7 +946,7 @@ gmpx-overlay-layout {
 .visual-panel h1 {
   font-size: 32px;
   font-weight: bold;
-  color: black;
+  color: #7c6a0a;
   line-height: 1.4;
   z-index: 2;
 }
