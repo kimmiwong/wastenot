@@ -25,7 +25,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins="https://www.wastenotkitchen.com",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,8 +36,8 @@ app.add_middleware(
     secret_key=Secret(os.getenv("SESSION_SECRET", "dev_secret")),
     session_cookie="session",
     max_age=60 * 60 * 2,
-    same_site="lax",
-    https_only=False,     # set True when deployed with HTTPS
+    same_site="none",
+    https_only=True,     # set True when deployed with HTTPS
 )
 
 def get_current_user(request: Request) -> UserIn:
