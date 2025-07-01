@@ -57,7 +57,7 @@ def get_current_user(request: Request) -> UserIn:
 
 
 @app.get("/api/food-items", response_model=list[FoodOut])
-async def get_food_items(current_user: UserIn = Depends(get_current_user)) -> list[FoodOut]:
+async def get_food_items_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[FoodOut]:
     return db.get_food_items(current_user)
 
 
@@ -96,9 +96,9 @@ def get_recipes(ingredients: str):
 
 
 @app.get("/api/notifications", response_model=list[NotificationOut])
-def get_notifications() -> list[NotificationOut]:
+def get_notifications_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[NotificationOut]:
     db.check_expiring_items()
-    return db.get_notifications()
+    return db.get_notifications_for_current_user(current_user)
 
 
 # Endpoint to handle login requests

@@ -78,7 +78,15 @@ export default function ShowItems() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${apiHost}/api/food-items`);
+      const res = await fetch(`${apiHost}/api/food-items`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error (`Error: ${res.status}`)
+      }
+
       const json = await res.json();
       setData(json);
 

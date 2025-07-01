@@ -132,9 +132,15 @@ def check_expiring_items():
     db.close()
 
 
-def get_notifications() -> list[NotificationOut]:
+def get_notifications_for_current_user(current_user: UserIn) -> list[NotificationOut]:
     db = SessionLocal()
-    db_notifications = db.query(DBNotification).order_by(DBNotification.created_at.desc()).all()
+    db_notifications = (
+        db.query(DBNotification)
+        .join(DBNotification.food)
+        .filter(DBFood.user_id == current_user.id)
+        .order_by(DBNotification.created_at.desc())
+        .all()
+        )
     notifications = []
     for db_notification in db_notifications:
         notifications.append(NotificationOut(
