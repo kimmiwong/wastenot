@@ -51,6 +51,15 @@ class UserPublicDetails(BaseModel):
     username: str
 
 
+class UserIn(BaseModel):
+    id: int
+    username: str
+    session_expires_at: datetime | None = None
+
+    class Config:
+        orm_mode = True
+
+
 class FavoriteRecipeIn(BaseModel):
     recipe_id: str  # making it a string in case we change the api and it's not numeric
     title: str
