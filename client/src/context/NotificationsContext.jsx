@@ -9,7 +9,11 @@ export const NotificationsProvider = ({ children }) => {
   const fetchNotifications = async () => {
     try {
 
-      const res = await fetch(`${apiHost}/api/notifications`);
+      const res = await fetch(`${apiHost}/api/notifications`, {
+        method: "GET",
+        credentials: "include",
+      });
+
       if (!res.ok) {
         throw new Error(`${res.status}`);
       }

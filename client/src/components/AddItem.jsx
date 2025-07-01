@@ -19,6 +19,7 @@ export default function AddItem() {
             const response = await fetch(`${apiHost}/api/food-items`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
                 body: JSON.stringify({
                     'name': name,
                     'expiration_date': expirationDate,

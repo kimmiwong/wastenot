@@ -8,29 +8,6 @@ VALUES ('pantry'),
 ('fridge')
 ON CONFLICT (category_name) DO NOTHING;
 
-CREATE TABLE IF NOT EXISTS food_items (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    expiration_date DATE,
-    category_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
-);
-
-INSERT INTO food_items (name, expiration_date, category_id)
-VALUES ('milk', '2025-05-22', 2),
-('pasta', '2025-06-01', 1),
-('broccoli', '2025-05-25', 2);
-
-
-CREATE TABLE IF NOT EXISTS notifications (
-    notification_id SERIAL PRIMARY KEY,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    food_id INT NOT NULL UNIQUE,
-    FOREIGN KEY (food_id) REFERENCES food_items(id) ON DELETE CASCADE
-);
-
-
 CREATE TABLE IF NOT EXISTS account (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -46,3 +23,37 @@ VALUES
 -- passwords are:
 -- bob: bobbers
 -- admin: admin
+
+CREATE TABLE IF NOT EXISTS food_items (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    expiration_date DATE NOT NULL,
+    category_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES account(id) ON DELETE CASCADE
+
+);
+
+INSERT INTO food_items (name, expiration_date, category_id, user_id)
+VALUES ('milk', '2025-05-22', 2, 1),
+('pasta', '2025-06-01', 1, 2),
+('broccoli', '2025-05-25', 2, 1);
+
+
+CREATE TABLE IF NOT EXISTS notifications (
+    notification_id SERIAL PRIMARY KEY,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    food_id INT NOT NULL UNIQUE,
+    FOREIGN KEY (food_id) REFERENCES food_items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS favorite_recipes (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    image_url TEXT,
+    user_id INT NOT NULL,
+    recipe_id TEXT NOT NULL, --made this text in case we change our API and this ends up not just being an integer
+    FOREIGN KEY (user_id) REFERENCES account(id) ON DELETE CASCADE
+);

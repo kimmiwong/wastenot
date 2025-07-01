@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails, UserIn
 from models import DBFood, DBNotification, DBAccount
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
@@ -17,9 +17,9 @@ engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-def get_food_items() -> list[FoodOut]:
+def get_food_items(current_user: UserIn) -> list[FoodOut]:
     db = SessionLocal()
-    db_items = db.query(DBFood).order_by(DBFood.name).all()
+    db_items = db.query(DBFood).filter(DBFood.user_id == current_user.id).order_by(DBFood.name).all()
     items = []
     for db_item in db_items:
         items.append(FoodOut(
@@ -32,20 +32,24 @@ def get_food_items() -> list[FoodOut]:
     return items
 
 
-def create_food_item(item: FoodIn) -> FoodOut:
+def create_food_item(item: FoodIn, current_user: UserIn) -> FoodOut:
     db = SessionLocal()
-    db_item = DBFood(**item.model_dump())
+
+    item_data = item.model_dump()
+    item_data["user_id"] = current_user.id
+
+    db_item = DBFood(**item_data)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
-    item = FoodOut(
+    db.close()
+
+    return FoodOut(
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
         category_id=db_item.category_id
     )
-    db.close()
-    return item
 
 
 def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
@@ -128,9 +132,15 @@ def check_expiring_items():
     db.close()
 
 
-def get_notifications() -> list[NotificationOut]:
+def get_notifications_for_current_user(current_user: UserIn) -> list[NotificationOut]:
     db = SessionLocal()
-    db_notifications = db.query(DBNotification).order_by(DBNotification.created_at.desc()).all()
+    db_notifications = (
+        db.query(DBNotification)
+        .join(DBNotification.food)
+        .filter(DBFood.user_id == current_user.id)
+        .order_by(DBNotification.created_at.desc())
+        .all()
+        )
     notifications = []
     for db_notification in db_notifications:
         notifications.append(NotificationOut(
@@ -230,3 +240,8 @@ def get_user_public_details(username: str):
         if not account:
             return None
         return UserPublicDetails(username=account.username)
+
+
+def get_user_by_username(username: str) -> DBAccount | None:
+    with SessionLocal() as db:
+        return db.query(DBAccount).filter(DBAccount.username == username).first()

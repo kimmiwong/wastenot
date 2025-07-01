@@ -10,9 +10,11 @@ from schema import ( FoodIn,
                      LoginCredentials,
                      SuccessResponse,
                      SecretResponse,
-                     UserPublicDetails)
+                     UserPublicDetails,
+                     UserIn)
 import db
 from recipes import fetch_recipes
+from models import DBAccount
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -38,16 +40,30 @@ app.add_middleware(
     https_only=False,     # set True when deployed with HTTPS
 )
 
+def get_current_user(request: Request) -> UserIn:
+    username = request.session.get("username")
+    session_token = request.session.get("session_token")
+
+    if not isinstance(username, str) or not isinstance(session_token, str):
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    if not db.validate_session(username, session_token):
+        raise HTTPException(status_code=403, detail="Invalid session")
+
+    user = db.get_user_by_username(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user
+
 
 @app.get("/api/food-items", response_model=list[FoodOut])
-async def get_food_items() -> list[FoodOut]:
-    return db.get_food_items()
+async def get_food_items_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[FoodOut]:
+    return db.get_food_items(current_user)
 
 
 @app.post("/api/food-items", response_model=FoodOut)
-async def create_food_item(item: FoodIn) -> FoodOut:
-    item = db.create_food_item(item)
-    return item
+async def create_food_item(item: FoodIn, current_user: UserIn = Depends(get_current_user)) -> FoodOut:
+    return db.create_food_item(item, current_user)
 
 
 @app.get("/api/food-items/{id}", response_model=FoodOut)
@@ -80,9 +96,9 @@ def get_recipes(ingredients: str):
 
 
 @app.get("/api/notifications", response_model=list[NotificationOut])
-def get_notifications() -> list[NotificationOut]:
+def get_notifications_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[NotificationOut]:
     db.check_expiring_items()
-    return db.get_notifications()
+    return db.get_notifications_for_current_user(current_user)
 
 
 # Endpoint to handle login requests
