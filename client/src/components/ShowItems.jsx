@@ -59,6 +59,7 @@ export default function ShowItems() {
         `${apiHost}/api/food-items/${id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
 

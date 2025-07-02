@@ -17,7 +17,10 @@ export default function EditItem({ fetchItems, id, closeModal }) {
         try {
             setIsLoading(true)
 
-            const res = await fetch(`${apiHost}/api/food-items/${id}`)
+            const res = await fetch(`${apiHost}/api/food-items/${id}`, {
+                method: 'GET',
+                credentials: "include",
+            })
             const json = await res.json()
             setName(json.name)
             setExpirationDate(json.expiration_date)
@@ -53,6 +56,7 @@ export default function EditItem({ fetchItems, id, closeModal }) {
             const response = await fetch(`${apiHost}/api/food-items/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
                 body: JSON.stringify({
                     'name': name,
                     'expiration_date': expirationDate,
