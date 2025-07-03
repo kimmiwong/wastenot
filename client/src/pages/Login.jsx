@@ -88,7 +88,11 @@ export default function Login() {
             <button type="submit" className="login-btn">
               Sign Up
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && (
+              <div style={{ color: "red", whiteSpace: "pre-line" }}>
+                {error}
+              </div>
+            )}
             <p className="signup-text">
               Already have an account?{" "}
               <button
@@ -116,7 +120,12 @@ export default function Login() {
             <button type="submit" className="login-btn">
               Login
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && (
+              <div style={{ color: "red", whiteSpace: "pre-line" }}>
+                {error}
+              </div>
+            )}
+
             <p className="signup-text">
               Don’t have an account?{" "}
               <button

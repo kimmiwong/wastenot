@@ -16,6 +16,8 @@ import db
 from recipes import fetch_recipes
 from models import DBAccount
 from dotenv import load_dotenv
+import re
+
 load_dotenv()
 
 
@@ -145,10 +147,23 @@ async def signup(
             status_code=400, detail="Username and password required"
         )
 
+    errors = []
     if len(password) < 8:
+        errors.append("• Password must be at least 8 characters long")
+
+    if not re.search(r"[A-Z]", password):
+        errors.append("•Password must contain at least one uppercase letter")
+
+    if not re.search(r"\d", password):
+        errors.append("•Password must contain at least one number")
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        errors.append("•Password must contain at least one special character")
+
+    if errors:
         raise HTTPException(
             status_code=400,
-            detail="Password must be at least 8 characters long"
+            detail="\n".join(errors)
         )
 
     success = db.create_user_account(username, password)
