@@ -145,6 +145,12 @@ async def signup(
             status_code=400, detail="Username and password required"
         )
 
+    if len(password) < 8:
+        raise HTTPException(
+            status_code=400,
+            detail="Password must be at least 8 characters long"
+        )
+
     success = db.create_user_account(username, password)
     if not success:
         raise HTTPException(status_code=409, detail="Username already exists")
