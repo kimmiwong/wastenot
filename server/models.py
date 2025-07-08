@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Boolean
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime, timezone
 from sqlalchemy.ext.declarative import declarative_base
@@ -13,10 +13,12 @@ class DBFood(Base):
     name = Column(String, nullable=False)
     expiration_date = Column(Date, nullable=False)
     category_id = Column(Integer, ForeignKey('category.category_id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('account.id'), nullable=False)
+    added_by_id = Column(Integer, ForeignKey('account.id'), nullable=False)
+    household_id = Column(Integer, ForeignKey('household.id'), nullable=False)
 
     notification = relationship("DBNotification", back_populates="food", cascade="all, delete-orphan")
-    owner = relationship("DBAccount", back_populates="food_items")
+    household = relationship("DBHousehold", back_populates="food_items")
+    added_by = relationship("DBAccount", back_populates="added_food_items")
 
 
 class DBCategory(Base):
@@ -46,8 +48,11 @@ class DBAccount(Base):
     session_token: Mapped[str] = mapped_column(nullable=True)
     session_expires_at: Mapped[datetime] = mapped_column(nullable=True)
 
-    food_items = relationship("DBFood", back_populates="owner", cascade="all, delete-orphan")
     favorite_recipes = relationship("DBFavoriteRecipe", back_populates="user", cascade="all, delete-orphan")
+    household_membership = relationship("DBHouseholdMembership", back_populates="user", uselist=False)
+    admin_household = relationship("DBHousehold", back_populates="admin", foreign_keys="DBHousehold.admin_user_id")
+    added_food_items = relationship("DBFood", back_populates="added_by", cascade="all, delete-orphan")
+
 
 
 class DBFavoriteRecipe(Base):
@@ -60,3 +65,28 @@ class DBFavoriteRecipe(Base):
     recipe_id = Column(String, nullable=False)
 
     user = relationship("DBAccount", back_populates="favorite_recipes")
+
+
+class DBHouseholdMembership(Base):
+    __tablename__ = "user_household"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("account.id", ondelete="CASCADE"), unique=True, nullable=False)
+    household_id = Column(Integer, ForeignKey("household.id", ondelete="CASCADE"), nullable=False)
+    pending = Column(Boolean, default=True)
+
+    user = relationship("DBAccount", back_populates="household_membership")
+    household = relationship("DBHousehold", back_populates="memberships")
+
+
+class DBHousehold(Base):
+    __tablename__ = "household"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    invite_id = Column(String, unique=True, nullable=False)
+    admin_user_id = Column(Integer, ForeignKey("account.id"), nullable=False)
+
+    memberships = relationship("DBHouseholdMembership", back_populates="household")
+    food_items = relationship("DBFood", back_populates="household", cascade="all, delete-orphan")
+    admin = relationship("DBAccount", back_populates="admin_household", foreign_keys=[admin_user_id])
