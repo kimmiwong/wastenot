@@ -11,7 +11,9 @@ from schema import ( FoodIn,
                      SuccessResponse,
                      SecretResponse,
                      UserPublicDetails,
-                     UserIn)
+                     UserIn,
+                     FavoriteRecipeIn,
+                     FavoriteRecipeOut)
 import db
 from recipes import fetch_recipes
 from models import DBAccount
@@ -230,3 +232,19 @@ async def get_me(request: Request) -> UserPublicDetails:
     if not user_details:
         raise HTTPException(status_code=404, detail="User not found")
     return user_details
+
+
+
+@app.get("/api/favorite-recipes", response_model=list[FavoriteRecipeOut])
+def get_favorites(current_user: UserIn = Depends(get_current_user)):
+    return db.get_favorites(current_user)
+
+
+@app.post("/api/favorite-recipes", response_model=FavoriteRecipeOut)
+def add_favorite(recipe: FavoriteRecipeIn, current_user: UserIn = Depends(get_current_user)):
+    return db.add_favorite(recipe, current_user)
+
+
+@app.delete("/api/favorite-recipes/{recipe_id}", response_model=SuccessResponse)
+def delete_favorite(recipe_id: str, current_user: UserIn = Depends(get_current_user)):
+    return db.delete_favorite(recipe_id, current_user)
