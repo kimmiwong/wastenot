@@ -21,7 +21,7 @@ import re
 load_dotenv()
 
 
-origins = ["http://localhost:5173", "dpg-d108v4e3jp1c739o6pp0-a", "https://wastenot-frontend-e09l.onrender.com", "https://www.wastenotkitchen.com", "https://wastenotkitchen.com"]
+origins = ["http://localhost:5173", "https://wastenot-frontend-e09l.onrender.com", "https://www.wastenotkitchen.com", "https://wastenotkitchen.com"]
 
 app = FastAPI()
 
