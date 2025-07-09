@@ -3,45 +3,75 @@ import { createContext, useState, useEffect, useContext } from "react";
 export const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-  const [selectedFavorites, setSelectedFavorites] = useState(() => {
-    const stored = localStorage.getItem("selectedFavorites");
-    return stored ? JSON.parse(stored) : [];
-  });
+  const [selectedFavorites, setSelectedFavorites] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "selectedFavorites",
-      JSON.stringify(selectedFavorites)
-    );
-  }, [selectedFavorites]);
+    async function fetchFavorites() {
+      try {
+        const res = await fetch("/api/favorite-recipes", {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setSelectedFavorites(data);
+        } else {
+          console.error("Failed to fetch favorites");
+        }
+      } catch (err) {
+        console.error("Error fetching favorites:", err);
+      }
+    }
+    fetchFavorites();
+  }, []);
 
-  const addFavorite = (recipe) => {
-    setSelectedFavorites((selectedFavorites) =>
-      selectedFavorites.some((fav_recipe) => fav_recipe.id === recipe.id)
-        ? selectedFavorites
-        : [...selectedFavorites, recipe]
-    );
+  const addFavorite = async (recipe) => {
+    try {
+      const res = await fetch("/api/favorite-recipes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(recipe),
+      });
+      if (res.ok) {
+        const newFavorite = await res.json();
+        setSelectedFavorites((prev) => [...prev, newFavorite]);
+      }
+    } catch (err) {
+      console.error("Error adding favorite:", err);
+    }
   };
 
-  const deleteFavorite = (id) => {
-    setSelectedFavorites((selectedFavorites) =>
-      selectedFavorites.filter((recipe) => recipe.id !== id)
-    );
+  const deleteFavorite = async (id) => {
+    try {
+      const res = await fetch(`/api/favorite-recipes/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        setSelectedFavorites((prev) =>
+          prev.filter((favorite) => favorite.recipe_id !== id)
+        );
+      }
+    } catch (err) {
+      console.error("Error deleting favorite:", err);
+    }
   };
 
   const toggleFavorite = (recipe) => {
-    setSelectedFavorites((selectedFavorites) =>
-      selectedFavorites.some((fav_recipe) => fav_recipe.id === recipe.id)
-        ? selectedFavorites.filter((fav_recipe) => fav_recipe.id !== recipe.id)
-        : [...selectedFavorites, recipe]
+    const alreadyFavorite = selectedFavorites.some(
+      (favorite) => favorite.recipe_id === recipe.recipe_id
     );
+    if (alreadyFavorite) {
+      deleteFavorite(recipe.recipe_id);
+    } else {
+      addFavorite(recipe);
+    }
   };
 
   return (
     <FavoritesContext.Provider
       value={{
         selectedFavorites,
-        setSelectedFavorites,
         addFavorite,
         deleteFavorite,
         toggleFavorite,
