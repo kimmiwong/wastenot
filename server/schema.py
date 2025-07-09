@@ -69,5 +69,7 @@ class FavoriteRecipeIn(BaseModel):
 class FavoriteRecipeOut(FavoriteRecipeIn):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+
+    }

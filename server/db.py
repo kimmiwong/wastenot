@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails, UserIn
-from models import DBFood, DBNotification, DBAccount
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails, UserIn, FavoriteRecipeIn, FavoriteRecipeOut, SuccessResponse
+from models import DBFood, DBNotification, DBAccount, DBFavoriteRecipe
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
@@ -245,3 +245,32 @@ def get_user_public_details(username: str):
 def get_user_by_username(username: str) -> DBAccount | None:
     with SessionLocal() as db:
         return db.query(DBAccount).filter(DBAccount.username == username).first()
+
+
+def get_favorites(current_user: UserIn) -> list[FavoriteRecipeOut]:
+    with SessionLocal() as db:
+        recipes = db.query(DBFavoriteRecipe).filter(DBFavoriteRecipe.user_id == current_user.id).all()
+        return [FavoriteRecipeOut.model_validate(r) for r in recipes]
+
+
+def add_favorite(recipe: FavoriteRecipeIn, current_user: UserIn) -> FavoriteRecipeOut:
+    with SessionLocal() as db:
+        existing = db.query(DBFavoriteRecipe).filter(DBFavoriteRecipe.user_id == current_user.id, DBFavoriteRecipe.recipe_id == recipe.recipe_id).first()
+        if existing:
+            return FavoriteRecipeOut.model_validate(existing)
+
+        db_recipe = DBFavoriteRecipe(**recipe.dict(), user_id=current_user.id)
+        db.add(db_recipe)
+        db.commit()
+        db.refresh(db_recipe)
+        return FavoriteRecipeOut.model_validate(db_recipe)
+
+
+def delete_favorite(recipe_id: str, current_user: UserIn) -> SuccessResponse:
+    with SessionLocal() as db:
+        recipe = db.query(DBFavoriteRecipe).filter(DBFavoriteRecipe.user_id == current_user.id, DBFavoriteRecipe.recipe_id == recipe_id).first()
+        if recipe:
+            db.delete(recipe)
+            db.commit()
+            return SuccessResponse(success=True)
+        return SuccessResponse(success=False)
