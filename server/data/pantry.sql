@@ -8,6 +8,7 @@ VALUES ('pantry'),
 ('fridge')
 ON CONFLICT (category_name) DO NOTHING;
 
+
 CREATE TABLE IF NOT EXISTS account (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -24,21 +25,40 @@ VALUES
 -- bob: bobbers
 -- admin: admin
 
+CREATE TABLE IF NOT EXISTS household (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    invite_id VARCHAR UNIQUE NOT NULL,
+    admin_user_id INT NOT NULL,
+    FOREIGN KEY (admin_user_id) REFERENCES account(id)
+
+);
+
+CREATE TABLE IF NOT EXISTS user_household (
+    id SERIAL PRIMARY KEY,
+    pending BOOLEAN DEFAULT TRUE,
+    user_id INT UNIQUE NOT NULL,
+    household_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES account(id) ON DELETE CASCADE,
+    FOREIGN KEY (household_id) REFERENCES household(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS food_items (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     expiration_date DATE NOT NULL,
+    added_by_id INT NOT NULL,
     category_id INT NOT NULL,
-    user_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES account(id) ON DELETE CASCADE
-
+    household_id INT NOT NULL,
+    FOREIGN KEY (added_by_id) REFERENCES account(id),
+    FOREIGN KEY (category_id) REFERENCES category(category_id),
+    FOREIGN KEY (household_id) REFERENCES household(id) ON DELETE CASCADE
 );
 
-INSERT INTO food_items (name, expiration_date, category_id, user_id)
-VALUES ('milk', '2025-05-22', 2, 1),
-('pasta', '2025-06-01', 1, 2),
-('broccoli', '2025-05-25', 2, 1);
+INSERT INTO food_items (name, expiration_date, added_by_id, category_id, household_id)
+VALUES ('milk', '2025-05-22', 1, 2, 1),
+('pasta', '2025-06-01', 1, 1, 2),
+('broccoli', '2025-05-25', 1, 2, 1);
 
 
 CREATE TABLE IF NOT EXISTS notifications (
