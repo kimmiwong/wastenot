@@ -761,9 +761,7 @@ gmpx-overlay-layout {
   display: flex;
   width: 100%;
   height: 100vh;
-  /* Full screen height */
   flex-direction: column;
-  /* stack vertically on mobile */
 }
 
 .layout {
@@ -888,9 +886,6 @@ gmpx-overlay-layout {
   box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.1);
 }
 
-.input-group {
-  color: #7c6a0a;
-}
 
 .input-group label {
   margin-bottom: 10px;
@@ -900,13 +895,6 @@ gmpx-overlay-layout {
   display: block;
   line-height: 1.2;
 
-}
-
-.password-wrapper {
-  position: relative;
-  margin-left: 6.7rem;
-  margin-right: 5rem;
-  width: 21.5rem;
 }
 
 .password-wrapper input {
@@ -923,15 +911,6 @@ gmpx-overlay-layout {
   box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.1);
 }
 
-.password-wrapper .eye-icon {
-  position: absolute;
-  top: 35%;
-  right: -3rem;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #7c6a0a;
-  font-size: 1.2rem;
-}
 
 .form-footer {
   display: flex;
@@ -946,10 +925,70 @@ gmpx-overlay-layout {
   text-decoration: none;
 }
 
+
+.visual-panel {
+  background-image: url('./assets/hero.jpg');
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 40px;
+}
+
+.visual-panel h1 {
+  font-size: 45px;
+  font-weight: bold;
+  color: #4e4307;
+  line-height: 1.4;
+  z-index: 2;
+}
+
+
+.login-form input,
+.password-wrapper {
+  margin: 0 auto;
+  display: block;
+}
+
+.login-form input,
+.password-wrapper input {
+  width: 20rem;
+  max-width: 90%;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .eye-icon {
+  position: absolute;
+  top: 47%;
+  right: 11rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #7c6a0a;
+  font-size: 1.2rem;
+}
+
+.input-group {
+  color: #7c6a0a;
+}
+
+.input-group label {
+  margin-bottom: 10px;
+  margin-left: 1rem;
+  font-size: 20px;
+  color: #7c6a0a;
+  display: block;
+  line-height: 1.2;
+}
+
 .login-btn {
   width: 17rem;
-  margin-left: 2rem;
-  margin-top: 1rem;
+  margin: 1rem auto 0 auto;
   padding: 12px;
   background: #eb6424;
   border: none;
@@ -976,30 +1015,6 @@ gmpx-overlay-layout {
   text-decoration: none;
 }
 
-.sign:hover {
-  color: #babd8d;
-}
-
-.visual-panel {
-  background-image: url('./assets/hero.jpg');
-  flex: 1;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 40px;
-}
-
-.visual-panel h1 {
-  font-size: 45px;
-  font-weight: bold;
-  color: #4e4307;
-  line-height: 1.4;
-  z-index: 2;
-}
-
 .toggle-link {
   background: none;
   border: none;
@@ -1010,6 +1025,7 @@ gmpx-overlay-layout {
   font-family: inherit;
   padding: 0;
 }
+
 
 @media (max-width: 1024px) {
   html {
