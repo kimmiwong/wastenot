@@ -36,12 +36,12 @@ export default function CreateHousehold() {
 
     return (
         <>
-        <h1>Create household</h1>
-        <form className = "create-household-form" onSubmit={handleSubmit}>
-            <input type="text" value={name} onChange ={(e) => setName(e.target.value)} ></input>
-            <button type="submit">Submit</button>
+            <h1>Create household</h1>
+            <form className="create-household-form" onSubmit={handleSubmit}>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} ></input>
+                <button type="submit">Submit</button>
 
-        </form>
+            </form>
 
         </>
     )

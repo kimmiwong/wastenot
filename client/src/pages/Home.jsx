@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import ShowItems from "../components/ShowItems";
 import AddItem from "../components/AddItem";
 import SimpleHeader from "../components/Header";
@@ -13,6 +13,11 @@ export default function Home() {
       <SimpleHeader />
       <div>
         <AddItem />
+        <div className="household-wrapper">
+          <Link to="/Household" className="household-button">
+            Create Household
+          </Link>
+        </div>
         <ShowItems />
       </div>
       <div className="recipe-button-wrapper">
@@ -28,9 +33,6 @@ export default function Home() {
         </button>
       </div>
       <div>
-        <Link to="/Household">
-          <button>Create household</button>
-        </Link>
       </div>
     </div>
   );
