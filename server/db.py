@@ -1,13 +1,14 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails, UserIn, FavoriteRecipeIn, FavoriteRecipeOut, SuccessResponse
-from models import DBFood, DBNotification, DBAccount, DBFavoriteRecipe
+from schema import FoodIn, FoodOut, FoodUpdate, NotificationOut, UserPublicDetails, UserIn, FavoriteRecipeIn, FavoriteRecipeOut, SuccessResponse, HouseholdIn, HouseholdOut
+from models import DBFood, DBNotification, DBAccount, DBFavoriteRecipe, DBHouseholdMembership, DBHousehold
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 import os
 from secrets import token_urlsafe
 import bcrypt
+import uuid
 
 load_dotenv()
 database_url = os.getenv("DATABASE_URL")
@@ -17,16 +18,18 @@ engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-def get_food_items(current_user: UserIn) -> list[FoodOut]:
+def get_food_items(household_id: int) -> list[FoodOut]:
     db = SessionLocal()
-    db_items = db.query(DBFood).filter(DBFood.user_id == current_user.id).order_by(DBFood.name).all()
+    db_items = db.query(DBFood).filter(DBFood.household_id == household_id).order_by(DBFood.name).all()
     items = []
     for db_item in db_items:
         items.append(FoodOut(
             id=db_item.id,
             name=db_item.name,
             expiration_date=db_item.expiration_date,
-            category_id=db_item.category_id
+            category_id=db_item.category_id,
+            added_by_id=db_item.added_by_id,
+            household_id=db_item.household_id
         ))
     db.close()
     return items
@@ -35,8 +38,15 @@ def get_food_items(current_user: UserIn) -> list[FoodOut]:
 def create_food_item(item: FoodIn, current_user: UserIn) -> FoodOut:
     db = SessionLocal()
 
+    membership = db.query(DBHouseholdMembership).filter_by(user_id=current_user.id).first()
+
+    if not membership:
+        db.close()
+        return None
+
     item_data = item.model_dump()
-    item_data["user_id"] = current_user.id
+    item_data["added_by_id"] = current_user.id
+    item_data["household_id"] = membership.household_id
 
     db_item = DBFood(**item_data)
     db.add(db_item)
@@ -48,7 +58,9 @@ def create_food_item(item: FoodIn, current_user: UserIn) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id
+        category_id=db_item.category_id,
+        added_by_id=db_item.added_by_id,
+        household_id=db_item.household_id
     )
 
 
@@ -71,7 +83,9 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id
+        category_id=db_item.category_id,
+        added_by_id=db_item.added_by_id,
+        household_id=db_item.household_id
         )
 
 
@@ -92,7 +106,9 @@ def get_food_item(id: int) -> FoodOut:
         id=db_item.id,
         name=db_item.name,
         expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id
+        category_id=db_item.category_id,
+        added_by_id=db_item.added_by_id,
+        household_id=db_item.household_id
 
     )
 
@@ -132,12 +148,12 @@ def check_expiring_items():
     db.close()
 
 
-def get_notifications_for_current_user(current_user: UserIn) -> list[NotificationOut]:
+def get_notifications_for_current_household(household_id: int) -> list[NotificationOut]:
     db = SessionLocal()
     db_notifications = (
         db.query(DBNotification)
         .join(DBNotification.food)
-        .filter(DBFood.user_id == current_user.id)
+        .filter(DBFood.household_id == household_id)
         .order_by(DBNotification.created_at.desc())
         .all()
         )
@@ -274,3 +290,58 @@ def delete_favorite(recipe_id: str, current_user: UserIn) -> SuccessResponse:
             db.commit()
             return SuccessResponse(success=True)
         return SuccessResponse(success=False)
+
+
+def create_household(household: HouseholdIn, current_user: UserIn):
+    db = SessionLocal()
+
+    invite_id = uuid.uuid4().hex
+    db_household = DBHousehold(
+        name=household.name,
+        invite_id=invite_id,
+        admin_user_id=current_user.id,
+        )
+    db.add(db_household)
+    db.commit()
+    db.refresh(db_household)
+
+    db_membership = DBHouseholdMembership(
+        user_id=current_user.id,
+        household_id=db_household.id,
+        pending=False
+    )
+
+    db.add(db_membership)
+    db.commit()
+
+    db.close()
+
+    return HouseholdOut(
+        id=db_household.id,
+        name=db_household.name,
+        invite_id=db_household.invite_id,
+        admin_user_id=current_user.id
+        )
+
+def get_household_for_user(user_id: int) -> HouseholdOut | None:
+    db = SessionLocal()
+
+    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id==user_id).first()
+    if not db_membership:
+        db.close()
+        return None
+
+    db_household = db.query(DBHousehold).filter(DBHousehold.id == db_membership.household_id).first()
+    db.close()
+    if not db_household:
+        db.close()
+        return None
+
+    db.close()
+    return HouseholdOut(
+        id=db_household.id,
+        name=db_household.name,
+        invite_id=db_household.invite_id,
+        admin_user_id=db_household.admin_user_id
+
+    )

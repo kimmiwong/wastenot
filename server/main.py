@@ -13,7 +13,10 @@ from schema import ( FoodIn,
                      UserPublicDetails,
                      UserIn,
                      FavoriteRecipeIn,
-                     FavoriteRecipeOut)
+                     FavoriteRecipeOut,
+                     HouseholdIn,
+                     HouseholdMembershipOut,
+                     HouseholdOut)
 import db
 from recipes import fetch_recipes
 from models import DBAccount
@@ -59,15 +62,40 @@ def get_current_user(request: Request) -> UserIn:
 
     return user
 
+def get_current_household(request: Request) -> HouseholdOut:
+    username = request.session.get("username")
+    session_token = request.session.get("session_token")
+
+    if not isinstance(username, str) or not isinstance(session_token, str):
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    if not db.validate_session(username, session_token):
+        raise HTTPException(status_code=403, detail="Invalid session")
+
+    user = db.get_user_by_username(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    household = db.get_household_for_user(user.id)
+
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+
+    return household
+
+
 
 @app.get("/api/food-items", response_model=list[FoodOut])
-async def get_food_items_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[FoodOut]:
-    return db.get_food_items(current_user)
+async def get_food_items_for_current_household(household: HouseholdOut = Depends(get_current_household)) -> list[FoodOut]:
+    return db.get_food_items(household.id)
 
 
 @app.post("/api/food-items", response_model=FoodOut)
 async def create_food_item(item: FoodIn, current_user: UserIn = Depends(get_current_user)) -> FoodOut:
-    return db.create_food_item(item, current_user)
+    food_item = db.create_food_item(item, current_user)
+
+    if food_item is None:
+        raise HTTPException(status_code=400, detail="User does not belong to a household")
+    return food_item
 
 
 @app.get("/api/food-items/{id}", response_model=FoodOut)
@@ -100,9 +128,14 @@ def get_recipes(ingredients: str):
 
 
 @app.get("/api/notifications", response_model=list[NotificationOut])
-def get_notifications_for_current_user(current_user: UserIn = Depends(get_current_user)) -> list[NotificationOut]:
+def get_notifications_for_current_household(household: HouseholdOut = Depends(get_current_household)) -> list[NotificationOut]:
     db.check_expiring_items()
-    return db.get_notifications_for_current_user(current_user)
+    return db.get_notifications_for_current_household(household.id)
+
+
+@app.post("/api/households", response_model=HouseholdOut)
+def create_household(household: HouseholdIn, current_user: UserIn = Depends(get_current_user)) -> HouseholdOut:
+    return db.create_household(household, current_user)
 
 
 # Endpoint to handle login requests

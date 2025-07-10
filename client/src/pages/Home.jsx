@@ -27,6 +27,11 @@ export default function Home() {
           Clear Selection
         </button>
       </div>
+      <div>
+        <Link to="/Household">
+          <button>Create household</button>
+        </Link>
+      </div>
     </div>
   );
 }

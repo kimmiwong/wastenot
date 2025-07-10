@@ -10,6 +10,8 @@ class FoodIn(BaseModel):
 
 class FoodOut(FoodIn):
     id: int
+    added_by_id: int
+    household_id: int
 
     class Config:
         orm_mode = True
@@ -73,3 +75,26 @@ class FavoriteRecipeOut(FavoriteRecipeIn):
         "from_attributes": True
 
     }
+
+
+class HouseholdIn(BaseModel):
+    name: str
+
+
+class HouseholdOut(HouseholdIn):
+    id: int
+    invite_id: str
+    admin_user_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class HouseholdMembershipOut(BaseModel):
+    id: int
+    user_id: int
+    household_id: int
+    pending: bool
+
+    class Config:
+        orm_mode = True
