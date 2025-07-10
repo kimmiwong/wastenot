@@ -55,11 +55,6 @@ CREATE TABLE IF NOT EXISTS food_items (
     FOREIGN KEY (household_id) REFERENCES household(id) ON DELETE CASCADE
 );
 
-INSERT INTO food_items (name, expiration_date, added_by_id, category_id, household_id)
-VALUES ('milk', '2025-05-22', 1, 2, 1),
-('pasta', '2025-06-01', 1, 1, 2),
-('broccoli', '2025-05-25', 1, 2, 1);
-
 
 CREATE TABLE IF NOT EXISTS notifications (
     notification_id SERIAL PRIMARY KEY,
