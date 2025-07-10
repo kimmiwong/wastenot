@@ -114,6 +114,73 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
+.household-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.household-modal-box {
+  background-color: #fdfaf3;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.household-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-family: 'Patrick Hand SC', cursive;
+}
+
+.household-modal-buttons {
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  gap: 10px;
+}
+
+.cancel-button,
+.submit-button {
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+.cancel-button {
+  background-color: #babd8d;
+  margin: 1rem;
+  color: #000;
+}
+
+.submit-button {
+  background-color: #EB6424;
+  color: white;
+}
+
+.cancel-button:hover {
+  color: #7c6a0a;
+}
+
+.submit-button:hover {
+  color: #8b3c17;
+}
+
 .modal-close {
   position: absolute;
   top: 0.5rem;

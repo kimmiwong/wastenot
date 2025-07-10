@@ -6,7 +6,6 @@ import "./App.css";
 import Favorites from "./pages/Favorites";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import CreateHousehold from "./pages/CreateHousehold";
 import Instructions from "./pages/Instructions";
 
 export default function App() {
@@ -18,7 +17,6 @@ export default function App() {
       <Route path="/Favorites" element={<Favorites />} />
       <Route path="/Compost" element={<Compost />} />
       <Route path="/logout" element={<Logout />} />
-      <Route path="/Household" element={<CreateHousehold />} />
       <Route path="/Instructions" element={<Instructions />} />
     </Routes>
   );
