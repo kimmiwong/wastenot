@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
 import wastenot from "../assets/WasteNotLogo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
@@ -10,6 +13,10 @@ export default function Login() {
   const [showSignup, setShowSignup] = useState(false);
   const { refreshUser } = useUser();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showSignupPassword2, setShowSignupPassword2] = useState(false);
+
 
   async function handleLogin(event) {
     event.preventDefault();
@@ -76,14 +83,39 @@ export default function Login() {
             </div>
             <div className="input-group">
               <label htmlFor="password">Password:</label>
-              <input id="password" name="password" type="password" required />
+              <div className="password-wrapper">
+                <input
+                  id="password"
+                  name="password"
+                  type={showSignupPassword ? "text" : "password"}
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showSignupPassword ? faEyeSlash : faEye}
+                  className="eye-icon"
+                  onClick={() => setShowSignupPassword((prev) => !prev)}
+                />
+              </div>
             </div>
+
             <div className="input-group">
               <label htmlFor="password2" className="label-multiline">
                 Confirm
                 Password:
               </label>
-              <input id="password2" name="password2" type="password" required />
+              <div className="password-wrapper">
+                <input
+                  id="password2"
+                  name="password2"
+                  type={showSignupPassword2 ? "text" : "password"}
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showSignupPassword2 ? faEyeSlash : faEye}
+                  className="eye-icon"
+                  onClick={() => setShowSignupPassword2((prev) => !prev)}
+                />
+              </div>
             </div>
             <button type="submit" className="login-btn">
               Sign Up
@@ -115,7 +147,19 @@ export default function Login() {
             </div>
             <div className="input-group">
               <label htmlFor="password">Password:</label>
-              <input id="password" name="password" type="password" required />
+              <div className="password-wrapper">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  className="eye-icon"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              </div>
             </div>
             <button type="submit" className="login-btn">
               Login

@@ -85,7 +85,7 @@ export default function ShowItems() {
       });
 
       if (!res.ok) {
-        throw new Error (`Error: ${res.status}`)
+        throw new Error(`Error: ${res.status}`)
       }
 
       const json = await res.json();
@@ -116,7 +116,7 @@ export default function ShowItems() {
   }, []);
 
   if (error) {
-    return <p>Something went wrong. Please refresh.</p>;
+    return <p>Create a household to see your food inventory. Please refresh.</p>;
   }
 
   if (isLoading) {
