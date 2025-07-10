@@ -525,95 +525,6 @@ gmpx-overlay-layout {
   margin: 1rem;
 }
 
-.dropdown-wrapper {
-  position: relative;
-  padding-right: 10px;
-}
-
-.dropdown-button {
-  cursor: pointer;
-  position: relative;
-  padding: 20px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.dropdown-button:hover {
-  background-color: #f3f3f3;
-}
-
-.notification {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  background-color: #eb6424;
-  color: white;
-  font-size: 0.75rem;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-weight: bold;
-  position: relative;
-  padding: 20px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.dropdown-button:hover {
-  background-color: #f3f3f3;
-}
-
-.notification {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  background-color: #eb6424;
-  color: white;
-  font-size: 0.75rem;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-weight: bold;
-}
-
-.dropdown {
-  position: absolute;
-  top: 70px;
-  right: 9px;
-  background-color: white;
-  width: 260px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
-}
-
-.dropdown h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #fa9500;
-}
-
-.dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown li {
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 0.95rem;
-  color: #fa9500;
-}
-
-.dropdown p {
-  color: #fa9500;
-  font-size: 0.95rem;
-  margin: 0;
-  text-align: center;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -657,13 +568,6 @@ gmpx-overlay-layout {
   gap: 1rem;
 }
 
-.compost-logo {
-  height: 55px;
-  width: 55px;
-  margin-top: 8px;
-  padding: 9px;
-  object-fit: contain;
-}
 
 .back-link {
   position: absolute;
@@ -894,6 +798,14 @@ gmpx-overlay-layout {
 
 }
 
+.eye-icon {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  color: #7c6a0a;
+  font-size: 1.25rem;
+}
+
 .form-footer {
   display: flex;
   justify-content: space-between;
@@ -970,4 +882,129 @@ gmpx-overlay-layout {
   font-size: inherit;
   font-family: inherit;
   padding: 0;
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+
+  .top-section {
+    height: 300px;
+    background-size: contain;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-sections {
+    flex-direction: column;
+  }
+
+  .pantry-items,
+  .fridge-items {
+    flex: 1 1 100%;
+    padding: 1rem;
+  }
+
+  .top-section {
+    height: 200px;
+    background-size: cover;
+  }
+
+  .item-table th,
+  .item-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .form-overlay,
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .add-item-container,
+  .edit-item-container {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .login-panel {
+    padding: 2rem 1rem;
+  }
+
+  .login-form input,
+  .login-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .visual-panel h1 {
+    font-size: 1.75rem;
+  }
+
+  .carousel-wrapper {
+    padding: 1rem;
+  }
+
+  .recipe-card {
+    min-height: unset;
+    font-size: 0.95rem;
+  }
+
+  .compost-map-container {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .sidebar-left,
+  .sidebar-right {
+    width: 100%;
+    order: 2;
+    padding: 1rem;
+  }
+
+  .main-map {
+    order: 1;
+    height: 60vh;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    font-size: 1.5rem;
+  }
+
+  .sidebar-left,
+  .sidebar-right {
+    padding: 0.5rem;
+  }
+
+  .visual-panel {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 4rem;
+  }
+
+  .welcome {
+    font-size: 1rem;
+    text-align: center;
+  }
 }
