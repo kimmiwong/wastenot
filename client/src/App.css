@@ -899,6 +899,8 @@ gmpx-overlay-layout {
 
 .password-wrapper input {
   color: black;
+  flex: 1;
+  padding-right: 2.5rem;
   margin-left: 4rem;
   margin-right: 3rem;
   width: 20rem;
@@ -961,13 +963,17 @@ gmpx-overlay-layout {
 
 .password-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20rem;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .password-wrapper .eye-icon {
   position: absolute;
-  top: 47%;
-  right: 11rem;
-  transform: translateY(-50%);
+  right: 0.75rem;
   cursor: pointer;
   color: #7c6a0a;
   font-size: 1.2rem;

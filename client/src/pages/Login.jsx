@@ -79,7 +79,9 @@ export default function Login() {
           <form className="login-form" onSubmit={handleSignup}>
             <div className="input-group">
               <label htmlFor="username">Username:</label>
-              <input id="username" name="username" required />
+              <div className="password-wrapper">
+                <input id="username" name="username" required />
+              </div>
             </div>
             <div className="input-group">
               <label htmlFor="password">Password:</label>
@@ -143,7 +145,9 @@ export default function Login() {
           <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group">
               <label htmlFor="username">Username:</label>
-              <input id="username" name="username" required />
+              <div className="password-wrapper">
+                <input id="username" name="username" required />
+              </div>
             </div>
             <div className="input-group">
               <label htmlFor="password">Password:</label>
