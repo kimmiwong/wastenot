@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
 export const FavoritesContext = createContext();
+const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const FavoritesProvider = ({ children }) => {
   const [selectedFavorites, setSelectedFavorites] = useState([]);
@@ -8,7 +9,7 @@ export const FavoritesProvider = ({ children }) => {
   useEffect(() => {
     async function fetchFavorites() {
       try {
-        const res = await fetch("/api/favorite-recipes", {
+        const res = await fetch(`${baseUrl}/api/favorite-recipes`, {
           credentials: "include",
         });
         if (res.ok) {
@@ -26,7 +27,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const addFavorite = async (recipe) => {
     try {
-      const res = await fetch("/api/favorite-recipes", {
+      const res = await fetch(`${baseUrl}/api/favorite-recipes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -43,7 +44,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const deleteFavorite = async (id) => {
     try {
-      const res = await fetch(`/api/favorite-recipes/${id}`, {
+      const res = await fetch(`${baseUrl}/api/favorite-recipes/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -59,12 +60,19 @@ export const FavoritesProvider = ({ children }) => {
 
   const toggleFavorite = (recipe) => {
     const alreadyFavorite = selectedFavorites.some(
-      (favorite) => favorite.recipe_id === recipe.recipe_id
+      (favorite) =>
+        favorite.recipe_id === recipe.recipe_id ||
+        favorite.recipe_id === recipe.id?.toString()
     );
+    const formattedRecipe = {
+      recipe_id: recipe.recipe_id || recipe.id.toString(),
+      title: recipe.title,
+      image_url: recipe.image_url || recipe.image || null,
+    };
     if (alreadyFavorite) {
-      deleteFavorite(recipe.recipe_id);
+      deleteFavorite(formattedRecipe.recipe_id);
     } else {
-      addFavorite(recipe);
+      addFavorite(formattedRecipe);
     }
   };
 
