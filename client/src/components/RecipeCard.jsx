@@ -14,7 +14,7 @@ export default function RecipeCard({ recipe, showTrashInsteadOfHeart }) {
 
   const handleClick = () => {
     if (showTrashInsteadOfHeart) {
-      deleteFavorite(recipe.id);
+      deleteFavorite(recipe.recipe_id || recipe.id?.toString());
     } else {
       toggleFavorite(recipe);
     }
