@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
 export const FavoritesContext = createContext();
-const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const apiHost = import.meta.env.VITE_API_HOST;
 
 export const FavoritesProvider = ({ children }) => {
   const [selectedFavorites, setSelectedFavorites] = useState([]);
@@ -9,7 +9,7 @@ export const FavoritesProvider = ({ children }) => {
   useEffect(() => {
     async function fetchFavorites() {
       try {
-        const res = await fetch(`${baseUrl}/api/favorite-recipes`, {
+        const res = await fetch(`${apiHost}/api/favorite-recipes`, {
           credentials: "include",
         });
         if (res.ok) {
@@ -27,7 +27,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const addFavorite = async (recipe) => {
     try {
-      const res = await fetch(`${baseUrl}/api/favorite-recipes`, {
+      const res = await fetch(`${apiHost}/api/favorite-recipes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -44,7 +44,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const deleteFavorite = async (id) => {
     try {
-      const res = await fetch(`${baseUrl}/api/favorite-recipes/${id}`, {
+      const res = await fetch(`${apiHost}/api/favorite-recipes/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
