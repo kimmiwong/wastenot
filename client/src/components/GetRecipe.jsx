@@ -13,6 +13,7 @@ export default function Recipe() {
   useEffect(() => {
     if (selectedIngredient.length === 0) {
       setRecipes([]);
+      setError("no-ingredients");
       return;
     }
 
@@ -48,10 +49,13 @@ export default function Recipe() {
       <div className="carousel-wrapper">
         <h1>Your WasteNot Menu</h1>
         {loading && <p>Loading...</p>}
-        {error && (
+        {error === "no-ingredients" && (
+          <p>Please select a few ingredients to get recipe suggestions!</p>
+        )}
+        {error && error != "no-ingredients" && (
           <p>
-            Oops! We couldn't load recipes. Try selecting a few ingredients
-            first.
+            Oops! We couldn't load recipes. Please select a few ingredients and
+            try again.
           </p>
         )}
         {!loading && !error && <RecipeCarousel recipes={recipes} />}
