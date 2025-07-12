@@ -10,9 +10,11 @@ export default function Recipe() {
   const { selectedIngredient } = useIngredients();
   const apiHost = import.meta.env.VITE_API_HOST;
 
-
-
   useEffect(() => {
+    if (selectedIngredient.length === 0) {
+      setRecipes([]);
+      return;
+    }
 
     const getRecipe = async () => {
       try {
@@ -46,7 +48,12 @@ export default function Recipe() {
       <div className="carousel-wrapper">
         <h1>Your WasteNot Menu</h1>
         {loading && <p>Loading...</p>}
-        {error && <p>Oops! We couldn't load recipes. Try selecting a few ingredients first.</p>}
+        {error && (
+          <p>
+            Oops! We couldn't load recipes. Try selecting a few ingredients
+            first.
+          </p>
+        )}
         {!loading && !error && <RecipeCarousel recipes={recipes} />}
       </div>
     </div>
