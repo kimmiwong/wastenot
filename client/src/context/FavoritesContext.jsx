@@ -1,9 +1,11 @@
 import { createContext, useState, useEffect, useContext } from "react";
+import { useUser } from "./UserProvider";
 
 export const FavoritesContext = createContext();
 const apiHost = import.meta.env.VITE_API_HOST;
 
 export const FavoritesProvider = ({ children }) => {
+  const { user } = useUser();
   const [selectedFavorites, setSelectedFavorites] = useState([]);
 
   useEffect(() => {
@@ -22,8 +24,12 @@ export const FavoritesProvider = ({ children }) => {
         console.error("Error fetching favorites:", err);
       }
     }
-    fetchFavorites();
-  }, []);
+    if (user) {
+      fetchFavorites();
+    } else {
+      setSelectedFavorites([]);
+    }
+  }, [user]);
 
   const addFavorite = async (recipe) => {
     try {

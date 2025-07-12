@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
 import wastenot from "../assets/WasteNotLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
@@ -17,6 +16,12 @@ export default function Login() {
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showSignupPassword2, setShowSignupPassword2] = useState(false);
 
+  useEffect(() => {
+    fetch(`${apiHost}/api/logout`, {
+      method: "GET",
+      credentials: "include",
+    });
+  }, []);
 
   async function handleLogin(event) {
     event.preventDefault();
@@ -102,8 +107,7 @@ export default function Login() {
 
             <div className="input-group">
               <label htmlFor="password2" className="label-multiline">
-                Confirm
-                Password:
+                Confirm Password:
               </label>
               <div className="password-wrapper">
                 <input

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useUser } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
+import { useIngredients } from "../context/RecipesContext";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
@@ -10,6 +11,7 @@ const apiHost = import.meta.env.VITE_API_HOST;
  */
 export default function Logout() {
   const { refreshUser } = useUser();
+  const { clearIngredients } = useIngredients();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function Logout() {
     async function doLogout() {
       // Call the backend logout endpoint. 'credentials: "include"' ensures cookies (the session) are sent.
       await fetch(`${apiHost}/api/logout`, { credentials: "include" });
+      clearIngredients();
       // After logging out, update the user context so the app knows the user is logged out.
       refreshUser();
       // Use React Router's navigate to redirect to the home page without a full reload.
@@ -27,7 +30,7 @@ export default function Logout() {
     }
     // useEffect runs after the component mounts. We call doLogout() once, on mount.
     doLogout();
-  }, [navigate, refreshUser]); // Add navigate and refreshUser to dependencies.
+  }, [navigate, refreshUser, clearIngredients]); // Add navigate and refreshUser to dependencies.
 
   return (
     <>
