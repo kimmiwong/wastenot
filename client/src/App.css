@@ -1032,6 +1032,12 @@ gmpx-overlay-layout {
   padding: 0;
 }
 
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
 
 @media (max-width: 1024px) {
   html {

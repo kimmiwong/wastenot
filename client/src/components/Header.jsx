@@ -40,6 +40,17 @@ export default function SimpleHeader() {
         </div>
 
         <div className={classes.rightSection}>
+          {user && (
+            <div className={classes.userInfo}>
+              <div className={classes.welcomeMessage}>
+                Welcome, <strong>{user.username}</strong>
+              </div>
+              <Link to="/logout" className={classes.logOut}>
+                Logout
+              </Link>
+            </div>
+          )}
+
           <div className={classes.notifications} ref={dropdownRef}>
             <div
               className={classes.dropdownButton}
@@ -68,6 +79,7 @@ export default function SimpleHeader() {
               </div>
             )}
           </div>
+
           <button
             className={classes.hamburger}
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -75,31 +87,25 @@ export default function SimpleHeader() {
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
+
+
       </div>
 
       {menuOpen && (
         <nav className={classes.mobileMenu}>
-          {user ? (
+          {user && (
             <>
               <p>
                 Welcome, <strong>{user.username}</strong>
               </p>
-              <Link to="/logout" className={classes.logOut}>
-                Logout
-              </Link>
             </>
-          ) : (
-            <p>You are not logged in.</p>
           )}
           <Link to="/Home" className={classes.menuItem}>Home</Link>
-          <Link to="/Favorites" className={classes.menuItem}>
-            Favorites
-          </Link>
-          <Link to="/Compost" className={classes.menuItem}>
-            Compost Locations
-          </Link>
+          <Link to="/Favorites" className={classes.menuItem}>Favorites</Link>
+          <Link to="/Compost" className={classes.menuItem}>Compost Locations</Link>
         </nav>
-      )}
-    </header>
+      )
+      }
+    </header >
   );
 }

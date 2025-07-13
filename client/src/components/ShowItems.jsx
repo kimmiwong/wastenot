@@ -8,7 +8,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useIngredients } from "../context/RecipesContext";
 import { useNotifications } from "../context/NotificationsContext";
 
-export default function ShowItems() {
+export default function ShowItems({ refreshTrigger }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -113,7 +113,7 @@ export default function ShowItems() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refreshTrigger]);
 
   if (error) {
     return <p>Create a household to see your food inventory. Please refresh.</p>;
