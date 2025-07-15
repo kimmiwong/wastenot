@@ -50,8 +50,8 @@ app.add_middleware(
     secret_key=Secret(os.getenv("SESSION_SECRET", "dev_secret")),
     session_cookie="session",
     max_age=60 * 60 * 2,
-    same_site="lax",  # set to none when deploying and set to lax when local
-    https_only=False,  # set True when deployed with HTTPS
+    same_site="none",  # set to none when deploying and set to lax when local
+    https_only=True,  # set True when deployed with HTTPS
 )
 
 
