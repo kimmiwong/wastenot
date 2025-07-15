@@ -29,13 +29,13 @@ export default function CreateHousehold({ isOpen, onClose, onCreate }) {
             }
 
             if (typeof onCreate === 'function') {
-                await onCreate();
+                await onCreate(name);
             }
 
             setName("");
             onClose();
         } catch (error) {
-            console.error('Error creating household', error);
+            console.error('Error creating household');
             setError(error.message);
         }
     };

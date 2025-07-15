@@ -101,8 +101,10 @@
     border-radius: 6px;
     padding: 0rem 0.75rem;
     background-color: #fff;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
     cursor: pointer;
+    font-family: 'Patrick Hand SC', cursive;
+    margin: 0 1.5rem;
 }
 
 .logOut:hover {
@@ -111,6 +113,19 @@
     text-decoration: none;
 }
 
+.mobileLogout {
+    color: #eb6424;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin: 0.75rem 0;
+    display: inline-block;
+    text-align: center;
+}
+
+.mobileLogout:hover {
+    color: #c75312;
+    text-decoration: underline;
+}
 
 
 .dropdown {
@@ -175,12 +190,6 @@
     margin: 0.5rem 0;
 }
 
-.logOut {
-    margin: 0rem 2rem;
-    font-size: 20px;
-    text-decoration: none;
-    color: #EB6424;
-}
 
 @keyframes slideIn {
     from {

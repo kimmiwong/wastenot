@@ -92,6 +92,13 @@ def get_current_household(request: Request) -> HouseholdOut:
     return household
 
 
+@app.get("/api/households/current", response_model=HouseholdOut)
+async def get_current_user_household(
+    household: HouseholdOut = Depends(get_current_household),
+) -> HouseholdOut:
+    return household
+
+
 @app.get("/api/food-items", response_model=list[FoodOut])
 async def get_food_items_for_current_household(
     household: HouseholdOut = Depends(get_current_household),
