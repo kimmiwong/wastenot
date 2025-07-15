@@ -80,6 +80,54 @@
     font-weight: bold;
 }
 
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.welcomeMessage {
+    font-size: 1.1rem;
+    color: #4b4200;
+    white-space: nowrap;
+    margin-bottom: 0.25rem;
+}
+
+.logOut {
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #EB6424;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0rem 0.75rem;
+    background-color: #fff;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font-family: 'Patrick Hand SC', cursive;
+    margin: 0 1.5rem;
+}
+
+.logOut:hover {
+    background-color: #f5f5f5;
+    color: #EB6424;
+    text-decoration: none;
+}
+
+.mobileLogout {
+    color: #eb6424;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin: 0.75rem 0;
+    display: inline-block;
+    text-align: center;
+}
+
+.mobileLogout:hover {
+    color: #c75312;
+    text-decoration: underline;
+}
+
+
 .dropdown {
     position: absolute;
     top: 70px;
@@ -142,12 +190,6 @@
     margin: 0.5rem 0;
 }
 
-.logOut {
-    margin: 0rem 2rem;
-    font-size: 20px;
-    text-decoration: none;
-    color: #EB6424;
-}
 
 @keyframes slideIn {
     from {
@@ -179,6 +221,11 @@
         flex-direction: row;
         align-items: center;
         gap: 0.5rem;
+    }
+
+    .welcomeMessage,
+    .logOut {
+        display: none;
     }
 
     .rightSection {

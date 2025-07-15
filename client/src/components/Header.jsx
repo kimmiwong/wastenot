@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WasteNotLogo from "../assets/WasteNotLogo.png";
-import compostLogo from "../assets/compostLogo.PNG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNotifications } from "../context/NotificationsContext";
@@ -14,10 +13,7 @@ export default function SimpleHeader() {
   const dropdownRef = useRef(null);
   const { notifications, fetchNotifications } = useNotifications();
   const { user } = useUser();
-
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
+  const [householdName, setHouseholdName] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -28,6 +24,27 @@ export default function SimpleHeader() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const fetchHousehold = async () => {
+      try {
+        const apiHost = import.meta.env.VITE_API_HOST;
+        const response = await fetch(`${apiHost}/api/households/current`, {
+          credentials: "include",
+        });
+        if (!response.ok) throw new Error("Could not fetch household");
+
+        const data = await response.json();
+        setHouseholdName(data.name);
+      } catch (err) {
+        console.error("Error fetching household:", err);
+      }
+    };
+
+    fetchNotifications();
+    fetchHousehold();
+  }, []);
+
 
   return (
     <header className={classes.header}>
@@ -40,6 +57,17 @@ export default function SimpleHeader() {
         </div>
 
         <div className={classes.rightSection}>
+          {user && (
+            <div className={classes.userInfo}>
+              <div className={classes.welcomeMessage}>
+                Welcome, <strong>{user.username}</strong>
+              </div>
+              <Link to="/logout" className={classes.logOut}>
+                Logout
+              </Link>
+            </div>
+          )}
+
           <div className={classes.notifications} ref={dropdownRef}>
             <div
               className={classes.dropdownButton}
@@ -68,6 +96,7 @@ export default function SimpleHeader() {
               </div>
             )}
           </div>
+
           <button
             className={classes.hamburger}
             onClick={() => setMenuOpen((prev) => !prev)}
@@ -75,31 +104,33 @@ export default function SimpleHeader() {
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
+
+
       </div>
 
       {menuOpen && (
         <nav className={classes.mobileMenu}>
-          {user ? (
-            <>
+          {user && (
+            <div className={classes.welcomeHousehold}>
               <p>
                 Welcome, <strong>{user.username}</strong>
               </p>
-              <Link to="/logout" className={classes.logOut}>
+              {householdName && (
+                <p>
+                  You are in <strong>{householdName}</strong>'s household
+                </p>
+              )}
+              <Link to="/logout" className={classes.mobileLogout}>
                 Logout
               </Link>
-            </>
-          ) : (
-            <p>You are not logged in.</p>
+            </div>
           )}
           <Link to="/Home" className={classes.menuItem}>Home</Link>
-          <Link to="/Favorites" className={classes.menuItem}>
-            Favorites
-          </Link>
-          <Link to="/Compost" className={classes.menuItem}>
-            Compost Locations
-          </Link>
+          <Link to="/Favorites" className={classes.menuItem}>Favorites</Link>
+          <Link to="/Compost" className={classes.menuItem}>Compost Locations</Link>
         </nav>
-      )}
-    </header>
+      )
+      }
+    </header >
   );
 }

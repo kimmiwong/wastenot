@@ -3,20 +3,22 @@ from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.datastructures import Secret
-from schema import ( FoodIn,
-                     FoodOut,
-                     FoodUpdate,
-                     NotificationOut,
-                     LoginCredentials,
-                     SuccessResponse,
-                     SecretResponse,
-                     UserPublicDetails,
-                     UserIn,
-                     FavoriteRecipeIn,
-                     FavoriteRecipeOut,
-                     HouseholdIn,
-                     HouseholdMembershipOut,
-                     HouseholdOut)
+from schema import (
+    FoodIn,
+    FoodOut,
+    FoodUpdate,
+    NotificationOut,
+    LoginCredentials,
+    SuccessResponse,
+    SecretResponse,
+    UserPublicDetails,
+    UserIn,
+    FavoriteRecipeIn,
+    FavoriteRecipeOut,
+    HouseholdIn,
+    HouseholdMembershipOut,
+    HouseholdOut,
+)
 import db
 from recipes import fetch_recipes
 from models import DBAccount
@@ -26,7 +28,12 @@ import re
 load_dotenv()
 
 
-origins = ["http://localhost:5173", "https://wastenot-frontend-e09l.onrender.com", "https://www.wastenotkitchen.com", "https://wastenotkitchen.com"]
+origins = [
+    "http://localhost:5173",
+    "https://wastenot-frontend-e09l.onrender.com",
+    "https://www.wastenotkitchen.com",
+    "https://wastenotkitchen.com",
+]
 
 app = FastAPI()
 
@@ -43,9 +50,10 @@ app.add_middleware(
     secret_key=Secret(os.getenv("SESSION_SECRET", "dev_secret")),
     session_cookie="session",
     max_age=60 * 60 * 2,
-    same_site="none",    # set to none when deploying and set to lax when local
-    https_only=True,     # set True when deployed with HTTPS
+    same_site="none",  # set to none when deploying and set to lax when local
+    https_only=True,  # set True when deployed with HTTPS
 )
+
 
 def get_current_user(request: Request) -> UserIn:
     username = request.session.get("username")
@@ -61,6 +69,7 @@ def get_current_user(request: Request) -> UserIn:
         raise HTTPException(status_code=404, detail="User not found")
 
     return user
+
 
 def get_current_household(request: Request) -> HouseholdOut:
     username = request.session.get("username")
@@ -83,18 +92,30 @@ def get_current_household(request: Request) -> HouseholdOut:
     return household
 
 
+@app.get("/api/households/current", response_model=HouseholdOut)
+async def get_current_user_household(
+    household: HouseholdOut = Depends(get_current_household),
+) -> HouseholdOut:
+    return household
+
 
 @app.get("/api/food-items", response_model=list[FoodOut])
-async def get_food_items_for_current_household(household: HouseholdOut = Depends(get_current_household)) -> list[FoodOut]:
+async def get_food_items_for_current_household(
+    household: HouseholdOut = Depends(get_current_household),
+) -> list[FoodOut]:
     return db.get_food_items(household.id)
 
 
 @app.post("/api/food-items", response_model=FoodOut)
-async def create_food_item(item: FoodIn, current_user: UserIn = Depends(get_current_user)) -> FoodOut:
+async def create_food_item(
+    item: FoodIn, current_user: UserIn = Depends(get_current_user)
+) -> FoodOut:
     food_item = db.create_food_item(item, current_user)
 
     if food_item is None:
-        raise HTTPException(status_code=400, detail="User does not belong to a household")
+        raise HTTPException(
+            status_code=400, detail="User does not belong to a household"
+        )
     return food_item
 
 
@@ -128,13 +149,17 @@ def get_recipes(ingredients: str):
 
 
 @app.get("/api/notifications", response_model=list[NotificationOut])
-def get_notifications_for_current_household(household: HouseholdOut = Depends(get_current_household)) -> list[NotificationOut]:
+def get_notifications_for_current_household(
+    household: HouseholdOut = Depends(get_current_household),
+) -> list[NotificationOut]:
     db.check_expiring_items()
     return db.get_notifications_for_current_household(household.id)
 
 
 @app.post("/api/households", response_model=HouseholdOut)
-def create_household(household: HouseholdIn, current_user: UserIn = Depends(get_current_user)) -> HouseholdOut:
+def create_household(
+    household: HouseholdIn, current_user: UserIn = Depends(get_current_user)
+) -> HouseholdOut:
     return db.create_household(household, current_user)
 
 
@@ -171,16 +196,12 @@ async def session_logout(request: Request) -> SuccessResponse:
 
 
 @app.post("/api/signup", response_model=SuccessResponse)
-async def signup(
-    credentials: LoginCredentials, request: Request
-) -> SuccessResponse:
+async def signup(credentials: LoginCredentials, request: Request) -> SuccessResponse:
     username = credentials.username
     password = credentials.password
 
     if not username or not password:
-        raise HTTPException(
-            status_code=400, detail="Username and password required"
-        )
+        raise HTTPException(status_code=400, detail="Username and password required")
 
     errors = []
     if len(password) < 8:
@@ -196,10 +217,7 @@ async def signup(
         errors.append("•Password must contain at least one special character")
 
     if errors:
-        raise HTTPException(
-            status_code=400,
-            detail="\n".join(errors)
-        )
+        raise HTTPException(status_code=400, detail="\n".join(errors))
 
     success = db.create_user_account(username, password)
     if not success:
@@ -267,14 +285,15 @@ async def get_me(request: Request) -> UserPublicDetails:
     return user_details
 
 
-
 @app.get("/api/favorite-recipes", response_model=list[FavoriteRecipeOut])
 def get_favorites(current_user: UserIn = Depends(get_current_user)):
     return db.get_favorites(current_user)
 
 
 @app.post("/api/favorite-recipes", response_model=FavoriteRecipeOut)
-def add_favorite(recipe: FavoriteRecipeIn, current_user: UserIn = Depends(get_current_user)):
+def add_favorite(
+    recipe: FavoriteRecipeIn, current_user: UserIn = Depends(get_current_user)
+):
     return db.add_favorite(recipe, current_user)
 
 

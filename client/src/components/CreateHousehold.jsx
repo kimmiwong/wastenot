@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 
-export default function CreateHousehold({ isOpen, onClose }) {
+export default function CreateHousehold({ isOpen, onClose, onCreate }) {
     const navigate = useNavigate();
-    const [name, setName] = useState('')
+    const [name, setName] = useState('');
+    const [error, setError] = useState(null);
 
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
         try {
             const apiHost = import.meta.env.VITE_API_HOST;
@@ -17,23 +19,26 @@ export default function CreateHousehold({ isOpen, onClose }) {
             const response = await fetch(`${apiHost}/api/households`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: "include",
-                body: JSON.stringify({
-                    'name': name
-                })
-
+                credentials: 'include',
+                body: JSON.stringify({ name }),
             });
 
-            if (!response.ok) throw new Error('Failed to create household')
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.detail || 'Failed to create household');
+            }
+
+            if (typeof onCreate === 'function') {
+                await onCreate(name);
+            }
+
+            setName("");
+            onClose();
+        } catch (error) {
+            console.error('Error creating household');
+            setError(error.message);
         }
-
-        catch (error) {
-            console.error('Error creating household')
-
-        }
-
-        navigate('/Home');
-    }
+    };
 
     return (
         <div className="household-modal-overlay">
@@ -48,6 +53,7 @@ export default function CreateHousehold({ isOpen, onClose }) {
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
+                    {error && <p className="error-text">{error}</p>}
                     <div className="household-modal-buttons">
                         <button type="button" onClick={onClose} className="cancel-button">
                             Cancel

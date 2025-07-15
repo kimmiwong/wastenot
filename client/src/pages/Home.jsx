@@ -11,6 +11,9 @@ export default function Home() {
   const { setSelectedIngredient } = useIngredients();
   // useUser provides the current user and a refresh function from context.
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { refreshUser } = useUser();
+  const [shouldRefreshItems, setShouldRefreshItems] = useState(false);
+
 
   return (
     <div className="page-content">
@@ -28,7 +31,7 @@ export default function Home() {
           </button>
         </div>
 
-        <ShowItems />
+        <ShowItems refreshTrigger={shouldRefreshItems} />
       </div>
 
       <div className="recipe-button-wrapper">
@@ -46,6 +49,12 @@ export default function Home() {
       <CreateHousehold
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onCreate={async () => {
+          await refreshUser();
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }}
       />
     </div>
   );
