@@ -13,6 +13,7 @@ from schema import (
     SuccessResponse,
     HouseholdIn,
     HouseholdOut,
+    HouseholdMembershipOut
 )
 from models import (
     DBFood,
@@ -414,4 +415,26 @@ def get_household_for_user(user_id: int) -> HouseholdOut | None:
         name=db_household.name,
         invite_id=db_household.invite_id,
         admin_user_id=db_household.admin_user_id,
+    )
+
+
+def get_household_by_invite_id(invite_id: str) -> DBHousehold | None:
+    db = SessionLocal()
+    db_household = db.query(DBHousehold).filter(DBHousehold.invite_id==invite_id).first()
+    db.close()
+    return db_household
+
+
+def add_user_to_household(user_id: int, household_id: int, pending: bool = False) -> HouseholdMembershipOut:
+    db = SessionLocal()
+    db_membership = DBHouseholdMembership(user_id=user_id, household_id=household_id, pending=pending)
+    db.add(db_membership)
+    db.commit()
+    db.refresh(db_membership)
+    db.close()
+    return HouseholdMembershipOut (
+        id=db_membership.id,
+        user_id=db_membership.user_id,
+        household_id=db_membership.household_id,
+        pending=db_membership.pending
     )
