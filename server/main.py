@@ -61,6 +61,7 @@ def get_current_user(request: Request) -> UserIn:
 
     if not isinstance(username, str) or not isinstance(session_token, str):
         raise HTTPException(status_code=401, detail="Not authenticated")
+
     if not db.validate_session(username, session_token):
         raise HTTPException(status_code=403, detail="Invalid session")
 
@@ -72,17 +73,7 @@ def get_current_user(request: Request) -> UserIn:
 
 
 def get_current_household(request: Request) -> HouseholdOut:
-    username = request.session.get("username")
-    session_token = request.session.get("session_token")
-
-    if not isinstance(username, str) or not isinstance(session_token, str):
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    if not db.validate_session(username, session_token):
-        raise HTTPException(status_code=403, detail="Invalid session")
-
-    user = db.get_user_by_username(username)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+    user=get_current_user(request)
 
     household = db.get_household_for_user(user.id)
 
@@ -97,6 +88,24 @@ async def get_current_user_household(
     household: HouseholdOut = Depends(get_current_household),
 ) -> HouseholdOut:
     return household
+
+
+@app.post("/api/households/join/{invite_id}")
+def join_household_by_invite(invite_id: str, request: Request):
+    user = get_current_user(request)
+
+    household = db.get_household_by_invite_id(invite_id)
+    if not household:
+        raise HTTPException(status_code=404, detail="invalid invite")
+
+    existing_household = db.get_household_for_user(user.id)
+    if existing_household:
+        raise HTTPException(status_code=409, detail="User already in a household")
+
+    db.add_user_to_household(user.id, household.id, pending=True)
+
+    return {"message": "Household invite sent"}
+
 
 
 @app.get("/api/food-items", response_model=list[FoodOut])
