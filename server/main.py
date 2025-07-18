@@ -107,6 +107,21 @@ def join_household_by_invite(invite_id: str, request: Request):
     return {"message": "Household invite sent"}
 
 
+@app.post("/api/households/accept")
+def accept_household_invite(request: Request):
+    user = get_current_user(request)
+    membership = db.get_membership_for_user(user.id)
+
+    if not membership:
+        raise HTTPException(status_code=404, detail="No household membership found")
+
+    if not membership.pending:
+        raise HTTPException(status_code=400, detail="Membership already accepted")
+
+    db.update_membership_pending_status(user.id, pending=False)
+
+    return {"message": "Household invite accepted"}
+
 
 @app.get("/api/food-items", response_model=list[FoodOut])
 async def get_food_items_for_current_household(

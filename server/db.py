@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 from sqlalchemy.orm import sessionmaker
 from schema import (
@@ -366,7 +367,7 @@ def create_household(household: HouseholdIn, current_user: UserIn):
         db.refresh(db_household)
 
         db_membership = DBHouseholdMembership(
-            user_id=current_user.id, household_id=db_household.id, pending=False
+            user_id=current_user.id, household_id=db_household.id
         )
         db.add(db_membership)
         db.commit()
@@ -392,7 +393,7 @@ def get_household_for_user(user_id: int) -> HouseholdOut | None:
 
     db_membership = (
         db.query(DBHouseholdMembership)
-        .filter(DBHouseholdMembership.user_id == user_id)
+        .filter(DBHouseholdMembership.user_id == user_id, DBHouseholdMembership.pending == False)
         .first()
     )
     if not db_membership:
@@ -425,7 +426,7 @@ def get_household_by_invite_id(invite_id: str) -> DBHousehold | None:
     return db_household
 
 
-def add_user_to_household(user_id: int, household_id: int, pending: bool = False) -> HouseholdMembershipOut:
+def add_user_to_household(user_id: int, household_id: int, pending: bool) -> HouseholdMembershipOut:
     db = SessionLocal()
     db_membership = DBHouseholdMembership(user_id=user_id, household_id=household_id, pending=pending)
     db.add(db_membership)
@@ -433,6 +434,40 @@ def add_user_to_household(user_id: int, household_id: int, pending: bool = False
     db.refresh(db_membership)
     db.close()
     return HouseholdMembershipOut (
+        id=db_membership.id,
+        user_id=db_membership.user_id,
+        household_id=db_membership.household_id,
+        pending=db_membership.pending
+    )
+
+
+def update_membership_pending_status(user_id: int, pending: bool) -> None:
+    db=SessionLocal()
+    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id==user_id).first()
+
+    if not db_membership:
+        db.close()
+        raise ValueError("No membership found")
+
+    db_membership.pending = pending
+    db.commit()
+    db.close()
+
+def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
+    db = SessionLocal()
+
+    db_membership = (
+        db.query(DBHouseholdMembership)
+        .filter(DBHouseholdMembership.user_id == user_id)
+        .first()
+    )
+
+    db.close()
+
+    if not db_membership:
+        return None
+
+    return HouseholdMembershipOut(
         id=db_membership.id,
         user_id=db_membership.user_id,
         household_id=db_membership.household_id,
