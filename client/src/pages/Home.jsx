@@ -7,6 +7,7 @@ import CreateHousehold from "../components/CreateHousehold";
 import { useIngredients } from "../context/RecipesContext";
 import { useUser } from "../context/UserProvider";
 import InviteHouseholdMember from "../components/InviteHouseholdMember";
+import JoinHousehold from "../components/JoinHousehold";
 
 export default function Home() {
   const { setSelectedIngredient } = useIngredients();
@@ -57,8 +58,8 @@ export default function Home() {
           }, 100);
         }}
       />
-      <InviteHouseholdMember
-      />
+      <InviteHouseholdMember />
+      <JoinHousehold />
     </div>
   );
 }

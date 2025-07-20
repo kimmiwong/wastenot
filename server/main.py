@@ -102,12 +102,14 @@ def join_household_by_invite(invite_id: str, request: Request):
     if existing_household:
         raise HTTPException(status_code=409, detail="User already in a household")
 
-    db.add_user_to_household(user.id, household.id, pending=True)
+    db.add_user_to_household(user.id, household.id, pending=False)
+    #temporarily making pending=False
+    #will change once we actually send out email invites that need to be accepted
 
     return {"message": "Household invite sent"}
 
 
-@app.post("/api/households/accept")
+@app.post("/api/households/accept") #while pending=False, this endpoint will be unused
 def accept_household_invite(request: Request):
     user = get_current_user(request)
     membership = db.get_membership_for_user(user.id)
