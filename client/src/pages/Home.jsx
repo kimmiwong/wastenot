@@ -6,6 +6,7 @@ import SimpleHeader from "../components/Header";
 import CreateHousehold from "../components/CreateHousehold";
 import { useIngredients } from "../context/RecipesContext";
 import { useUser } from "../context/UserProvider";
+import InviteHouseholdMember from "../components/InviteHouseholdMember";
 
 export default function Home() {
   const { setSelectedIngredient } = useIngredients();
@@ -55,6 +56,8 @@ export default function Home() {
             window.location.reload();
           }, 100);
         }}
+      />
+      <InviteHouseholdMember
       />
     </div>
   );
