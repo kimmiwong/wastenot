@@ -1,25 +1,19 @@
-import { useNavigate } from "react-router-dom";
-import SimpleHeader from "../components/Header";
+import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import RecipeCarousel from "../components/RecipeCarousel";
 
 export default function Favorites() {
-
   const { selectedFavorites } = useFavorites();
-  const navigate = useNavigate();
 
   return (
-
     <div className="page-content">
-      <SimpleHeader />
       <div className="back-link">
-        <button className="back-button" onClick={() => navigate("/recipe")}>
-          {" "}
+        <Link to="/recipe" className="back-button">
           <FontAwesomeIcon icon={faLeftLong} />
           Back to Recipes
-        </button>
+        </Link>
       </div>
       <div className="carousel-wrapper">
         <h1>Favorite Recipes</h1>
@@ -30,6 +24,5 @@ export default function Favorites() {
         )}
       </div>
     </div>
-
   );
 }
