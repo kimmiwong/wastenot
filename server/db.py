@@ -473,3 +473,31 @@ def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
         household_id=db_membership.household_id,
         pending=db_membership.pending
     )
+
+
+def get_household_by_id(household_id: int) -> HouseholdOut | None:
+    db = SessionLocal()
+    db_household = db.query(DBHousehold).filter(DBHousehold.id==household_id).first()
+    db.close()
+
+    if not db_household:
+        return None
+    return HouseholdOut(
+        id=db_household.id,
+        name=db_household.name,
+        invite_id=db_household.invite_id,
+        admin_user_id=db_household.admin_user_id)
+
+
+def delete_membership_by_user_id(user_id: int) -> bool:
+    db = SessionLocal()
+    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id==user_id).first()
+
+    if not db_membership:
+        db.close()
+        return False
+
+    db.delete(db_membership)
+    db.commit()
+    db.close()
+    return True
