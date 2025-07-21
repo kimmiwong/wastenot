@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import RecipeCarousel from "./RecipeCarousel";
-import SimpleHeader from "./Header";
 import { useIngredients } from "../context/RecipesContext";
 
 export default function Recipe() {
@@ -45,7 +44,6 @@ export default function Recipe() {
 
   return (
     <div className="page-content">
-      <SimpleHeader />
       <div className="carousel-wrapper">
         <h1>Your WasteNot Menu</h1>
         {loading && <p>Loading...</p>}
