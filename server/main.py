@@ -135,6 +135,15 @@ def get_current_user_membership(request: Request):
 
     return membership
 
+@app.delete("/api/households/membership")
+def leave_household(current_user: UserIn = Depends(get_current_user)):
+    deleted_membership = db.delete_membership_by_user_id(current_user.id)
+
+    if not deleted_membership:
+        raise HTTPException(status_code=404, detail="Membership not found")
+
+    return {"message": "Left household successfully"}
+
 
 @app.get("/api/food-items", response_model=list[FoodOut])
 async def get_food_items_for_current_household(
