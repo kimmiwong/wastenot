@@ -55,6 +55,7 @@ app.add_middleware(
 )
 
 
+
 def get_current_user(request: Request) -> UserIn:
     username = request.session.get("username")
     session_token = request.session.get("session_token")

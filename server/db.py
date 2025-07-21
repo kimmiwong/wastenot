@@ -39,6 +39,16 @@ SESSION_LIFE_MINUTES = 120
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+def to_food_out(db_item: DBFood) -> FoodOut:
+    return FoodOut(
+                id=db_item.id,
+                name=db_item.name,
+                expiration_date=db_item.expiration_date,
+                category_id=db_item.category_id,
+                added_by_id=db_item.added_by_id,
+                household_id=db_item.household_id,
+            )
+
 
 def get_food_items(household_id: int) -> list[FoodOut]:
     db = SessionLocal()
@@ -48,18 +58,7 @@ def get_food_items(household_id: int) -> list[FoodOut]:
         .order_by(DBFood.name)
         .all()
     )
-    items = []
-    for db_item in db_items:
-        items.append(
-            FoodOut(
-                id=db_item.id,
-                name=db_item.name,
-                expiration_date=db_item.expiration_date,
-                category_id=db_item.category_id,
-                added_by_id=db_item.added_by_id,
-                household_id=db_item.household_id,
-            )
-        )
+    items = [to_food_out(db_item) for db_item in db_items]
     db.close()
     return items
 
@@ -85,14 +84,7 @@ def create_food_item(item: FoodIn, current_user: UserIn) -> FoodOut:
     db.refresh(db_item)
     db.close()
 
-    return FoodOut(
-        id=db_item.id,
-        name=db_item.name,
-        expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id,
-        added_by_id=db_item.added_by_id,
-        household_id=db_item.household_id,
-    )
+    return to_food_out(db_item)
 
 
 def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
@@ -110,14 +102,7 @@ def update_food_item(id: int, item: FoodUpdate) -> FoodOut:
     db.refresh(db_item)
     db.close()
 
-    return FoodOut(
-        id=db_item.id,
-        name=db_item.name,
-        expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id,
-        added_by_id=db_item.added_by_id,
-        household_id=db_item.household_id,
-    )
+    return to_food_out(db_item)
 
 
 def delete_food_item(id: int) -> bool:
@@ -133,20 +118,20 @@ def get_food_item(id: int) -> FoodOut:
     db = SessionLocal()
     db_item = db.query(DBFood).filter(DBFood.id == id).first()
     db.close()
-    return FoodOut(
-        id=db_item.id,
-        name=db_item.name,
-        expiration_date=db_item.expiration_date,
-        category_id=db_item.category_id,
-        added_by_id=db_item.added_by_id,
-        household_id=db_item.household_id,
-    )
+    return to_food_out(db_item)
 
 
 def check_expiring_items():
     db = SessionLocal()
     today = datetime.now(ZoneInfo("America/New_York")).date()
     db_food_items = db.query(DBFood).all()
+
+    message_template = {
+        2: "{name} expires in 2 days!",
+        1: "{name} expires in 1 day!",
+        0: "{name} expires today!",
+        -1: "{name} expired 1 day ago!"
+    }
 
     for db_food_item in db_food_items:
         days_diff = (db_food_item.expiration_date - today).days
@@ -161,16 +146,17 @@ def check_expiring_items():
                 db.delete(existing)
             continue
 
-        if days_diff == 2:
-            message = f"{db_food_item.name} expires in 2 days!"
-        elif days_diff == 1:
-            message = f"{db_food_item.name} expires in 1 day!"
-        elif days_diff == 0:
-            message = f"{db_food_item.name} expires today!"
-        elif days_diff == -1:
-            message = f"{db_food_item.name} expired 1 day ago!"
-        elif days_diff < -1:
-            message = f"{db_food_item.name} expired {abs(days_diff)} days ago!"
+        template = message_template.get(
+            days_diff,
+            "{name} expired {days} days ago!" if days_diff < -1 else None
+        )
+        if not template:
+            continue
+
+        message = template.format(
+            name=db_food_item.name,
+            days=abs(days_diff)
+        )
 
         db_notification = (
             db.query(DBNotification)
