@@ -353,7 +353,7 @@ def create_household(household: HouseholdIn, current_user: UserIn):
         db.refresh(db_household)
 
         db_membership = DBHouseholdMembership(
-            user_id=current_user.id, household_id=db_household.id
+            user_id=current_user.id, household_id=db_household.id, pending=False
         )
         db.add(db_membership)
         db.commit()
