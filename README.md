@@ -48,7 +48,23 @@ Frontend:
 
 - You will need to get a Spoonacular API key at https://spoonacular.com/food-api/console#Dashboard. Add the key to the .env file in the server folder.
 
+Your server .env file should look like this:
+
+```
+API_KEY=your_api_key
+DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/pantry
+PORT=8000
+SESSION_SECRET=your_session_secret
+```
+
 - You will also need to get a Google Maps API key at https://developers.google.com/maps/documentation/javascript/get-api-key. Add the key to the .env file in the client folder.
+
+Your client .env file should look like this:
+
+```
+VITE_GOOGLE_MAPS_API_KEY='your_api_key'
+VITE_API_HOST="http://localhost:8000"
+```
 
 - Our production app is hosted through Render at https://wastenot-frontend-e09l.onrender.com. Our domain name is https://www.wastenotkitchen.com.
 
