@@ -138,10 +138,22 @@ def get_current_user_membership(request: Request):
 
 @app.delete("/api/households/membership")
 def leave_household(current_user: UserIn = Depends(get_current_user)):
+
+    membership = db.get_membership_for_user(current_user.id)
+    if not membership:
+        raise HTTPException(status_code=404, detail="No household membership found")
+
+    household = db.get_household_by_id(membership.household_id)
+    if household.admin_user_id==current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Admin cannot leave the household. Please transfer admin rights or delete household."
+        )
+
     deleted_membership = db.delete_membership_by_user_id(current_user.id)
 
     if not deleted_membership:
-        raise HTTPException(status_code=404, detail="Membership not found")
+        raise HTTPException(status_code=500, detail="Membership failed to delete")
 
     return {"message": "Left household successfully"}
 
