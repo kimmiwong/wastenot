@@ -173,6 +173,18 @@ def leave_household(current_user: UserIn = Depends(get_current_user)):
     return {"message": "Left household successfully"}
 
 
+@app.get("/api/households/memberships", response_model=list[HouseholdMembershipOut])
+def get_household_memberships(
+    current_user: UserIn = Depends(get_current_user)
+):
+    household = db.get_household_for_user(current_user.id)
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+
+    return db.get_household_memberships(household.id)
+
+
+
 @app.delete("/api/households/memberships/{user_id}")
 def admin_remove_user_from_household(user_id: int, current_user: UserIn = Depends(get_current_user)):
 
