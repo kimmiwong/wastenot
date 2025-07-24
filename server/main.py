@@ -91,6 +91,21 @@ async def get_current_user_household(
     return household
 
 
+@app.delete("/api/households/current")
+def admin_delete_current_household(current_user: UserIn = Depends(get_current_user)):
+    household = db.get_household_for_user(current_user.id)
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+    if household.admin_user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Only the admin can delete the household")
+
+    deleted_household = db.delete_household(household.id)
+    if not deleted_household:
+        raise HTTPException(status_code=500, detail="Failed to delete household")
+
+    return {"message": "Household deleted successfully"}
+
+
 @app.post("/api/households/join/{invite_id}")
 def join_household_by_invite(invite_id: str, request: Request):
     user = get_current_user(request)

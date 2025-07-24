@@ -439,6 +439,7 @@ def update_membership_pending_status(user_id: int, pending: bool) -> None:
     db.commit()
     db.close()
 
+
 def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
     db = SessionLocal()
 
@@ -487,3 +488,18 @@ def delete_membership_by_user_id(user_id: int) -> bool:
     db.commit()
     db.close()
     return True
+
+
+def delete_household(household_id: int) -> bool:
+    db = SessionLocal()
+
+    try:
+        db_household = db.query(DBHousehold).filter(DBHousehold.id==household_id).first()
+        if not db_household:
+            return False
+
+        db.delete(db_household)
+        db.commit()
+        return True
+    finally:
+        db.close()

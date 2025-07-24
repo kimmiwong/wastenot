@@ -87,6 +87,6 @@ class DBHousehold(Base):
     invite_id = Column(String, unique=True, nullable=False)
     admin_user_id = Column(Integer, ForeignKey("account.id"), nullable=False)
 
-    memberships = relationship("DBHouseholdMembership", back_populates="household")
+    memberships = relationship("DBHouseholdMembership", back_populates="household", passive_deletes=True)
     food_items = relationship("DBFood", back_populates="household", cascade="all, delete-orphan")
     admin = relationship("DBAccount", back_populates="admin_household", foreign_keys=[admin_user_id])
