@@ -439,6 +439,7 @@ def update_membership_pending_status(user_id: int, pending: bool) -> None:
     db.commit()
     db.close()
 
+
 def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
     db = SessionLocal()
 
@@ -463,7 +464,7 @@ def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
 
 def get_household_by_id(household_id: int) -> HouseholdOut | None:
     db = SessionLocal()
-    db_household = db.query(DBHousehold).filter(DBHousehold.id==household_id).first()
+    db_household = db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
     db.close()
 
     if not db_household:
@@ -477,7 +478,7 @@ def get_household_by_id(household_id: int) -> HouseholdOut | None:
 
 def delete_membership_by_user_id(user_id: int) -> bool:
     db = SessionLocal()
-    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id==user_id).first()
+    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id == user_id).first()
 
     if not db_membership:
         db.close()
@@ -487,3 +488,39 @@ def delete_membership_by_user_id(user_id: int) -> bool:
     db.commit()
     db.close()
     return True
+
+
+def delete_household(household_id: int) -> bool:
+    db = SessionLocal()
+
+    try:
+        db_household = db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
+        if not db_household:
+            return False
+
+        db.delete(db_household)
+        db.commit()
+        return True
+    finally:
+        db.close()
+
+
+def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut] | None:
+    db = SessionLocal()
+    db_memberships = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.household_id == household_id).all()
+    db.close()
+
+    if not db_memberships:
+        return None
+
+    memberships = []
+
+    for db_membership in db_memberships:
+        memberships.append(HouseholdMembershipOut(
+            id = db_membership.id,
+            user_id=db_membership.user_id,
+            household_id=household_id,
+            pending = db_membership.pending
+        ))
+
+    return memberships

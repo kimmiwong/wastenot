@@ -91,6 +91,21 @@ async def get_current_user_household(
     return household
 
 
+@app.delete("/api/households/current")
+def admin_delete_current_household(current_user: UserIn = Depends(get_current_user)):
+    household = db.get_household_for_user(current_user.id)
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+    if household.admin_user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Only the admin can delete the household")
+
+    deleted_household = db.delete_household(household.id)
+    if not deleted_household:
+        raise HTTPException(status_code=500, detail="Failed to delete household")
+
+    return {"message": "Household deleted successfully"}
+
+
 @app.post("/api/households/join/{invite_id}")
 def join_household_by_invite(invite_id: str, request: Request):
     user = get_current_user(request)
@@ -126,7 +141,7 @@ def accept_household_invite(request: Request):
     return {"message": "Household invite accepted"}
 
 
-@app.get("/api/households/membership", response_model=HouseholdMembershipOut)
+@app.get("/api/households/me/membership", response_model=HouseholdMembershipOut)
 def get_current_user_membership(request: Request):
     user = get_current_user(request)
 
@@ -136,7 +151,7 @@ def get_current_user_membership(request: Request):
 
     return membership
 
-@app.delete("/api/households/membership")
+@app.delete("/api/households/me/membership")
 def leave_household(current_user: UserIn = Depends(get_current_user)):
 
     membership = db.get_membership_for_user(current_user.id)
@@ -153,9 +168,38 @@ def leave_household(current_user: UserIn = Depends(get_current_user)):
     deleted_membership = db.delete_membership_by_user_id(current_user.id)
 
     if not deleted_membership:
-        raise HTTPException(status_code=500, detail="Membership failed to delete")
+        raise HTTPException(status_code=500, detail="Failed to leave household")
 
     return {"message": "Left household successfully"}
+
+
+@app.get("/api/households/memberships", response_model=list[HouseholdMembershipOut])
+def get_household_memberships(
+    current_user: UserIn = Depends(get_current_user)
+):
+    household = db.get_household_for_user(current_user.id)
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+
+    return db.get_household_memberships(household.id)
+
+
+
+@app.delete("/api/households/memberships/{user_id}")
+def admin_remove_user_from_household(user_id: int, current_user: UserIn = Depends(get_current_user)):
+
+    household = db.get_household_for_user(current_user.id)
+    if not household or household.admin_user_id!=current_user.id:
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    if current_user.id == user_id:
+        raise HTTPException(status_code=400, detail="Admin cannot remove themselves")
+
+    deleted_membership = db.delete_membership_by_user_id(user_id)
+    if not deleted_membership:
+        raise HTTPException(status_code=404, detail="Failed to remove user from household")
+
+    return{"message": "User removed from household"}
 
 
 @app.get("/api/food-items", response_model=list[FoodOut])

@@ -29,7 +29,7 @@ export default function InviteHouseholdMember () {
                     const householdData = await householdResponse.json();
                     setInviteId(householdData.invite_id)
 
-                    const membershipResponse = await fetch(`${apiHost}/api/households/membership`, {
+                    const membershipResponse = await fetch(`${apiHost}/api/households/me/membership`, {
                         method: 'GET',
                         credentials: 'include'
                     });
