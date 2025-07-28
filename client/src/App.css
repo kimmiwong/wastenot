@@ -935,6 +935,27 @@ gmpx-overlay-layout {
   box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.1);
 }
 
+.banner {
+  position: fixed;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background-color: #fdf1c7;
+  color: #333;
+  padding: 8px 20px;
+  border: 1px solid #e3b04b;
+  border-radius: 10px;
+  font-size: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.email {
+  text-decoration: underline;
+}
 
 .input-group label {
   margin-bottom: 10px;

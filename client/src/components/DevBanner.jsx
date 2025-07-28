@@ -20,23 +20,15 @@ export default function DevBanner() {
   if (!isVisible) return null;
 
   return (
-    <div
-      style={{
-        backgroundColor: "orange",
-        color: "white",
-        padding: "1rem",
-        fontSize: "1rem",
-        textAlign: "center",
-      }}
-    >
+    <div className="banner">
       <span>
         WasteNot is still in development - features may not work as expected.
         Questions or feedback?{" "}
-        <a href="mailto:wastenotkitchen2025@gmail.com" className="underline">
+        <a href="mailto:wastenotkitchen2025@gmail.com" className="email">
           wastenotkitchen2025@gmail.com
         </a>
       </span>
-      <button onClick={handleClose} className="ml-4 font-bold px-2">
+      <button onClick={handleClose}>
         X
       </button>
     </div>
