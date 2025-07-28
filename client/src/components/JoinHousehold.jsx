@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
 export default function JoinHousehold() {
     const [alreadyInHousehold, setAlreadyInHousehold] = useState(false);
@@ -11,7 +11,7 @@ export default function JoinHousehold() {
         const checkHouseholdStatus = async () => {
             try {
                 const apiHost = import.meta.env.VITE_API_HOST;
-                const response = await fetch (`${apiHost}/api/households/current`, {
+                const response = await fetch(`${apiHost}/api/households/current`, {
                     method: "GET",
                     credentials: "include"
                 });
@@ -27,8 +27,8 @@ export default function JoinHousehold() {
 
             }
 
-    };
-    checkHouseholdStatus();
+        };
+        checkHouseholdStatus();
     }, [])
 
 
@@ -37,13 +37,13 @@ export default function JoinHousehold() {
         try {
             const apiHost = import.meta.env.VITE_API_HOST;
             const response = await fetch(`${apiHost}/api/households/join/${inviteId}`, {
-            method: "POST",
-            credentials: "include",
+                method: "POST",
+                credentials: "include",
 
             });
 
-            if(!response.ok) {
-            throw new Error('Failed to join household')
+            if (!response.ok) {
+                throw new Error('Failed to join household')
 
             }
 
@@ -64,19 +64,20 @@ export default function JoinHousehold() {
 
     return (
         <>
-        <button onClick={() => setIsOpen(true) }>Join Household</button>
+            <button className="invite-button" onClick={() => setIsOpen(true)}>Join Household</button>
             {isOpen && <div className="household-modal-overlay">
                 <div className="household-modal-box">
                     <h2>Enter Invite ID</h2>
-                        <input
-                            type="text"
-                            onChange={(e) => setInviteId(e.target.value)}
-                            placeholder="Enter Invite ID"
-                        />
-                        <button onClick={handleJoin}>Join Household</button>
-                        <button onClick={() => setIsOpen(false)}>X</button>
+                    <input
+                        className="household-input"
+                        type="text"
+                        onChange={(e) => setInviteId(e.target.value)}
+                        placeholder="Enter Invite ID"
+                    />
+                    <button onClick={handleJoin} className="join-button">Join Household</button>
+                    <button onClick={() => setIsOpen(false)} className="close">X</button>
 
-            </div>
+                </div>
             </div>}
         </>
     )
