@@ -1,293 +1,291 @@
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap");
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 90px;
-    background-color: #fdfaf3;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: #fdfaf3;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 1rem;
 }
 
 .leftSection {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logo {
-    height: 80px;
+  height: 80px;
 }
 
 .logoText {
-    font-family: 'Patrick Hand SC', cursive;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #7c6a0a;
+  font-family: "Patrick Hand SC", cursive;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #7c6a0a;
 }
 
 .rightSection {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .hamburger {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #7c6a0a;
-    margin-left: 1rem;
-    display: block;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7c6a0a;
+  margin-left: 1rem;
+  display: block;
 }
 
 .notifications {
-    position: relative;
+  position: relative;
 }
 
 .dropdownButton {
-    cursor: pointer;
-    position: relative;
-    padding: 20px;
-    border-radius: 8px;
-    transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .dropdownButton:hover {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
 }
 
 .notification {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background-color: #eb6424;
-    color: white;
-    font-size: 0.75rem;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-weight: bold;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #eb6424;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-weight: bold;
 }
 
 .userInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .welcomeMessage {
-    font-size: 1.1rem;
-    color: #4b4200;
-    white-space: nowrap;
-    margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+  color: #4b4200;
+  white-space: nowrap;
+  margin-bottom: 0.25rem;
 }
 
 .logOut {
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: #EB6424;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 0rem 0.75rem;
-    background-color: #fff;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    cursor: pointer;
-    font-family: 'Patrick Hand SC', cursive;
-    margin: 0 1.5rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #eb6424;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0rem 0.75rem;
+  background-color: #fff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  font-family: "Patrick Hand SC", cursive;
+  margin: 0 1.5rem;
 }
 
 .logOut:hover {
-    background-color: #f5f5f5;
-    color: #EB6424;
-    text-decoration: none;
+  background-color: #f5f5f5;
+  color: #eb6424;
+  text-decoration: none;
 }
 
 .mobileLogout {
-    color: #eb6424;
-    font-size: 1.1rem;
-    text-decoration: none;
-    margin: 0.75rem 0;
-    display: inline-block;
-    text-align: center;
+  color: #eb6424;
+  font-size: 1.1rem;
+  text-decoration: none;
+  margin: 0.75rem 0;
+  display: inline-block;
+  text-align: center;
 }
 
 .mobileLogout:hover {
-    color: #c75312;
-    text-decoration: underline;
+  color: #c75312;
+  text-decoration: underline;
 }
 
-
 .dropdown {
-    position: absolute;
-    top: 70px;
-    right: 9px;
-    background-color: #fef8e7;
-    width: 260px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
+  position: absolute;
+  top: 70px;
+  right: 9px;
+  background-color: #fef8e7;
+  width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
 }
 
 .dropdown h4 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #fa9500;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #fa9500;
 }
 
 .dropdown ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .dropdown li {
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95rem;
-    color: #fa9500;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #fa9500;
 }
 
 .dropdown p {
-    color: #fa9500;
-    font-size: 0.95rem;
-    margin: 0;
-    text-align: center;
+  color: #fa9500;
+  font-size: 0.95rem;
+  margin: 0;
+  text-align: center;
 }
 
 .mobileMenu {
-    background-color: #fdfaf3;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid #ccc;
-    animation: slideIn 0.3s ease-in-out;
+  background-color: #fdfaf3;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #ccc;
+  animation: slideIn 0.3s ease-in-out;
 }
 
 .menuItem {
-    margin: 0.5rem 0;
-    font-size: 17px;
-    text-decoration: none;
-    color: #7c6a0a;
+  margin: 0.5rem 0;
+  font-size: 17px;
+  text-decoration: none;
+  color: #7c6a0a;
 }
 
 .mobileMenu p {
-    font-size: 25px;
-    color: #955900;
-    margin: 0.5rem 0;
+  font-size: 25px;
+  color: #955900;
+  margin: 0.5rem 0;
 }
 
-
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {
-    .header {
-        height: 80px;
-    }
+  .header {
+    height: 80px;
+  }
 
-    .inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: auto;
-        padding: 0.5rem 1rem;
-        flex-wrap: wrap;
-    }
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+  }
 
-    .leftSection {
-        flex-direction: row;
-        align-items: center;
-        gap: 0.5rem;
-    }
+  .leftSection {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-    .welcomeMessage,
-    .logOut {
-        display: none;
-    }
+  .welcomeMessage,
+  .logOut {
+    display: none;
+  }
 
-    .rightSection {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-left: auto;
-    }
+  .rightSection {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
 
-    .logo {
-        height: 60px;
-    }
+  .logo {
+    height: 60px;
+  }
 
-    .logoText {
-        font-size: 1.25rem;
-    }
+  .logoText {
+    font-size: 1.25rem;
+  }
 
-    .hamburger {
-        font-size: 1.25rem;
-        margin-left: 0;
-    }
+  .hamburger {
+    font-size: 1.25rem;
+    margin-left: 0;
+  }
 
-    .dropdown {
-        right: 1rem;
-        top: 60px;
-        width: 90vw;
-    }
+  .dropdown {
+    right: 1rem;
+    top: 60px;
+    width: 90vw;
+  }
 
-    .dropdownButton {
-        padding: 12px;
-    }
+  .dropdownButton {
+    padding: 12px;
+  }
 
-    .notification {
-        top: 4px;
-        right: 4px;
-        font-size: 0.6rem;
-    }
+  .notification {
+    top: 4px;
+    right: 4px;
+    font-size: 0.6rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .logo {
-        height: 50px;
-    }
+  .logo {
+    height: 50px;
+  }
 
-    .logoText {
-        font-size: 1rem;
-    }
+  .logoText {
+    font-size: 1rem;
+  }
 
-    .dropdown h4 {
-        font-size: 1rem;
-    }
+  .dropdown h4 {
+    font-size: 1rem;
+  }
 
-    .dropdown li,
-    .dropdown p {
-        font-size: 0.85rem;
-    }
+  .dropdown li,
+  .dropdown p {
+    font-size: 0.85rem;
+  }
 
-    .mobileMenu p {
-        font-size: 1.2rem;
-    }
+  .mobileMenu p {
+    font-size: 1.2rem;
+  }
 
-    .logOut {
-        font-size: 1rem;
-    }
+  .logOut {
+    font-size: 1rem;
+  }
 }
