@@ -12,8 +12,11 @@ export default function Home() {
   const { setSelectedIngredient } = useIngredients();
   // useUser provides the current user and a refresh function from context.
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { refreshUser } = useUser();
+  const { user, refreshUser } = useUser();
   const [shouldRefreshItems, setShouldRefreshItems] = useState(false);
+
+  const hasHousehold = user?.household || user?.household_id;
+  console.log("User object:", user);
 
   return (
     <div className="page-content">
@@ -21,13 +24,16 @@ export default function Home() {
         <AddItem />
 
         <div className="household-wrapper">
-          <button
-            className="household-button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Create Household
-          </button>
+          {!hasHousehold && (
+            <button
+              className="household-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Create Household
+            </button>
+          )}
         </div>
+
 
         <ShowItems refreshTrigger={shouldRefreshItems} />
       </div>

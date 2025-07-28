@@ -7,6 +7,7 @@ export default function CreateHousehold({ isOpen, onClose, onCreate }) {
     const [name, setName] = useState('');
     const [error, setError] = useState(null);
 
+
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {

@@ -51,6 +51,7 @@ class SecretResponse(BaseModel):
 
 class UserPublicDetails(BaseModel):
     username: str
+    household_id: int | None = None
 
 
 class UserIn(BaseModel):
@@ -71,10 +72,7 @@ class FavoriteRecipeIn(BaseModel):
 class FavoriteRecipeOut(FavoriteRecipeIn):
     id: int
 
-    model_config = {
-        "from_attributes": True
-
-    }
+    model_config = {"from_attributes": True}
 
 
 class HouseholdIn(BaseModel):

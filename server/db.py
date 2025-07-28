@@ -14,7 +14,7 @@ from schema import (
     SuccessResponse,
     HouseholdIn,
     HouseholdOut,
-    HouseholdMembershipOut
+    HouseholdMembershipOut,
 )
 from models import (
     DBFood,
@@ -39,15 +39,16 @@ SESSION_LIFE_MINUTES = 120
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 def to_food_out(db_item: DBFood) -> FoodOut:
     return FoodOut(
-                id=db_item.id,
-                name=db_item.name,
-                expiration_date=db_item.expiration_date,
-                category_id=db_item.category_id,
-                added_by_id=db_item.added_by_id,
-                household_id=db_item.household_id,
-            )
+        id=db_item.id,
+        name=db_item.name,
+        expiration_date=db_item.expiration_date,
+        category_id=db_item.category_id,
+        added_by_id=db_item.added_by_id,
+        household_id=db_item.household_id,
+    )
 
 
 def get_food_items(household_id: int) -> list[FoodOut]:
@@ -130,7 +131,7 @@ def check_expiring_items():
         2: "{name} expires in 2 days!",
         1: "{name} expires in 1 day!",
         0: "{name} expires today!",
-        -1: "{name} expired 1 day ago!"
+        -1: "{name} expired 1 day ago!",
     }
 
     for db_food_item in db_food_items:
@@ -147,16 +148,12 @@ def check_expiring_items():
             continue
 
         template = message_template.get(
-            days_diff,
-            "{name} expired {days} days ago!" if days_diff < -1 else None
+            days_diff, "{name} expired {days} days ago!" if days_diff < -1 else None
         )
         if not template:
             continue
 
-        message = template.format(
-            name=db_food_item.name,
-            days=abs(days_diff)
-        )
+        message = template.format(name=db_food_item.name, days=abs(days_diff))
 
         db_notification = (
             db.query(DBNotification)
@@ -275,7 +272,18 @@ def get_user_public_details(username: str):
         account = db.query(DBAccount).filter(DBAccount.username == username).first()
         if not account:
             return None
-        return UserPublicDetails(username=account.username)
+        membership = (
+            db.query(DBHouseholdMembership)
+            .filter(
+                DBHouseholdMembership.user_id == account.id,
+                DBHouseholdMembership.pending == False,
+            )
+            .first()
+        )
+        return UserPublicDetails(
+            username=account.username,
+            household_id=membership.household_id if membership else None,
+        )
 
 
 def get_user_by_username(username: str) -> DBAccount | None:
@@ -379,7 +387,10 @@ def get_household_for_user(user_id: int) -> HouseholdOut | None:
 
     db_membership = (
         db.query(DBHouseholdMembership)
-        .filter(DBHouseholdMembership.user_id == user_id, DBHouseholdMembership.pending == False)
+        .filter(
+            DBHouseholdMembership.user_id == user_id,
+            DBHouseholdMembership.pending == False,
+        )
         .first()
     )
     if not db_membership:
@@ -407,29 +418,39 @@ def get_household_for_user(user_id: int) -> HouseholdOut | None:
 
 def get_household_by_invite_id(invite_id: str) -> DBHousehold | None:
     db = SessionLocal()
-    db_household = db.query(DBHousehold).filter(DBHousehold.invite_id==invite_id).first()
+    db_household = (
+        db.query(DBHousehold).filter(DBHousehold.invite_id == invite_id).first()
+    )
     db.close()
     return db_household
 
 
-def add_user_to_household(user_id: int, household_id: int, pending: bool) -> HouseholdMembershipOut:
+def add_user_to_household(
+    user_id: int, household_id: int, pending: bool
+) -> HouseholdMembershipOut:
     db = SessionLocal()
-    db_membership = DBHouseholdMembership(user_id=user_id, household_id=household_id, pending=pending)
+    db_membership = DBHouseholdMembership(
+        user_id=user_id, household_id=household_id, pending=pending
+    )
     db.add(db_membership)
     db.commit()
     db.refresh(db_membership)
     db.close()
-    return HouseholdMembershipOut (
+    return HouseholdMembershipOut(
         id=db_membership.id,
         user_id=db_membership.user_id,
         household_id=db_membership.household_id,
-        pending=db_membership.pending
+        pending=db_membership.pending,
     )
 
 
 def update_membership_pending_status(user_id: int, pending: bool) -> None:
-    db=SessionLocal()
-    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id==user_id).first()
+    db = SessionLocal()
+    db_membership = (
+        db.query(DBHouseholdMembership)
+        .filter(DBHouseholdMembership.user_id == user_id)
+        .first()
+    )
 
     if not db_membership:
         db.close()
@@ -458,7 +479,7 @@ def get_membership_for_user(user_id: int) -> HouseholdMembershipOut | None:
         id=db_membership.id,
         user_id=db_membership.user_id,
         household_id=db_membership.household_id,
-        pending=db_membership.pending
+        pending=db_membership.pending,
     )
 
 
@@ -473,12 +494,17 @@ def get_household_by_id(household_id: int) -> HouseholdOut | None:
         id=db_household.id,
         name=db_household.name,
         invite_id=db_household.invite_id,
-        admin_user_id=db_household.admin_user_id)
+        admin_user_id=db_household.admin_user_id,
+    )
 
 
 def delete_membership_by_user_id(user_id: int) -> bool:
     db = SessionLocal()
-    db_membership = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.user_id == user_id).first()
+    db_membership = (
+        db.query(DBHouseholdMembership)
+        .filter(DBHouseholdMembership.user_id == user_id)
+        .first()
+    )
 
     if not db_membership:
         db.close()
@@ -494,7 +520,9 @@ def delete_household(household_id: int) -> bool:
     db = SessionLocal()
 
     try:
-        db_household = db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
+        db_household = (
+            db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
+        )
         if not db_household:
             return False
 
@@ -507,7 +535,11 @@ def delete_household(household_id: int) -> bool:
 
 def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut] | None:
     db = SessionLocal()
-    db_memberships = db.query(DBHouseholdMembership).filter(DBHouseholdMembership.household_id == household_id).all()
+    db_memberships = (
+        db.query(DBHouseholdMembership)
+        .filter(DBHouseholdMembership.household_id == household_id)
+        .all()
+    )
     db.close()
 
     if not db_memberships:
@@ -516,11 +548,13 @@ def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut]
     memberships = []
 
     for db_membership in db_memberships:
-        memberships.append(HouseholdMembershipOut(
-            id = db_membership.id,
-            user_id=db_membership.user_id,
-            household_id=household_id,
-            pending = db_membership.pending
-        ))
+        memberships.append(
+            HouseholdMembershipOut(
+                id=db_membership.id,
+                user_id=db_membership.user_id,
+                household_id=household_id,
+                pending=db_membership.pending,
+            )
+        )
 
     return memberships
