@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import date, datetime
+from typing import Optional
 
 
 class FoodIn(BaseModel):
@@ -93,6 +94,7 @@ class HouseholdMembershipOut(BaseModel):
     user_id: int
     household_id: int
     pending: bool
+    username: Optional[str] = None
 
     class Config:
         orm_mode = True
