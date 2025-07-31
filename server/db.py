@@ -560,3 +560,12 @@ def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut]
         )
 
     return memberships
+
+
+def update_household_admin(household_id: int, new_admin_user_id: int) -> None:
+    db = SessionLocal()
+    db_household = db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
+    db_household.admin_user_id = new_admin_user_id
+
+    db.commit()
+    db.close()
