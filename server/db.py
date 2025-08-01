@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, joinedload
 from schema import (
     FoodIn,
     FoodOut,
@@ -537,6 +537,7 @@ def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut]
     db = SessionLocal()
     db_memberships = (
         db.query(DBHouseholdMembership)
+        .options(joinedload(DBHouseholdMembership.user))
         .filter(DBHouseholdMembership.household_id == household_id)
         .all()
     )
@@ -554,7 +555,17 @@ def get_household_memberships(household_id: int) -> list[HouseholdMembershipOut]
                 user_id=db_membership.user_id,
                 household_id=household_id,
                 pending=db_membership.pending,
+                username=db_membership.user.username
             )
         )
 
     return memberships
+
+
+def update_household_admin(household_id: int, new_admin_user_id: int) -> None:
+    db = SessionLocal()
+    db_household = db.query(DBHousehold).filter(DBHousehold.id == household_id).first()
+    db_household.admin_user_id = new_admin_user_id
+
+    db.commit()
+    db.close()
