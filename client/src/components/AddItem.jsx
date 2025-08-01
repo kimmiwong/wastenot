@@ -14,9 +14,7 @@ export default function AddItem() {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       const apiHost = import.meta.env.VITE_API_HOST;
 
