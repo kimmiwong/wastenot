@@ -13,7 +13,10 @@ export default function Home() {
   // useUser provides the current user and a refresh function from context.
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, refreshUser } = useUser();
-  const [shouldRefreshItems, setShouldRefreshItems] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const triggerRefresh = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   const hasHousehold = user?.household || user?.household_id;
   console.log("User object:", user);
@@ -21,7 +24,7 @@ export default function Home() {
   return (
     <div className="page-content">
       <div>
-        <AddItem />
+        <AddItem onItemAdded={triggerRefresh} />
 
         <div className="household-wrapper">
           {!hasHousehold && (
@@ -34,7 +37,7 @@ export default function Home() {
           )}
         </div>
 
-        <ShowItems refreshTrigger={shouldRefreshItems} />
+        <ShowItems refreshTrigger={refreshTrigger} />
       </div>
 
       <div className="recipe-button-wrapper">
