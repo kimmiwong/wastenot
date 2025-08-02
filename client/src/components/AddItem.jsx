@@ -56,7 +56,12 @@ export default function AddItem() {
               type="date"
               id="expiration-date"
               value={expirationDate}
-              onChange={(e) => setExpirationDate(e.target.value)}
+              onChange={(e) => {
+                const rawDate = e.target.value;
+                console.log("Raw date from input:", rawDate);
+                const isoDate = new Date(rawDate).toISOString().split("T")[0];
+                setExpirationDate(isoDate);
+              }}
             ></input>
           </div>
 
