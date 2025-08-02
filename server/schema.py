@@ -68,6 +68,7 @@ class FavoriteRecipeIn(BaseModel):
     recipe_id: str  # making it a string in case we change the api and it's not numeric
     title: str
     image_url: str | None = None
+    source_url: str | None = None
 
 
 class FavoriteRecipeOut(FavoriteRecipeIn):

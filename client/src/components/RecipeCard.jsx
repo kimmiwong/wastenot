@@ -21,6 +21,7 @@ export default function RecipeCard({ recipe, showTrashInsteadOfHeart }) {
   };
 
   const imageSrc = recipe.image || recipe.image_url;
+  const sourceUrl = recipe.source_url || recipe.sourceUrl || null;
 
   return (
     <div className="recipe-card">
@@ -29,7 +30,7 @@ export default function RecipeCard({ recipe, showTrashInsteadOfHeart }) {
         <img src={imageSrc} alt={recipe.title} className="recipe-image" />
       )}
       <a
-        href={recipe.sourceUrl}
+        href={sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="recipe-link"

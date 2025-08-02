@@ -74,6 +74,7 @@ export const FavoritesProvider = ({ children }) => {
       recipe_id: recipe.recipe_id || recipe.id.toString(),
       title: recipe.title,
       image_url: recipe.image_url || recipe.image || null,
+      source_url: recipe.source_url || recipe.sourceUrl || null,
     };
     if (alreadyFavorite) {
       deleteFavorite(formattedRecipe.recipe_id);

@@ -63,6 +63,7 @@ class DBFavoriteRecipe(Base):
     image_url = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey('account.id'), nullable=False)
     recipe_id = Column(String, nullable=False)
+    source_url = Column(String, nullable=True)
 
     user = relationship("DBAccount", back_populates="favorite_recipes")
 
