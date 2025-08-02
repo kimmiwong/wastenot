@@ -1,12 +1,14 @@
 import { useState } from "react";
 import ShelfLifeModal from "./ShelflifeModal";
 import ShelfLife from "../assets/shelf.png";
+import { useNotifications } from "../context/NotificationsContext";
 
 export default function AddItem({ onItemAdded }) {
   const [name, setName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [category, setCategory] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { fetchNotifications } = useNotifications();
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -35,10 +37,11 @@ export default function AddItem({ onItemAdded }) {
 
       console.log("Success:", await response.json());
 
+      await fetchNotifications();
+
       setName("");
       setExpirationDate("");
       setCategory(1);
-
       onItemAdded?.();
     } catch (error) {
       console.error("Error adding food item", error);
