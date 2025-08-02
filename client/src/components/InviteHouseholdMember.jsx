@@ -44,7 +44,7 @@ export default function InviteHouseholdMember() {
                 if (householdData.admin_user_id === membershipData.user_id) {
                     setAdmin(true)
                 }
-                console.log(admin)
+
 
 
             } catch (error) {

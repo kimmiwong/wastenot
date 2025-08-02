@@ -108,6 +108,23 @@ def admin_delete_current_household(current_user: UserIn = Depends(get_current_us
     return {"message": "Household deleted successfully"}
 
 
+@app.put("/api/households/current/admin")
+def transfer_admin_access(new_admin_user_id: int, current_user: UserIn = Depends(get_current_user)):
+    household = db.get_household_for_user(current_user.id)
+    if not household:
+        raise HTTPException(status_code=404, detail="Household not found")
+    if household.admin_user_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Only the admin can delete the household"
+        )
+    new_admin = db.get_membership_for_user(new_admin_user_id)
+    if not new_admin or new_admin.household_id != household.id:
+        raise HTTPException (status_code=400, detail="User is not a member of this household")
+
+    db.update_household_admin(household.id, new_admin_user_id)
+    return {"message": "Admin rights transferred"}
+
+
 @app.post("/api/households/join/{invite_id}")
 def join_household_by_invite(invite_id: str, request: Request):
     user = get_current_user(request)

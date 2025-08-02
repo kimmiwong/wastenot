@@ -9,6 +9,7 @@ import Logout from "./pages/Logout";
 import Instructions from "./pages/Instructions";
 import Layout from "./components/Layout";
 import DevBanner from "./components/DevBanner";
+import HouseholdInfo from "./pages/HouseholdInfo";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/Compost" element={<Compost />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/Instructions" element={<Instructions />} />
+          <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
         </Route>
       </Routes>
     </>
