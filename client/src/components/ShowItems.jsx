@@ -55,13 +55,10 @@ export default function ShowItems({ refreshTrigger }) {
 
   async function deleteItem(id) {
     try {
-      const response = await fetch(
-        `${apiHost}/api/food-items/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiHost}/api/food-items/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       if (!response.ok) throw new Error("Failed to delete food item");
 
@@ -70,7 +67,6 @@ export default function ShowItems({ refreshTrigger }) {
       setData(newData);
 
       await fetchNotifications();
-
     } catch (error) {
       console.error("Error deleting food item", error);
     }
@@ -85,16 +81,14 @@ export default function ShowItems({ refreshTrigger }) {
       });
 
       if (!res.ok) {
-        throw new Error(`Error: ${res.status}`)
+        throw new Error(`Error: ${res.status}`);
       }
 
       const json = await res.json();
       setData(json);
-
     } catch (error) {
       setError(error);
       console.error("Error fetching items", error);
-
     } finally {
       setIsLoading(false);
     }
@@ -103,7 +97,6 @@ export default function ShowItems({ refreshTrigger }) {
   const selectedIngredients = (itemName, isChecked) => {
     if (isChecked) {
       return setSelectedIngredient([...selectedIngredient, itemName]);
-
     } else {
       return setSelectedIngredient(
         selectedIngredient.filter((name) => name !== itemName)
@@ -116,7 +109,9 @@ export default function ShowItems({ refreshTrigger }) {
   }, [refreshTrigger]);
 
   if (error) {
-    return <p>Create a household to see your food inventory. Please refresh.</p>;
+    return (
+      <p>Create a household to see your food inventory. Please refresh.</p>
+    );
   }
 
   if (isLoading) {
@@ -143,7 +138,9 @@ export default function ShowItems({ refreshTrigger }) {
               item.category_id === 1 ? (
                 <tr
                   key={item.id}
-                  className={isExpired(item.expiration_date) ? "row-expired" : ""}
+                  className={
+                    isExpired(item.expiration_date) ? "row-expired" : ""
+                  }
                 >
                   <td>
                     <input
@@ -189,7 +186,9 @@ export default function ShowItems({ refreshTrigger }) {
               item.category_id === 2 ? (
                 <tr
                   key={item.id}
-                  className={isExpired(item.expiration_date) ? "row-expired" : ""}
+                  className={
+                    isExpired(item.expiration_date) ? "row-expired" : ""
+                  }
                 >
                   <td>
                     <input

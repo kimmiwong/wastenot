@@ -30,9 +30,9 @@ load_dotenv()
 
 origins = [
     "http://localhost:5173",
-    "https://wastenot-frontend-e09l.onrender.com",
     "https://www.wastenotkitchen.com",
     "https://wastenotkitchen.com",
+    "https://wastenot-frontend-e09l.onrender.com",
 ]
 
 app = FastAPI()
@@ -286,7 +286,6 @@ def create_household(
     return db.create_household(household, current_user)
 
 
-# Endpoint to handle login requests
 @app.post("/api/login", response_model=SuccessResponse)
 async def session_login(
     credentials: LoginCredentials, request: Request
