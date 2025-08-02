@@ -52,7 +52,6 @@ app.add_middleware(
     max_age=60 * 60 * 2,
     same_site="none",  # set to none when deploying and set to lax when local
     https_only=True,  # set True when deployed with HTTPS
-    domain=".wastenotkitchen.com",
 )
 
 
