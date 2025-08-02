@@ -2,7 +2,7 @@ import { useState } from "react";
 import ShelfLifeModal from "./ShelflifeModal";
 import ShelfLife from "../assets/shelf.png";
 
-export default function AddItem() {
+export default function AddItem({ onItemAdded }) {
   const [name, setName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [category, setCategory] = useState(1);
@@ -14,7 +14,9 @@ export default function AddItem() {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form submitted!");
     try {
       const apiHost = import.meta.env.VITE_API_HOST;
 
@@ -30,8 +32,17 @@ export default function AddItem() {
       });
 
       if (!response.ok) throw new Error("Failed to add food item");
+
+      console.log("Success:", await response.json());
+
+      setName("");
+      setExpirationDate("");
+      setCategory(1);
+
+      onItemAdded?.();
     } catch (error) {
       console.error("Error adding food item", error);
+      alert("There was a problem adding your food ItemTable.");
     }
   };
 
@@ -70,7 +81,7 @@ export default function AddItem() {
               id="category"
               name="category"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setCategory(Number(e.target.value))}
             >
               <option value="1">Pantry</option>
               <option value="2">Fridge/Freezer</option>
