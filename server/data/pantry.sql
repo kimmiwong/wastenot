@@ -70,5 +70,6 @@ CREATE TABLE IF NOT EXISTS favorite_recipes (
     image_url TEXT,
     user_id INT NOT NULL,
     recipe_id TEXT NOT NULL, --made this text in case we change our API and this ends up not just being an integer
+    source_url TEXT,
     FOREIGN KEY (user_id) REFERENCES account(id) ON DELETE CASCADE
 );
