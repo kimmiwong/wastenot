@@ -117,6 +117,54 @@ async function handleLeaveHousehold() {
   }
 }
 
+async function handleRemoveHouseholdMember(userId) {
+  const confirmDelete = window.confirm("Are you sure you want to remove this member? This action cannot be undone")
+  if (!confirmDelete) return;
+
+  const apiHost = import.meta.env.VITE_API_HOST;
+
+  try {
+      const res = await fetch(`${apiHost}/api/households/memberships/${userId}`, {
+      method: 'DELETE',
+      credentials: "include",
+    });
+
+    if(!res.ok) throw new Error ("Could not remove member");
+
+    alert("Removed member successfully")
+
+    navigate(0);
+
+  } catch (error) { console.error('Error removing member', error)
+
+  }
+
+}
+
+async function transferAdminRights(newAdminId) {
+  const confirmTransfer = window.confirm("Are you sure you want to reassign admin rights?")
+  if (!confirmTransfer) return;
+
+  const apiHost = import.meta.env.VITE_API_HOST;
+
+  try {
+      const res = await fetch(`${apiHost}/api/households/current/admin`, {
+      method: 'PUT',
+      credentials: "include",
+    });
+
+    if(!res.ok) throw new Error ("Could not remove member");
+
+    alert("Removed member successfully")
+
+    navigate(0);
+
+  } catch (error) { console.error('Error removing member', error)
+
+  }
+
+}
+
 if (loading) return <p>Loading household info...</p>;
 if (error) return <p>{error}</p>;
 
@@ -144,6 +192,9 @@ if (error) return <p>{error}</p>;
             <li key={item.id}>
                 {item.username}
                 {item.user_id === household.admin_user_id && "(admin)"}
+                {isAdmin && item.user_id != household.admin_user_id && (
+                  <button onClick = {() => handleRemoveHouseholdMember(item.user_id)}>X</button>
+                )}
             </li>
 
         )}
