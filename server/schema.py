@@ -99,3 +99,7 @@ class HouseholdMembershipOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class AdminTransferData(BaseModel):
+    admin_user_id: int

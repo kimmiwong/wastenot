@@ -141,7 +141,7 @@ async function handleRemoveHouseholdMember(userId) {
 
 }
 
-async function transferAdminRights(newAdminId) {
+async function transferAdminRights(userId) {
   const confirmTransfer = window.confirm("Are you sure you want to reassign admin rights?")
   if (!confirmTransfer) return;
 
@@ -150,16 +150,18 @@ async function transferAdminRights(newAdminId) {
   try {
       const res = await fetch(`${apiHost}/api/households/current/admin`, {
       method: 'PUT',
+      headers: {"Content-Type": "application/json"},
       credentials: "include",
+      body: JSON.stringify({admin_user_id: userId})
     });
 
-    if(!res.ok) throw new Error ("Could not remove member");
+    if(!res.ok) throw new Error ("Could not transfer admin rights");
 
-    alert("Removed member successfully")
+    alert("Admin rights transferred successfully")
 
     navigate(0);
 
-  } catch (error) { console.error('Error removing member', error)
+  } catch (error) { console.error('Error transferring admin rights', error)
 
   }
 
@@ -194,6 +196,9 @@ if (error) return <p>{error}</p>;
                 {item.user_id === household.admin_user_id && "(admin)"}
                 {isAdmin && item.user_id != household.admin_user_id && (
                   <button onClick = {() => handleRemoveHouseholdMember(item.user_id)}>X</button>
+                )}
+                {isAdmin && item.user_id != household.admin_user_id && (
+                  <button onClick = {() => transferAdminRights(item.user_id)}>Make Admin</button>
                 )}
             </li>
 
