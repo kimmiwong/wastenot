@@ -37,12 +37,16 @@ export default function Login() {
       credentials: "include",
       body: JSON.stringify(data),
     });
-    if (res.ok) {
+      if (res.ok) {
       await refreshUser();
       navigate("/Home");
     } else {
       const err = await res.json();
-      setError(err.detail || "Login failed");
+      if (Array.isArray(err.detail)) {
+        setError(err.detail[0]?.msg || "Invalid input");
+      } else {
+        setError(err.detail || "Login failed");
+      }
     }
   }
 
@@ -74,6 +78,8 @@ export default function Login() {
     }
   }
 
+  {error && <p>{error}</p>}
+
   return (
     <div className="container">
       <div className="login-panel">
@@ -85,7 +91,7 @@ export default function Login() {
             <div className="input-group">
               <label htmlFor="username">Username:</label>
               <div className="password-wrapper">
-                <input id="username" name="username" required />
+                <input id="username" name="username" type="email" required />
               </div>
             </div>
             <div className="input-group">
