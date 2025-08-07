@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS account (
     session_token TEXT UNIQUE,
     session_expires_at TIMESTAMP,
     security_question TEXT,
-    security_answer_hash TEXT;
+    security_answer_hash TEXT
 );
 
 
