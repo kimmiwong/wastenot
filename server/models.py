@@ -47,6 +47,8 @@ class DBAccount(Base):
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     session_token: Mapped[str] = mapped_column(nullable=True)
     session_expires_at: Mapped[datetime] = mapped_column(nullable=True)
+    security_question: Mapped[str] = mapped_column(nullable=True)
+    security_answer_hash: Mapped[str] = mapped_column(nullable=True)
 
     favorite_recipes = relationship("DBFavoriteRecipe", back_populates="user", cascade="all, delete-orphan")
     household_membership = relationship("DBHouseholdMembership", back_populates="user", uselist=False)
