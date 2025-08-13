@@ -10,6 +10,7 @@ import Instructions from "./pages/Instructions";
 import Layout from "./components/Layout";
 import DevBanner from "./components/DevBanner";
 import HouseholdInfo from "./pages/HouseholdInfo";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   return (
@@ -17,7 +18,13 @@ export default function App() {
       <DevBanner />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route element={<Layout />}>
+        <Route
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
           <Route path="/Home" element={<Home />} />
           <Route path="/recipe" element={<Recipe />} />
           <Route path="/Favorites" element={<Favorites />} />
