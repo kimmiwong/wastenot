@@ -7,13 +7,15 @@ import { useNotifications } from "../context/NotificationsContext";
 import { useUser } from "../context/UserProvider";
 import classes from "./Header.module.css";
 
-export default function SimpleHeader() {
+export default function SimpleHeader({ minimal = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { notifications, fetchNotifications } = useNotifications();
   const { user } = useUser();
   const [householdName, setHouseholdName] = useState("");
+  const menuRef = useRef(null);
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -24,6 +26,19 @@ export default function SimpleHeader() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutsideMenu = (e) => {
+      if (menuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutsideMenu);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideMenu);
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     const fetchHousehold = async () => {
@@ -45,7 +60,6 @@ export default function SimpleHeader() {
     fetchHousehold();
   }, []);
 
-
   return (
     <header className={classes.header}>
       <div className={classes.inner}>
@@ -57,80 +71,99 @@ export default function SimpleHeader() {
         </div>
 
         <div className={classes.rightSection}>
-          {user && (
-            <div className={classes.userInfo}>
-              <div className={classes.welcomeMessage}>
-                Welcome, <strong>{user.username}</strong>
-              </div>
-              <Link to="/logout" className={classes.logOut}>
-                Logout
-              </Link>
-            </div>
-          )}
+          {minimal ? (
 
-          <div className={classes.notifications} ref={dropdownRef}>
-            <div
-              className={classes.dropdownButton}
-              onClick={() => setNotifOpen((prev) => !prev)}
-            >
-              {notifications.length > 0 && (
-                <span className={classes.notification}>
-                  ({notifications.length})
-                </span>
+            <Link to="/login" className={classes.logOut}>
+              Login
+            </Link>
+          ) : (
+
+            <>
+              {user && (
+                <div className={classes.userInfo}>
+                  <div className={classes.welcomeMessage}>
+                    Welcome, <strong>{user.username}</strong>
+                  </div>
+                  <Link to="/logout" className={classes.logOut}>
+                    Logout
+                  </Link>
+                </div>
               )}
-              <FontAwesomeIcon icon={faBell} />
-            </div>
 
-            {notifOpen && (
-              <div className={classes.dropdown}>
-                <h4>Notifications</h4>
-                {notifications.length > 0 ? (
-                  <ul>
-                    {notifications.map((n) => (
-                      <li key={n.notification_id}>{n.message}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>Nothing expiring yet!</p>
+              <div className={classes.notifications} ref={dropdownRef}>
+                <div
+                  className={classes.dropdownButton}
+                  onClick={() => setNotifOpen((prev) => !prev)}
+                >
+                  {notifications.length > 0 && (
+                    <span className={classes.notification}>
+                      ({notifications.length})
+                    </span>
+                  )}
+                  <FontAwesomeIcon icon={faBell} />
+                </div>
+
+                {notifOpen && (
+                  <div className={classes.dropdown}>
+                    <h4>Notifications</h4>
+                    {notifications.length > 0 ? (
+                      <ul>
+                        {notifications.map((n) => (
+                          <li key={n.notification_id}>{n.message}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>Nothing expiring yet!</p>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
 
-          <button
-            className={classes.hamburger}
-            onClick={() => setMenuOpen((prev) => !prev)}
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </button>
+              <button
+                className={classes.hamburger}
+                onClick={() => setMenuOpen((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+            </>
+          )}
         </div>
-
-
       </div>
 
-      {menuOpen && (
-        <nav className={classes.mobileMenu}>
-          {user && (
-            <div className={classes.welcomeHousehold}>
-              <p>
-                Welcome, <strong>{user.username}</strong>
-              </p>
-              {householdName && (
+      {!minimal && menuOpen && (
+        <>
+          <div
+            className={classes.backdrop}
+            onClick={() => setMenuOpen(false)}
+          />
+          <nav className={classes.mobileMenu} ref={menuRef}>
+            {user && (
+              <div className={classes.welcomeHousehold}>
                 <p>
-                  You are in <strong>{householdName}</strong>'s household
+                  Welcome, <strong>{user.username}</strong>
                 </p>
-              )}
-              <Link to="/logout" className={classes.mobileLogout}>
-                Logout
-              </Link>
-            </div>
-          )}
-          <Link to="/Home" className={classes.menuItem}>Home</Link>
-          <Link to="/Favorites" className={classes.menuItem}>Favorites</Link>
-          <Link to="/Compost" className={classes.menuItem}>Compost Locations</Link>
-        </nav>
-      )
-      }
-    </header >
+                {householdName && (
+                  <p>
+                    You are in <strong>{householdName}</strong>'s household
+                  </p>
+                )}
+                <Link to="/logout" className={classes.mobileLogout}>
+                  Logout
+                </Link>
+              </div>
+            )}
+            <Link to="/Home" className={classes.menuItem}>
+              Home
+            </Link>
+            <Link to="/Favorites" className={classes.menuItem}>
+              Favorites
+            </Link>
+            <Link to="/Compost" className={classes.menuItem}>
+              Compost Locations
+            </Link>
+          </nav>
+        </>
+      )}
+    </header>
   );
 }

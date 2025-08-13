@@ -8,7 +8,7 @@ import {
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
-const UserContext = createContext({ user: null, refreshUser: async () => {} });
+const UserContext = createContext({ user: null, refreshUser: async () => { } });
 export function UserProvider({ children }) {
   // user holds the current user's info, or null if not logged in.
   const [user, setUser] = useState(null);

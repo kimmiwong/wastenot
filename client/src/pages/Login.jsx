@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import wastenot from "../assets/WasteNotLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
 export default function Login() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const signupParam = searchParams.get("signup");
+  const [showSignup, setShowSignup] = useState(signupParam === "true");
   const [error, setError] = useState("");
-  const [showSignup, setShowSignup] = useState(false);
   const { refreshUser } = useUser();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +26,12 @@ export default function Login() {
       credentials: "include",
     });
   }, []);
+
+  useEffect(() => {
+    if (location.state?.showSignup) {
+      setShowSignup(true);
+    }
+  }, [location.state]);
 
   async function handleLogin(event) {
     event.preventDefault();
@@ -37,7 +47,7 @@ export default function Login() {
       credentials: "include",
       body: JSON.stringify(data),
     });
-      if (res.ok) {
+    if (res.ok) {
       await refreshUser();
       navigate("/Home");
     } else {
@@ -78,7 +88,7 @@ export default function Login() {
     }
   }
 
-  {error && <p>{error}</p>}
+  { error && <p>{error}</p> }
 
   return (
     <div className="container">

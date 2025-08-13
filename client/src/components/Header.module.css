@@ -189,6 +189,45 @@
   margin: 0.5rem 0;
 }
 
+.backdrop {
+  position: fixed;
+  top: 90px;
+  /* below header */
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 90px);
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1400;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 90px;
+  right: 0;
+  width: 280px;
+  height: calc(100vh - 90px);
+  background-color: #fdfaf3;
+  padding: 1rem;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #ccc;
+  animation: slideInRight 0.3s ease forwards;
+  z-index: 1500;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;

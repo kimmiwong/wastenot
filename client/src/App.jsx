@@ -10,13 +10,17 @@ import Instructions from "./pages/Instructions";
 import Layout from "./components/Layout";
 import DevBanner from "./components/DevBanner";
 import HouseholdInfo from "./pages/HouseholdInfo";
+import LandingPage from './components/LandingPage';
 
 export default function App() {
   return (
     <>
       <DevBanner />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/signup" element={<Signup />} /> */}
+
         <Route element={<Layout />}>
           <Route path="/Home" element={<Home />} />
           <Route path="/recipe" element={<Recipe />} />
