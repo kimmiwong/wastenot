@@ -18,7 +18,8 @@ from schema import (
     HouseholdIn,
     HouseholdMembershipOut,
     HouseholdOut,
-    AdminTransferData
+    AdminTransferData,
+    SignupCredentials
 )
 import db
 from recipes import fetch_recipes
@@ -319,12 +320,14 @@ async def session_logout(request: Request) -> SuccessResponse:
 
 
 @app.post("/api/signup", response_model=SuccessResponse)
-async def signup(credentials: LoginCredentials, request: Request) -> SuccessResponse:
+async def signup(credentials: SignupCredentials, request: Request) -> SuccessResponse:
     username = credentials.username
     password = credentials.password
+    security_question = credentials.security_question.strip()
+    security_answer = credentials.security_answer.strip()
 
-    if not username or not password:
-        raise HTTPException(status_code=400, detail="Username and password required")
+    if not (username and password and security_question and security_answer):
+        raise HTTPException(status_code=400, detail="All fields are required")
 
     errors = []
     if len(password) < 8:
@@ -342,7 +345,12 @@ async def signup(credentials: LoginCredentials, request: Request) -> SuccessResp
     if errors:
         raise HTTPException(status_code=400, detail="\n".join(errors))
 
-    success = db.create_user_account(username, password)
+    success = db.create_user_account(
+        username=username,
+        password=password,
+        security_question=security_question,
+        security_answer=security_answer
+        )
     if not success:
         raise HTTPException(status_code=409, detail="Username already exists")
 
