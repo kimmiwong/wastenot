@@ -36,6 +36,12 @@ class NotificationOut(NotificationIn):
     class Config:
         orm_mode = True
 
+class SignupCredentials(BaseModel):
+    username: EmailStr
+    password: str
+    security_question: str
+    security_answer: str
+
 
 class LoginCredentials(BaseModel):
     username: EmailStr
@@ -59,6 +65,7 @@ class UserIn(BaseModel):
     id: int
     username: str
     session_expires_at: datetime | None = None
+    security_question: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -103,3 +110,9 @@ class HouseholdMembershipOut(BaseModel):
 
 class AdminTransferData(BaseModel):
     admin_user_id: int
+
+
+class PasswordResetWithSecurity(BaseModel):
+    username: EmailStr
+    security_answer: str
+    new_password: str

@@ -251,16 +251,19 @@ def invalidate_session(username: str, session_token: str) -> None:
         db.commit()
 
 
-def create_user_account(username: str, password: str) -> bool:
+def create_user_account(username: str, password: str, security_question: str, security_answer: str) -> bool:
     with SessionLocal() as db:
         if db.query(DBAccount).filter(DBAccount.username == username).first():
             return False
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        security_answer_hash = bcrypt.hashpw(security_answer.encode(), bcrypt.gensalt()).decode()
         account = DBAccount(
             username=username,
             hashed_password=hashed_password,
             session_token=None,
             session_expires_at=None,
+            security_question=security_question,
+            security_answer_hash=security_answer_hash,
         )
         db.add(account)
         db.commit()
