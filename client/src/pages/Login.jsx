@@ -90,7 +90,6 @@ export default function Login() {
     }
   }
 
-  { error && <p>{error}</p> }
 
   return (
     <div className="container">
@@ -181,7 +180,7 @@ export default function Login() {
             <div className="input-group">
               <label htmlFor="username">Email:</label>
               <div className="password-wrapper">
-                <input id="username" name="username" required />
+                <input id="username" name="username" type="email" required />
               </div>
             </div>
             <div className="input-group">
