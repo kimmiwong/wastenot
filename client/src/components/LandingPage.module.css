@@ -172,10 +172,14 @@
 }
 
 .about {
-    padding: 100px 100px;
+    padding: 60px 60px;
     border-radius: 50px;
     margin-top: 10px;
     background-color: #f8ead5;
+}
+
+.about h2 {
+    font-size: 2rem;
 }
 
 .carousel {
