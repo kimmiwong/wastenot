@@ -15,8 +15,8 @@ import CompostPage from '../assets/Compost.png';
 const teamMembers = [
     { name: "Rebecca Loewenstein-Harting", role: "Product Manager", img: rebeccaImg },
     { name: "Lindsey Lawson", role: "Front-End Developer", img: lindseyImg },
-    { name: "Kimmi Wong", role: "Backend-End Developer", img: kimmiImg },
-    { name: "Jonathan Kwan", role: "Backend-End Developer", img: jonathanImg },
+    { name: "Kimmi Wong", role: "Back-End Developer", img: kimmiImg },
+    { name: "Jonathan Kwan", role: "Back-End Developer", img: jonathanImg },
 ];
 
 const slides = [
