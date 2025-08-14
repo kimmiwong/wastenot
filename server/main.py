@@ -324,7 +324,7 @@ async def signup(credentials: SignupCredentials, request: Request) -> SuccessRes
     username = credentials.username
     password = credentials.password
     security_question = credentials.security_question.strip()
-    security_answer = credentials.security_answer.strip()
+    security_answer = credentials.security_answer.strip().lower()
 
     if not (username and password and security_question and security_answer):
         raise HTTPException(status_code=400, detail="All fields are required")
