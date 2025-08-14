@@ -265,6 +265,21 @@
     display: none;
   }
 
+  .logOut {
+    display: inline-block;
+    font-size: 1rem;
+    padding: 0.4rem 0.75rem;
+    margin: 0;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #eb6424;
+  }
+
+  .logOut:hover {
+    background-color: #f5f5f5;
+  }
+
   .rightSection {
     display: flex;
     align-items: center;
@@ -325,6 +340,7 @@
   }
 
   .logOut {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.65rem;
   }
 }
