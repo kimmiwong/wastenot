@@ -101,7 +101,7 @@ export default function Login() {
         {showSignup ? (
           <form className="login-form" onSubmit={handleSignup}>
             <div className="input-group">
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="username">Email:</label>
               <div className="password-wrapper">
                 <input id="username" name="username" type="email" required />
               </div>
@@ -179,7 +179,7 @@ export default function Login() {
         ) : (
           <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="username">Email:</label>
               <div className="password-wrapper">
                 <input id="username" name="username" required />
               </div>
