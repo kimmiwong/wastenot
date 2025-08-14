@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import wastenot from "../assets/WasteNotLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
 export default function Login() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const signupParam = searchParams.get("signup");
+  const [showSignup, setShowSignup] = useState(signupParam === "true");
   const [error, setError] = useState("");
-  const [showSignup, setShowSignup] = useState(false);
   const { refreshUser } = useUser();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +26,12 @@ export default function Login() {
       credentials: "include",
     });
   }, []);
+
+  useEffect(() => {
+    if (location.state?.showSignup) {
+      setShowSignup(true);
+    }
+  }, [location.state]);
 
   async function handleLogin(event) {
     event.preventDefault();
@@ -42,7 +52,11 @@ export default function Login() {
       navigate("/Home");
     } else {
       const err = await res.json();
-      setError(err.detail || "Login failed");
+      if (Array.isArray(err.detail)) {
+        setError(err.detail[0]?.msg || "Invalid input");
+      } else {
+        setError(err.detail || "Login failed");
+      }
     }
   }
 
@@ -54,11 +68,13 @@ export default function Login() {
     const username = formData.get("username");
     const password = formData.get("password");
     const password2 = formData.get("password2");
+    const security_question = formData.get("security_question");
+    const security_answer = formData.get("security_answer")?.trim()
     if (password !== password2) {
       setError("Passwords do not match");
       return;
     }
-    const data = { username, password };
+    const data = { username, password, security_question, security_answer };
     const res = await fetch(`${apiHost}/api/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -74,6 +90,7 @@ export default function Login() {
     }
   }
 
+
   return (
     <div className="container">
       <div className="login-panel">
@@ -83,9 +100,9 @@ export default function Login() {
         {showSignup ? (
           <form className="login-form" onSubmit={handleSignup}>
             <div className="input-group">
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="username">Email:</label>
               <div className="password-wrapper">
-                <input id="username" name="username" required />
+                <input id="username" name="username" type="email" required />
               </div>
             </div>
             <div className="input-group">
@@ -123,6 +140,19 @@ export default function Login() {
                 />
               </div>
             </div>
+            <div className="input-group">
+              <label htmlFor="security_question">Security question</label>
+              <select id="security_question" name="security_question" required>
+                <option value="">Select a question…</option>
+                <option>What is your favorite color?</option>
+                <option>What city were you born in?</option>
+                <option>What is your first pet’s name?</option>
+              </select>
+            </div>
+            <div className="input-group">
+              <label htmlFor="security_answer">Security answer</label>
+              <input id="security_answer" name="security_answer" required />
+            </div>
             <button type="submit" className="login-btn">
               Sign Up
             </button>
@@ -148,9 +178,9 @@ export default function Login() {
         ) : (
           <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="username">Email:</label>
               <div className="password-wrapper">
-                <input id="username" name="username" required />
+                <input id="username" name="username" type="email" required />
               </div>
             </div>
             <div className="input-group">
@@ -169,6 +199,7 @@ export default function Login() {
                 />
               </div>
             </div>
+
             <button type="submit" className="login-btn">
               Login
             </button>

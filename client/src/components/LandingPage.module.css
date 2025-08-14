@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap');
+
+.container {
+    font-family: 'Patrick Hand SC', cursive;
+    color: #000000;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.getStarted {
+    font-family: 'Patrick Hand SC', cursive;
+    margin-top: 20px;
+    padding: 8px 20px;
+    margin-left: 5px;
+    font-size: 1rem;
+    background: #eb6424;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.features {
+    font-family: 'Patrick Hand SC', cursive;
+    margin-top: 20px;
+    padding: 8px 20px;
+    margin-left: 5px;
+    font-size: 1rem;
+    background: #eb632483;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+.getStarted:hover,
+.features:hover {
+    background-color: #ad5d38;
+    text-decoration: none;
+    color: white;
+}
+
+.getStarted:visited,
+.features:visited {
+    color: white;
+}
+
+
+
+.page {
+    font-family: 'Patrick Hand SC', cursive;
+    color: #161616;
+    background: #fdfaf3;
+    text-align: center;
+}
+
+.hero {
+    padding: 10rem 1.5rem;
+    background-image: url('../assets/landing.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin: auto;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #201f1f;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 9rem 2rem;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+.teamIntro {
+    background-color: #f8ead5;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.teamIntro h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.teamIntro p {
+    color: #353434;
+    font-size: 1rem;
+}
+
+.teamCard {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.teamCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0rem;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    border-radius: 5px;
+}
+
+.overlay h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.overlay p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+
+.story {
+    padding: 2rem 1rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50px;
+    background-image: url('../assets/mission.jpg');
+}
+
+.story h2 {
+    font-size: 3rem;
+    margin-top: 15rem;
+}
+
+.story p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 5rem;
+}
+
+.footer {
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+    margin-top: 20px;
+    color: #474646;
+    border-radius: 50px;
+    text-align: left;
+}
+
+.about {
+    padding: 60px 60px;
+    border-radius: 50px;
+    margin-top: 10px;
+    background-color: #f8ead5;
+}
+
+.about h2 {
+    font-size: 2rem;
+}
+
+.carousel {
+    overflow: hidden;
+    width: 100%;
+    height: 420px;
+    margin: 20px 0;
+    border-radius: 8px;
+    position: relative;
+}
+
+.carouselTrack {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+    height: 100%;
+    will-change: transform;
+    transform: translateX(calc(var(--current-slide, 0) * -100%));
+}
+
+
+.carouselSlide {
+    min-width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.carouselSlide img {
+    max-width: 30rem;
+    height: auto;
+    border-radius: 10px;
+}
+
+.carouselText {
+    flex: 1;
+    text-align: left;
+    font-size: 1.25rem;
+}
+
+.carouselDots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #d0d0d0;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dot:hover {
+    transform: scale(1.1);
+}
+
+.active {
+    background: #eb6424;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 7rem 2rem;
+        border-radius: 20px;
+        margin-top: 5px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .getStarted,
+    .features {
+        font-size: 0.9rem;
+        padding: 6px 16px;
+        margin-top: 12px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 3rem 1rem;
+    }
+
+    .teamIntro {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .teamIntro h2 {
+        font-size: 1.4rem;
+    }
+
+    .teamIntro p {
+        font-size: 0.9rem;
+    }
+
+    .overlay h3 {
+        font-size: 1rem;
+    }
+
+    .overlay p {
+        font-size: 0.8rem;
+    }
+
+    .story {
+        padding: 1.5rem 1rem;
+        border-radius: 20px;
+        margin-top: 10px;
+    }
+
+    .story h2 {
+        font-size: 2rem;
+        margin-top: 5rem;
+    }
+
+    .story p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .about {
+        padding: 10px;
+        border-radius: 20px;
+    }
+
+    .aboutContainer {
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .aboutContainer h2 {
+        font-size: 1.5rem;
+    }
+
+    .aboutContainer p,
+    .aboutContainer li {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .footer {
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 0.5rem;
+    }
+
+    .carouselSlide {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .carouselSlide img {
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .carouselText {
+        text-align: center;
+        font-size: 1.25rem;
+    }
+}
