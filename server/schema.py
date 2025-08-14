@@ -36,6 +36,7 @@ class NotificationOut(NotificationIn):
     class Config:
         orm_mode = True
 
+
 class SignupCredentials(BaseModel):
     username: EmailStr
     password: str

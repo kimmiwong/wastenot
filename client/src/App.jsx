@@ -30,15 +30,15 @@ export default function App() {
                 <Layout />
               </PrivateRoute>
             }
-          >
-            <Route path="/Home" element={<Home />} />
-            <Route path="/recipe" element={<Recipe />} />
-            <Route path="/Favorites" element={<Favorites />} />
-            <Route path="/Compost" element={<Compost />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/Instructions" element={<Instructions />} />
-            <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
-          </Route>
+          />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/recipe" element={<Recipe />} />
+          <Route path="/Favorites" element={<Favorites />} />
+          <Route path="/Compost" element={<Compost />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/Instructions" element={<Instructions />} />
+          <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
+        </Route>
       </Routes>
     </>
   );
