@@ -19,13 +19,15 @@ from schema import (
     HouseholdMembershipOut,
     HouseholdOut,
     AdminTransferData,
-    SignupCredentials
+    SignupCredentials,
+    SecurityQuestionOut
 )
 import db
 from recipes import fetch_recipes
 from models import DBAccount
 from dotenv import load_dotenv
 import re
+from pydantic import EmailStr
 
 load_dotenv()
 
@@ -431,3 +433,11 @@ def add_favorite(
 @app.delete("/api/favorite-recipes/{recipe_id}", response_model=SuccessResponse)
 def delete_favorite(recipe_id: str, current_user: UserIn = Depends(get_current_user)):
     return db.delete_favorite(recipe_id, current_user)
+
+
+@app.get("/api/security-question", response_model=SecurityQuestionOut)
+def get_security_question(username: EmailStr):
+    user = db.get_user_by_username(username)
+    if not user or not user.security_question:
+        return SecurityQuestionOut(security_question="Answer your saved security question.")
+    return SecurityQuestionOut(security_question=user.security_question)
