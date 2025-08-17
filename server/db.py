@@ -572,3 +572,15 @@ def update_household_admin(household_id: int, new_admin_user_id: int) -> None:
 
     db.commit()
     db.close()
+
+
+def update_user_password(user_id: int, new_password: str) -> None:
+    with SessionLocal() as db:
+        db_account = db.query(DBAccount).filter(DBAccount.id == user_id).first()
+        if not db_account:
+            return
+        db_account.hashed_password = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+
+        db_account.session_token = None
+        db_account.session_expires_at = None
+        db.commit()
