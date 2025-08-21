@@ -82,8 +82,9 @@ export default function SimpleHeader({ minimal = false }) {
               {user && (
                 <div className={classes.userInfo}>
                   <div className={classes.welcomeMessage}>
-                    Welcome, <strong>{user.username}</strong>
+                    You're in <strong>{householdName}'s Household</strong>
                   </div>
+
                   <Link to="/logout" className={classes.logOut}>
                     Logout
                   </Link>
@@ -142,11 +143,6 @@ export default function SimpleHeader({ minimal = false }) {
                 <p>
                   Welcome, <strong>{user.username}</strong>
                 </p>
-                {householdName && (
-                  <p>
-                    You are in <strong>{householdName}</strong>'s household
-                  </p>
-                )}
                 <Link to="/logout" className={classes.mobileLogout}>
                   Logout
                 </Link>
