@@ -5,8 +5,8 @@ import AddItem from "../components/AddItem";
 import CreateHousehold from "../components/CreateHousehold";
 import { useIngredients } from "../context/RecipesContext";
 import { useUser } from "../context/UserProvider";
-import InviteHouseholdMember from "../components/InviteHouseholdMember";
-import JoinHousehold from "../components/JoinHousehold";
+import HouseholdOnboarding from "../components/HouseholdPopUp";
+
 
 export default function Home() {
   const { setSelectedIngredient } = useIngredients();
@@ -14,6 +14,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, refreshUser } = useUser();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [householdLeft, setHouseholdLeft] = useState(false);
   const triggerRefresh = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
@@ -23,20 +24,10 @@ export default function Home() {
 
   return (
     <div className="page-content">
+      <HouseholdOnboarding householdLeft={householdLeft} setHouseholdLeft={setHouseholdLeft} />
+
       <div>
         <AddItem onItemAdded={triggerRefresh} />
-
-        <div className="household-wrapper">
-          {!hasHousehold && (
-            <button
-              className="household-button"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Create Household
-            </button>
-          )}
-        </div>
-
         <ShowItems refreshTrigger={refreshTrigger} />
       </div>
 
@@ -52,6 +43,7 @@ export default function Home() {
           Clear Selection
         </button>
       </div>
+
       <CreateHousehold
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -62,8 +54,7 @@ export default function Home() {
           }, 100);
         }}
       />
-      <InviteHouseholdMember />
-      <JoinHousehold />
     </div>
   );
+
 }

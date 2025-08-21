@@ -74,7 +74,7 @@ export default function InviteHouseholdMember() {
                         onClick={(e) => e.target.select()}
                     />
                     {error && <p className="error-text">{error}</p>}
-                    <button onClick={() => setIsOpen(false)}>Close</button>
+                    <button className="close-invite" onClick={() => setIsOpen(false)}>X</button>
                 </div>
             </div>}
         </>
