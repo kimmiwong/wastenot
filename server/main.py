@@ -20,7 +20,8 @@ from schema import (
     HouseholdOut,
     AdminTransferData,
     SignupCredentials,
-    SecurityQuestionOut
+    SecurityQuestionOut,
+    PasswordResetWithSecurity
 )
 import db
 from recipes import fetch_recipes
@@ -441,3 +442,35 @@ def get_security_question(username: EmailStr):
     if not user or not user.security_question:
         return SecurityQuestionOut(security_question="Answer your saved security question.")
     return SecurityQuestionOut(security_question=user.security_question)
+
+
+@app.post("/api/reset-password", response_model=SuccessResponse)
+def reset_password(payload: PasswordResetWithSecurity) -> SuccessResponse:
+    errors = []
+    if len(payload.new_password) < 8:
+        errors.append("• Password must be at least 8 characters long")
+
+    if not re.search(r"[A-Z]", payload.new_password):
+        errors.append("•Password must contain at least one uppercase letter")
+
+    if not re.search(r"\d", payload.new_password):
+        errors.append("•Password must contain at least one number")
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", payload.new_password):
+        errors.append("•Password must contain at least one special character")
+
+    if errors:
+        raise HTTPException(status_code=400, detail="\n".join(errors))
+
+    result = db.reset_password_with_security(
+        username=payload.username,
+        security_answer=payload.security_answer,
+        new_password=payload.new_password,
+    )
+
+    if result == "user_not_found":
+        raise HTTPException(status_code=404, detail="User not found")
+    elif result == "bad_answer":
+        raise HTTPException(status_code=403, detail="Incorrect security answer")
+    elif result == "ok":
+        return SuccessResponse(success=True)
