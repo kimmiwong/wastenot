@@ -1602,9 +1602,4 @@ select:focus {
     padding: 1rem;
   }
 
-  .join-button {
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
-  }
 }
