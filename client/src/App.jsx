@@ -6,7 +6,6 @@ import "./App.css";
 import Favorites from "./pages/Favorites";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import Instructions from "./pages/Instructions";
 import Layout from "./components/Layout";
 import DevBanner from "./components/DevBanner";
 import HouseholdInfo from "./pages/HouseholdInfo";
@@ -36,7 +35,6 @@ export default function App() {
           <Route path="/Favorites" element={<Favorites />} />
           <Route path="/Compost" element={<Compost />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/Instructions" element={<Instructions />} />
           <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
         </Route>
       </Routes>

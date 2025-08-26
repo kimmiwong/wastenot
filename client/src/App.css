@@ -120,7 +120,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,12 +128,14 @@ body {
 }
 
 .household-modal-box {
-  background-color: #fdfaf3;
-  padding: 30px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  min-width: 300px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
 }
 
 .household-input {
@@ -160,24 +162,23 @@ body {
   cursor: pointer;
   font-size: 1rem;
   border-radius: 10px;
-  background-color: #EB6424;
+  background-color: #babd8d;
   color: white;
   margin-top: 1rem;
 }
 
 .join-button:hover {
-  color: #8b3c17;
+  color: #7c6a0a;
 }
 
 .close {
   position: absolute;
-  top: 28rem;
-  right: 51rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
 }
 
 .close:hover {
@@ -467,6 +468,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .invite-button {
+  position: relative;
   padding: 0.25rem 1rem;
   background-color: #eb6424;
   color: white;
@@ -480,6 +482,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   transition: background-color 0.2s ease;
   display: inline-block;
+}
+
+.close-invite {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+
+}
+
+.close-invite:hover {
+  color: #8b3c17;
 }
 
 .household-wrapper {
@@ -1207,6 +1225,118 @@ select:focus {
   pointer-events: auto;
 }
 
+.settings-container {
+  max-width: 700rem;
+  margin: 4rem auto;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Patrick Hand SC', cursive;
+}
+
+.settings-header {
+  margin-bottom: 1.5rem;
+}
+
+.settings-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.settings-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.settings-member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settings-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  margin-bottom: .5rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+}
+
+.settings-badge {
+  background: #babd8d;
+  color: #fff;
+  font-size: .75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  margin-left: .5rem;
+}
+
+.settings-member-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.settings-button {
+  padding: 0.25rem 1rem;
+  background-color: #eb6424;
+  color: white;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-family: 'Patrick Hand SC', cursive;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+}
+
+.settings-button:hover {
+  background: #8b3c17;
+}
+
+.settings-button.leave {
+  background: #ff9800;
+}
+
+.settings-button.leave:hover {
+  background: #8b3c17;
+}
+
+.settings-button.delete {
+  background: #eb6424;
+  margin-right: 1rem;
+}
+
+.settings-button:visited,
+.settings-button.delete:visited,
+.settings-button.leave:visited {
+  color: white;
+}
+
+.settings-button.delete:hover {
+  background-color: #8b3c17;
+  color: white;
+  text-decoration: none;
+}
+
+.settings-button.small {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  background: #babd8d;
+}
+
+.settings-button.small:hover {
+  background: #77795a;
+  color: white;
+  text-decoration: none;
+}
+
 
 @media (max-width: 1024px) {
   html {
@@ -1286,7 +1416,6 @@ select:focus {
     text-align: center;
   }
 
-  /* Inputs/selects (login, signup, shared) */
   .login-form input,
   .password-wrapper,
   .password-wrapper input,
@@ -1392,6 +1521,11 @@ select:focus {
     padding: 1rem;
   }
 
+  .settings-container {
+    width: 95%;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
 
 }
 
@@ -1462,5 +1596,15 @@ select:focus {
     margin-left: 0;
   }
 
+  .settings-container {
+    width: 100%;
+    margin: 1rem auto;
+    padding: 1rem;
+  }
 
+  .join-button {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
 }
