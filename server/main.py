@@ -441,7 +441,7 @@ def delete_favorite(recipe_id: str, current_user: UserIn = Depends(get_current_u
 def get_security_question(username: EmailStr):
     user = db.get_user_by_username(username)
     if not user or not user.security_question:
-        return SecurityQuestionOut(security_question="Answer your saved security question.")
+        raise HTTPException(status_code=404, detail="User not found")
     return SecurityQuestionOut(security_question=user.security_question)
 
 
