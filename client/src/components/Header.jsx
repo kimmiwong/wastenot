@@ -85,7 +85,7 @@ export default function SimpleHeader({ minimal = false }) {
                     {householdName ? (
                       <>Welcome to the <strong>{householdName} Household</strong></>
                     ) : (
-                      <>You aren’t in a household yet</>
+                      <>You are not in a household yet</>
                     )}
                   </div>
 
