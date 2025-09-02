@@ -31,6 +31,7 @@ import os
 from secrets import token_urlsafe
 import bcrypt
 import uuid
+from typing import Union
 
 load_dotenv()
 database_url = os.getenv("DATABASE_URL")
@@ -38,6 +39,9 @@ SESSION_LIFE_MINUTES = 120
 
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def _normalize_answer(answer:str) -> str:
+    return answer.strip().lower()
 
 
 def to_food_out(db_item: DBFood) -> FoodOut:
@@ -251,12 +255,19 @@ def invalidate_session(username: str, session_token: str) -> None:
         db.commit()
 
 
-def create_user_account(username: str, password: str, security_question: str, security_answer: str) -> bool:
+def create_user_account(
+        username: str,
+        password: str,
+        security_question: str,
+        security_answer: str
+        ) -> bool:
     with SessionLocal() as db:
         if db.query(DBAccount).filter(DBAccount.username == username).first():
             return False
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-        security_answer_hash = bcrypt.hashpw(security_answer.encode(), bcrypt.gensalt()).decode()
+
+        security_answer_norm = _normalize_answer(security_answer).encode()
+        security_answer_hash = bcrypt.hashpw(security_answer_norm, bcrypt.gensalt()).decode()
         account = DBAccount(
             username=username,
             hashed_password=hashed_password,
@@ -572,3 +583,50 @@ def update_household_admin(household_id: int, new_admin_user_id: int) -> None:
 
     db.commit()
     db.close()
+
+
+def update_user_password(user_id: int, new_password: str) -> None:
+    with SessionLocal() as db:
+        db_account = db.query(DBAccount).filter(DBAccount.id == user_id).first()
+        if not db_account:
+            return
+        db_account.hashed_password = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+
+        db_account.session_token = None
+        db_account.session_expires_at = None
+        db.commit()
+
+
+def reset_password_with_security(username: str, security_answer: str, new_password: str) -> Union[bool,str]:
+    with SessionLocal() as db:
+        db_account = db.query(DBAccount).filter(DBAccount.username == username).first()
+        if not db_account or not db_account.security_answer_hash:
+            return False
+
+        entered_answer_norm = _normalize_answer(security_answer).encode()
+        stored_answer_hash = db_account.security_answer_hash.encode()
+
+        if not bcrypt.checkpw(entered_answer_norm, stored_answer_hash):
+            return False
+
+        current_pw_hash = db_account.hashed_password.encode()
+        if bcrypt.checkpw(new_password.encode(), current_pw_hash):
+            return "same_password"
+
+        db_account.hashed_password = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+        db_account.session_token = None
+        db_account.session_expires_at = None
+        db.commit()
+        return True
+
+
+def verify_security_answer(username: str, security_answer: str) -> str:
+    with SessionLocal() as db:
+        db_account = db.query(DBAccount).filter(DBAccount.username == username).first()
+        if not db_account or not db_account.security_answer_hash:
+            return "user_not_found"
+        entered_norm = security_answer.strip().lower().encode()
+        if not bcrypt.checkpw(entered_norm, db_account.security_answer_hash.encode()):
+            return "bad_answer"
+
+        return "ok"

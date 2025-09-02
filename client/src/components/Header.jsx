@@ -82,8 +82,13 @@ export default function SimpleHeader({ minimal = false }) {
               {user && (
                 <div className={classes.userInfo}>
                   <div className={classes.welcomeMessage}>
-                    Welcome, <strong>{user.username}</strong>
+                    {householdName ? (
+                      <>Welcome to the <strong>{householdName} Household</strong></>
+                    ) : (
+                      <>You are not in a household yet</>
+                    )}
                   </div>
+
                   <Link to="/logout" className={classes.logOut}>
                     Logout
                   </Link>
@@ -142,11 +147,7 @@ export default function SimpleHeader({ minimal = false }) {
                 <p>
                   Welcome, <strong>{user.username}</strong>
                 </p>
-                {householdName && (
-                  <p>
-                    You are in <strong>{householdName}</strong>'s household
-                  </p>
-                )}
+                {householdName && (<p> You are in <strong>{householdName}</strong>'s household </p>)}
                 <Link to="/logout" className={classes.mobileLogout}>
                   Logout
                 </Link>
@@ -161,6 +162,7 @@ export default function SimpleHeader({ minimal = false }) {
             <Link to="/Compost" className={classes.menuItem}>
               Compost Locations
             </Link>
+            <Link to="/HouseholdInfo" className={classes.menuItem}> Settings</Link>
           </nav>
         </>
       )}

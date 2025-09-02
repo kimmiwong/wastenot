@@ -63,6 +63,7 @@ body {
 .item-table tr:hover td {
   background-color: #f9f9f9;
   transition: background-color 0.2s ease;
+  transform: scale(1.02);
 }
 
 .item-container {
@@ -120,7 +121,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,12 +129,14 @@ body {
 }
 
 .household-modal-box {
-  background-color: #fdfaf3;
-  padding: 30px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  min-width: 300px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
 }
 
 .household-input {
@@ -160,28 +163,29 @@ body {
   cursor: pointer;
   font-size: 1rem;
   border-radius: 10px;
-  background-color: #EB6424;
+  background-color: #babd8d;
   color: white;
   margin-top: 1rem;
 }
 
 .join-button:hover {
-  color: #8b3c17;
+  color: #7c6a0a;
+  transform: scale(1.02);
 }
 
 .close {
   position: absolute;
-  top: 28rem;
-  right: 51rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
 }
 
 .close:hover {
   color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .cancel-button,
@@ -206,10 +210,12 @@ body {
 
 .cancel-button:hover {
   color: #7c6a0a;
+  transform: scale(1.02);
 }
 
 .submit-button:hover {
   color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .modal-close {
@@ -380,6 +386,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .add-item-form button:hover {
   background-color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .delete-button {
@@ -391,7 +398,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .delete-button:hover {
-  color: #eb6424
+  color: #eb6424;
+  transform: scale(1.02);
 }
 
 .checkbox {
@@ -458,6 +466,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .edit-item-form button:hover {
   background: #8b3c17;
+  transform: scale(1.02);
 }
 
 .exp-date-wrapper {
@@ -467,6 +476,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 .invite-button {
+  position: relative;
   padding: 0.25rem 1rem;
   background-color: #eb6424;
   color: white;
@@ -480,6 +490,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   transition: background-color 0.2s ease;
   display: inline-block;
+}
+
+.close-invite {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+
+}
+
+.close-invite:hover {
+  color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .household-wrapper {
@@ -509,6 +536,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #8b3c17;
   color: white;
   text-decoration: none;
+  transform: scale(1.02);
 }
 
 .household-button:visited,
@@ -564,10 +592,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .clear-button:hover {
   background-color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .recipe-button:hover {
   background-color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .recipe-button,
@@ -588,6 +618,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .clear-button:hover {
   text-decoration: none;
   color: white;
+  transform: scale(1.02);
 }
 
 .carousel-wrapper {
@@ -641,6 +672,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .recipe-link:hover {
   text-decoration: underline;
+  transform: scale(1.02);
 }
 
 .slick-dots li button:before {
@@ -700,6 +732,7 @@ gmpx-overlay-layout {
 
 .favorite-link :hover {
   background-color: #f3f3f376;
+  transform: scale(1.02);
 }
 
 .fav-button {
@@ -708,6 +741,7 @@ gmpx-overlay-layout {
 
 .fav-button :hover {
   color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .right-section {
@@ -743,6 +777,7 @@ gmpx-overlay-layout {
 
 .back-button:hover {
   color: #362f05;
+  transform: scale(1.02);
 }
 
 .compost-container {
@@ -804,6 +839,7 @@ gmpx-overlay-layout {
 .icon-tooltip-wrapper:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+  transform: scale(1.02);
 }
 
 .compost-map-container {
@@ -881,6 +917,7 @@ gmpx-overlay-layout {
 
 .welcome a:hover {
   color: #8b3c17;
+  transform: scale(1.02);
 }
 
 .container {
@@ -1098,6 +1135,7 @@ select:focus {
 
 .login-btn:hover {
   opacity: 0.9;
+  transform: scale(1.02);
 }
 
 .signup-text {
@@ -1207,6 +1245,269 @@ select:focus {
   pointer-events: auto;
 }
 
+.settings-container {
+  max-width: 700rem;
+  margin: 4rem auto;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Patrick Hand SC', cursive;
+}
+
+.settings-header {
+  margin-bottom: 1.5rem;
+}
+
+.settings-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.settings-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.settings-member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settings-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  margin-bottom: .5rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+}
+
+.settings-badge {
+  background: #babd8d;
+  color: #fff;
+  font-size: .75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  margin-left: .5rem;
+}
+
+.settings-member-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.settings-button {
+  padding: 0.25rem 1rem;
+  background-color: #eb6424;
+  color: white;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-family: 'Patrick Hand SC', cursive;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+}
+
+.settings-button:hover:not(:disabled) {
+  background: #8b3c17;
+  transform: scale(1.02);
+}
+
+.settings-button.leave {
+  background: #ff9800;
+}
+
+.settings-button.leave:hover:not(:disabled) {
+  background: #8b3c17;
+  transform: scale(1.02);
+}
+
+.settings-button.delete {
+  background: #eb6424;
+  margin-right: 1rem;
+}
+
+.settings-button:visited,
+.settings-button.delete:visited,
+.settings-button.leave:visited {
+  color: white;
+}
+
+.settings-button.delete:hover:not(:disabled) {
+  background-color: #8b3c17;
+  color: white;
+  text-decoration: none;
+  transform: scale(1.02);
+}
+
+.settings-button.small {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  background: #babd8d;
+}
+
+.settings-button.small:hover {
+  background: #77795a;
+  color: white;
+  text-decoration: none;
+  transform: scale(1.02);
+}
+
+.reset-container {
+  max-width: 700rem;
+  margin: 4rem auto;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Patrick Hand SC', cursive;
+
+}
+
+.reset-container h1 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #7c6a0a;
+}
+
+.reset-info {
+  color: seagreen;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  white-space: pre-wrap;
+}
+
+.reset-error {
+  color: crimson;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  white-space: pre-wrap;
+}
+
+.reset-form {
+  display: grid;
+  gap: 14px;
+
+}
+
+.reset-form label {
+  flex-direction: column;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin: 0 auto 10px;
+  width: 450px;
+  max-width: 90%;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: white;
+  color: black;
+  box-sizing: border-box;
+}
+
+.reset-form input {
+  display: block;
+  margin: 0 auto 10px;
+  width: 450px;
+  max-width: 90%;
+  padding: 10px;
+  border: 2px solid #020202;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: white;
+  color: black;
+  box-sizing: border-box;
+}
+
+.reset-form input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  outline: none;
+}
+
+.security-question-box {
+  background: #f6f6f6;
+  padding: 10px;
+  border-radius: 6px;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: block;
+  margin: 0 auto 10px;
+  width: 450px;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+.reset-buttons {
+  display: flex;
+  gap: 10px;
+
+}
+
+.reset-button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.reset-button.primary {
+  background-color: #eb6424;
+  color: white;
+  font-family: 'Patrick Hand SC', cursive;
+  display: block;
+  margin: 0 auto 10px;
+  width: 200px;
+  max-width: 90%;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.reset-button.primary:hover:not(:disabled) {
+  background-color: #8b3c17;
+  transform: scale(1.02);
+}
+
+.reset-button.secondary {
+  background-color: #babd8d;
+  color: #111827;
+  display: block;
+  margin: 0 auto 10px;
+  width: 150px;
+  margin-right: -35rem;
+  max-width: 90%;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.reset-button.secondary:hover:not(:disabled) {
+  background-color: #949770;
+  transform: scale(1.02);
+}
+
+.reset-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 
 @media (max-width: 1024px) {
   html {
@@ -1286,7 +1587,6 @@ select:focus {
     text-align: center;
   }
 
-  /* Inputs/selects (login, signup, shared) */
   .login-form input,
   .password-wrapper,
   .password-wrapper input,
@@ -1392,6 +1692,11 @@ select:focus {
     padding: 1rem;
   }
 
+  .settings-container {
+    width: 95%;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
 
 }
 
@@ -1462,5 +1767,49 @@ select:focus {
     margin-left: 0;
   }
 
+  .settings-container {
+    width: 100%;
+    margin: 5rem auto;
+    padding: 1rem;
+  }
 
+  .reset-container {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .reset-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .reset-info,
+  .reset-error {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .reset-form label,
+  .reset-form input,
+  .security-question-box {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 8px;
+    padding: 8px;
+    font-size: 0.95rem;
+  }
+
+  .reset-buttons {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .reset-button.primary,
+  .reset-button.secondary {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }

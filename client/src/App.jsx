@@ -6,12 +6,12 @@ import "./App.css";
 import Favorites from "./pages/Favorites";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import Instructions from "./pages/Instructions";
 import Layout from "./components/Layout";
 import DevBanner from "./components/DevBanner";
 import HouseholdInfo from "./pages/HouseholdInfo";
 import LandingPage from "./components/LandingPage";
 import PrivateRoute from "./components/PrivateRoute";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   return (
@@ -21,6 +21,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/ResetPassword" element={<ResetPassword/>} />
 
         <Route
           element={
@@ -34,7 +35,6 @@ export default function App() {
           <Route path="/Favorites" element={<Favorites />} />
           <Route path="/Compost" element={<Compost />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/Instructions" element={<Instructions />} />
           <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
         </Route>
       </Routes>

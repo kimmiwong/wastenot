@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Bool
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime, timezone
 from sqlalchemy.ext.declarative import declarative_base
+from typing import Optional
 
 Base = declarative_base()
 
@@ -45,8 +46,8 @@ class DBAccount(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     username: Mapped[str] = mapped_column(nullable=False)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
-    session_token: Mapped[str] = mapped_column(nullable=True)
-    session_expires_at: Mapped[datetime] = mapped_column(nullable=True)
+    session_token: Mapped[Optional[str]] = mapped_column(nullable=True)
+    session_expires_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)
     security_question: Mapped[str] = mapped_column(nullable=True)
     security_answer_hash: Mapped[str] = mapped_column(nullable=True)
 

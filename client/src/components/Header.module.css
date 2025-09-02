@@ -52,8 +52,20 @@
   display: block;
 }
 
+.hamburger:hover,
+.notifications:hover {
+  color: #584c08;
+  transform: scale(1.02);
+}
+
 .notifications {
-  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7c6a0a;
+  margin-left: 1rem;
+  display: block;
 }
 
 .dropdownButton {
@@ -65,7 +77,8 @@
 }
 
 .dropdownButton:hover {
-  background-color: #f3f3f3;
+  background-color: transparent;
+  transform: scale(1.02);
 }
 
 .notification {
@@ -79,6 +92,7 @@
   padding: 2px 6px;
   font-weight: bold;
 }
+
 
 .userInfo {
   display: flex;
@@ -104,13 +118,14 @@
   transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
   font-family: "Patrick Hand SC", cursive;
-  margin: 0 5.5rem;
+  margin: 0 3.75rem;
 }
 
 .logOut:hover {
   background-color: #f5f5f5;
   color: #eb6424;
   text-decoration: none;
+  transform: scale(1.02);
 }
 
 .mobileLogout {
@@ -125,6 +140,7 @@
 .mobileLogout:hover {
   color: #c75312;
   text-decoration: underline;
+  transform: scale(1.02);
 }
 
 .dropdown {
@@ -181,6 +197,17 @@
   font-size: 17px;
   text-decoration: none;
   color: #7c6a0a;
+  -webkit-tap-highlight-color: transparent;
+  /* Remove blue tap highlight */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.menuItem:hover {
+  color: #c75312;
+  transform: scale(1.02);
 }
 
 .mobileMenu p {
@@ -192,7 +219,6 @@
 .backdrop {
   position: fixed;
   top: 90px;
-  /* below header */
   left: 0;
   width: 100vw;
   height: calc(100vh - 90px);

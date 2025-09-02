@@ -117,3 +117,12 @@ class PasswordResetWithSecurity(BaseModel):
     username: EmailStr
     security_answer: str
     new_password: str
+
+
+class SecurityQuestionOut(BaseModel):
+    security_question: str
+
+
+class SecurityAnswerCheck(BaseModel):
+    username: EmailStr
+    security_answer: str

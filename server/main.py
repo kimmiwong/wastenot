@@ -19,13 +19,17 @@ from schema import (
     HouseholdMembershipOut,
     HouseholdOut,
     AdminTransferData,
-    SignupCredentials
+    SignupCredentials,
+    SecurityQuestionOut,
+    PasswordResetWithSecurity,
+    SecurityAnswerCheck
 )
 import db
 from recipes import fetch_recipes
 from models import DBAccount
 from dotenv import load_dotenv
 import re
+from pydantic import EmailStr
 
 load_dotenv()
 
@@ -431,3 +435,54 @@ def add_favorite(
 @app.delete("/api/favorite-recipes/{recipe_id}", response_model=SuccessResponse)
 def delete_favorite(recipe_id: str, current_user: UserIn = Depends(get_current_user)):
     return db.delete_favorite(recipe_id, current_user)
+
+
+@app.get("/api/security-question", response_model=SecurityQuestionOut)
+def get_security_question(username: EmailStr):
+    user = db.get_user_by_username(username)
+    if not user or not user.security_question:
+        raise HTTPException(status_code=404, detail="User not found")
+    return SecurityQuestionOut(security_question=user.security_question)
+
+
+@app.post("/api/reset-password/verify", response_model=SuccessResponse)
+def verify_security_answer(payload: SecurityAnswerCheck) -> SuccessResponse:
+    result = db.verify_security_answer(payload.username, payload.security_answer)
+    if result == "user_not_found":
+        raise HTTPException(status_code=404, detail="User not found")
+
+    elif result == "bad_answer":
+        raise HTTPException(status_code=403, detail="Incorrect security answer")
+
+    return SuccessResponse(success=True)
+
+
+@app.post("/api/reset-password", response_model=SuccessResponse)
+def reset_password(payload: PasswordResetWithSecurity) -> SuccessResponse:
+    errors = []
+    if len(payload.new_password) < 8:
+        errors.append("• Password must be at least 8 characters long")
+
+    if not re.search(r"[A-Z]", payload.new_password):
+        errors.append("•Password must contain at least one uppercase letter")
+
+    if not re.search(r"\d", payload.new_password):
+        errors.append("•Password must contain at least one number")
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", payload.new_password):
+        errors.append("•Password must contain at least one special character")
+
+    if errors:
+        raise HTTPException(status_code=400, detail="\n".join(errors))
+
+    result = db.reset_password_with_security(
+        username=payload.username,
+        security_answer=payload.security_answer,
+        new_password=payload.new_password,
+    )
+    if result == "same_password":
+        raise HTTPException(status_code=400, detail="New password must be different from your current password")
+    elif result is False:
+        raise HTTPException(status_code=403, detail="Invalid credentials")
+
+    return SuccessResponse(success=True)
