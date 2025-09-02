@@ -100,25 +100,16 @@ export default function HouseholdOnboarding({ householdLeft, setHouseholdLeft })
             {isOpen && (
                 <div className="household-modal-overlay">
                     <div className="household-modal-box">
-                        <h2>Welcome! Get started with your household</h2>
+                        <h2>
+                            Let's get started! <br />Create a new household <br />
+                            or <br />join an existing household with an invite ID.
+                        </h2>
+
 
                         <div style={{ marginBottom: "1rem" }}>
-                            <button className="join-button" onClick={() => setShowTab("join")}>Join Household</button>
                             <button className="join-button" onClick={() => setShowTab("create")}>Create Household</button>
+                            <button className="join-button" onClick={() => setShowTab("join")}>Join Household</button>
                         </div>
-
-                        {showTab === "join" && (
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Enter Invite ID"
-                                    value={inviteId}
-                                    onChange={(e) => setInviteId(e.target.value)}
-                                    className="household-input"
-                                />
-                                <button className="join-button" onClick={handleJoin}>Join</button>
-                            </div>
-                        )}
 
                         {showTab === "create" && (
                             <div>
@@ -130,6 +121,19 @@ export default function HouseholdOnboarding({ householdLeft, setHouseholdLeft })
                                     className="household-input"
                                 />
                                 <button className="join-button" onClick={handleCreate}>Create</button>
+                            </div>
+                        )}
+
+                        {showTab === "join" && (
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Invite ID"
+                                    value={inviteId}
+                                    onChange={(e) => setInviteId(e.target.value)}
+                                    className="household-input"
+                                />
+                                <button className="join-button" onClick={handleJoin}>Join</button>
                             </div>
                         )}
 
