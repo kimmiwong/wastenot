@@ -29,8 +29,8 @@ export default function ResetPassword() {
     setErr("");
     setInfo("");
     if (!username) {
-        setErr("Please enter your email.");
-        return;
+      setErr("Please enter your email.");
+      return;
     }
     setLoading(true);
     try {
@@ -39,17 +39,17 @@ export default function ResetPassword() {
       });
       if (!res.ok) {
         if (res.status === 404) {
-            setErr("User not found.");
+          setErr("User not found.");
         } else {
-            const data = await res.json().catch(() => ({}));
-            const msg = Array.isArray(data?.detail) ? data.detail[0]?.msg : (data?.detail || "Unable to fetch security question.");
-            setErr(msg);
+          const data = await res.json().catch(() => ({}));
+          const msg = Array.isArray(data?.detail) ? data.detail[0]?.msg : (data?.detail || "Unable to fetch security question.");
+          setErr(msg);
         }
         return;
       }
 
       const data = await res.json()
-      if(!data.security_question) {
+      if (!data.security_question) {
         setErr("No security question available for this account.");
         return;
       }
@@ -121,13 +121,13 @@ export default function ResetPassword() {
   }
 
   return (
-    <div style={{ maxWidth: 460, margin: "2rem auto" }}>
+    <div className="reset-container">
       <h1>Reset Password</h1>
-      {err && <p style={{ color: "crimson", whiteSpace: "pre-wrap" }}>{err}</p>}
-      {info && <p style={{ color: "seagreen", whiteSpace: "pre-wrap" }}>{info}</p>}
+      {err && <p className="reset-error">{err}</p>}
+      {info && <p className="reset-info">{info}</p>}
 
       {step === "email" && (
-        <form onSubmit={fetchQuestion} style={{ display: "grid", gap: 12 }}>
+        <form onSubmit={fetchQuestion} className="reset-form">
           <p>Enter your email to fetch your security question.</p>
           <label>
             Email
@@ -139,29 +139,42 @@ export default function ResetPassword() {
               required
             />
           </label>
-          <button type="submit" disabled={loading}>
+          <button className="reset-button primary" type="submit" disabled={loading}>
             {loading ? "Loading…" : "Get Security Question"}
           </button>
         </form>
       )}
 
       {step === "answer" && (
-        <form onSubmit={verifyAnswer} style={{ display: "grid", gap: 12 }}>
+        <form onSubmit={verifyAnswer} className="reset-form">
           <label>Security Question</label>
-          <div style={{ background: "#f6f6f6", padding: "8px 10px", borderRadius: 6 }}>{question}</div>
+          <div className="security-question-box">{question}</div>
           <label>
             Your Answer
-            <input value={answer} onChange={(e) => setAnswer(e.target.value)} required />
+            <input
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              required
+            />
           </label>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button type="button" onClick={() => setStep("email")} disabled={loading}>Back</button>
-            <button type="submit" disabled={loading}>{loading ? "Checking…" : "Verify Answer"}</button>
+          <div className="reset-buttons">
+            <button
+              className="reset-button secondary"
+              type="button"
+              onClick={() => setStep("email")}
+              disabled={loading}
+            >
+              Back
+            </button>
+            <button className="reset-button primary" type="submit" disabled={loading}>
+              {loading ? "Checking…" : "Verify Answer"}
+            </button>
           </div>
         </form>
       )}
 
       {step === "password" && (
-        <form onSubmit={submitNewPassword} style={{ display: "grid", gap: 12 }}>
+        <form onSubmit={submitNewPassword} className="reset-form">
           <label>
             New Password
             <input
@@ -182,12 +195,22 @@ export default function ResetPassword() {
               required
             />
           </label>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button type="button" onClick={() => setStep("answer")} disabled={loading}>Back</button>
-            <button type="submit" disabled={loading}>{loading ? "Updating…" : "Reset Password"}</button>
+          <div className="reset-buttons">
+            <button
+              className="reset-button secondary"
+              type="button"
+              onClick={() => setStep("answer")}
+              disabled={loading}
+            >
+              Back
+            </button>
+            <button className="reset-button primary" type="submit" disabled={loading}>
+              {loading ? "Updating…" : "Reset Password"}
+            </button>
           </div>
         </form>
       )}
     </div>
   );
+
 }

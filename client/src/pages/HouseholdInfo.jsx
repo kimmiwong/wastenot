@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InviteHouseholdMember from "../components/InviteHouseholdMember";
+import ResetPassword from "./ResetPassword";
 
 export default function HouseholdInfo() {
   const [membershipList, setMembershipList] = useState([]);
@@ -171,55 +172,61 @@ export default function HouseholdInfo() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="settings-container">
-      <div className="settings-header">
-        {isAdmin ? (
-          <>
-            <h1 className="settings-title">You are the admin of {household.name}</h1>
-            <button className="settings-button delete" onClick={handleDeleteHousehold}>
-              Delete Household
-            </button>
-          </>
-        ) : (
-          <>
-            <h1 className="settings-title">You are a member of {household.name}</h1>
-            <button className="settings-button leave" onClick={handleLeaveHousehold}>
-              Leave Household
-            </button>
-          </>
-        )}
-        <InviteHouseholdMember />
-      </div>
+    <div>
+      <div className="settings-container">
+        <div className="settings-header">
+          {isAdmin ? (
+            <>
+              <h1 className="settings-title">You are the admin of {household.name}</h1>
+              <button className="settings-button delete" onClick={handleDeleteHousehold}>
+                Delete Household
+              </button>
+            </>
+          ) : (
+            <>
+              <h1 className="settings-title">You are a member of {household.name}</h1>
+              <button className="settings-button leave" onClick={handleLeaveHousehold}>
+                Leave Household
+              </button>
+            </>
+          )}
+          <InviteHouseholdMember />
+        </div>
 
-      <div className="settings-members">
-        <h2 className="settings-subtitle">Household Members</h2>
-        <ul className="settings-member-list">
-          {membershipList.map((item) => (
-            <li key={item.id} className="settings-member-item">
-              <span>{item.username}</span>
-              {item.user_id === household.admin_user_id && (
-                <span className="settings-badge">Admin</span>
-              )}
-              {isAdmin && item.user_id !== household.admin_user_id && (
-                <div className="settings-member-actions">
-                  <button
-                    className="settings-button small danger"
-                    onClick={() => handleRemoveHouseholdMember(item.user_id)}
-                  >
-                    Remove
-                  </button>
-                  <button
-                    className="settings-button small"
-                    onClick={() => transferAdminRights(item.user_id)}
-                  >
-                    Make Admin
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+        <div className="settings-members">
+          <h2 className="settings-subtitle">Household Members</h2>
+          <ul className="settings-member-list">
+            {membershipList.map((item) => (
+              <li key={item.id} className="settings-member-item">
+                <span>{item.username}</span>
+                {item.user_id === household.admin_user_id && (
+                  <span className="settings-badge">Admin</span>
+                )}
+                {isAdmin && item.user_id !== household.admin_user_id && (
+                  <div className="settings-member-actions">
+                    <button
+                      className="settings-button small danger"
+                      onClick={() => handleRemoveHouseholdMember(item.user_id)}
+                    >
+                      Remove
+                    </button>
+                    <button
+                      className="settings-button small"
+                      onClick={() => transferAdminRights(item.user_id)}
+                    >
+                      Make Admin
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="reset-password">
+        <ResetPassword />
       </div>
     </div>
+
   );
 }
