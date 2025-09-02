@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import wastenot from "../assets/WasteNotLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -208,6 +208,9 @@ export default function Login() {
                 {error}
               </div>
             )}
+            <p> <Link to="/ResetPassword">
+         Forgot Password?
+        </Link></p>
 
             <p className="signup-text">
               Don’t have an account?{" "}

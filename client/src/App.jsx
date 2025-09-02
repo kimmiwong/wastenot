@@ -11,6 +11,7 @@ import DevBanner from "./components/DevBanner";
 import HouseholdInfo from "./pages/HouseholdInfo";
 import LandingPage from "./components/LandingPage";
 import PrivateRoute from "./components/PrivateRoute";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/ResetPassword" element={<ResetPassword/>} />
 
         <Route
           element={
