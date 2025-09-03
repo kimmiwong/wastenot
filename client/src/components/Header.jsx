@@ -163,6 +163,7 @@ export default function SimpleHeader({ minimal = false }) {
               Compost Locations
             </Link>
             <Link to="/HouseholdInfo" className={classes.menuItem}> Settings</Link>
+            <Link to="/ContactUs" className={classes.menuItem}> Contact Us</Link>
           </nav>
         </>
       )}
