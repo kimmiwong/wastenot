@@ -9,11 +9,15 @@ import { FavoritesProvider } from "./context/FavoritesContext.jsx";
 import { UserProvider } from "./context/UserProvider.jsx";
 import { NotificationsProvider } from "./context/NotificationsContext.jsx";
 
-function RootApp() {
+function ProvidersWrapper() {
   const location = useLocation();
-  const publicRoutes = ["/", "/login", "/ResetPassword"];
-  const onPublicRoute = publicRoutes.includes(location.pathname);
-  const shouldFetch = !onPublicRoute;
+  const path = location.pathname.toLowerCase();
+  const isPublicRoute =
+    path === "/" ||
+    path.startsWith("/login") ||
+    path.startsWith("/resetpassword");
+
+  const shouldFetch = !isPublicRoute;
 
   return (
     <UserProvider shouldFetch={shouldFetch}>
@@ -32,7 +36,7 @@ function RootApp() {
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <RootApp />
+      <ProvidersWrapper />
     </BrowserRouter>
   </StrictMode>
 );
