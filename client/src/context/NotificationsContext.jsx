@@ -1,14 +1,17 @@
 import { createContext, useState, useEffect, useContext } from "react";
+import { useUser } from "./UserProvider";
 
 export const NotificationsContext = createContext();
 
-export const NotificationsProvider = ({ children }) => {
+export const NotificationsProvider = ({ children, shouldFetch = true }) => {
   const [notifications, setNotifications] = useState([]);
+  const { user } = useUser();
   const apiHost = import.meta.env.VITE_API_HOST;
 
   const fetchNotifications = async () => {
-    try {
+    if (!user) return;
 
+    try {
       const res = await fetch(`${apiHost}/api/notifications`, {
         method: "GET",
         credentials: "include",
@@ -20,16 +23,23 @@ export const NotificationsProvider = ({ children }) => {
 
       const json = await res.json();
       setNotifications(json);
-
     } catch (error) {
-      console.error("Error occurred while loading recipes.", error);
+      if (import.meta.env.DEV && error.message !== "401") {
+        console.warn("Could not load notifications:", error.message);
+      }
     }
-
   };
 
   useEffect(() => {
-    fetchNotifications();
-  }, []);
+    if (!shouldFetch || !user) return;
+
+    const timeout = setTimeout(() => {
+      if (user) {
+        fetchNotifications();
+      }
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, [user, shouldFetch]);
 
   return (
     <NotificationsContext.Provider

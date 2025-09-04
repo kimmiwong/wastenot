@@ -8,38 +8,59 @@ import {
 
 const apiHost = import.meta.env.VITE_API_HOST;
 
-const UserContext = createContext({ user: null, refreshUser: async () => {} });
-export function UserProvider({ children }) {
-  // user holds the current user's info, or null if not logged in.
+const UserContext = createContext({
+  user: null,
+  refreshUser: async () => {},
+  clearUser: () => {},
+});
+export function UserProvider({ children, shouldFetch = true }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetches the current user from the backend and updates state.
-   * useCallback memoizes the function so it keeps the same reference between renders
-   * unless its dependencies change. This prevents unnecessary re-renders and ensures
-   * useEffect only runs when refreshUser actually changes.
-   */
   const refreshUser = useCallback(async () => {
-    // Call the backend to get current user info. 'credentials: "include"' sends cookies for session auth.
-    const res = await fetch(`${apiHost}/api/me`, {
-      credentials: "include",
-    });
-    if (res.ok) {
-      setUser(await res.json());
-    } else {
+    try {
+      const res = await fetch(`${apiHost}/api/me`, {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        if (res.status === 401) {
+          setUser(null);
+          return;
+        } else {
+          if (import.meta.env.DEV) {
+            console.warn("Unexpected error fetching user:", res.status);
+          }
+          setUser(null);
+          return;
+        }
+      }
+      const json = await res.json();
+      setUser(json);
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error("Network or parsing error in refreshUser:", err);
+      }
       setUser(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
-  // On mount, fetch the current user to initialize auth state.
+  const clearUser = () => {
+    setUser(null);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    refreshUser();
-  }, [refreshUser]);
+    if (shouldFetch) {
+      refreshUser();
+    } else {
+      setLoading(false);
+    }
+  }, [refreshUser, shouldFetch]);
 
   return (
-    <UserContext.Provider value={{ user, loading, refreshUser }}>
+    <UserContext.Provider value={{ user, loading, refreshUser, clearUser }}>
       {children}
     </UserContext.Provider>
   );
