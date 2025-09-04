@@ -71,7 +71,7 @@ export default function SimpleHeader({ minimal = false }) {
     <header className={classes.header}>
       <div className={classes.inner}>
         <div className={classes.leftSection}>
-          <Link to="/Home">
+          <Link to={user ? "/Home" : "/login"}>
             <img src={WasteNotLogo} alt="Logo" className={classes.logo} />
           </Link>
           <span className={classes.logoText}>WasteNot</span>
