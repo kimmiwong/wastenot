@@ -7,7 +7,6 @@ import { useIngredients } from "../context/RecipesContext";
 import { useUser } from "../context/UserProvider";
 import HouseholdOnboarding from "../components/HouseholdPopUp";
 
-
 export default function Home() {
   const { setSelectedIngredient } = useIngredients();
   // useUser provides the current user and a refresh function from context.
@@ -24,7 +23,10 @@ export default function Home() {
 
   return (
     <div className="page-content">
-      <HouseholdOnboarding householdLeft={householdLeft} setHouseholdLeft={setHouseholdLeft} />
+      <HouseholdOnboarding
+        householdLeft={householdLeft}
+        setHouseholdLeft={setHouseholdLeft}
+      />
 
       <div>
         <AddItem onItemAdded={triggerRefresh} />
@@ -56,5 +58,4 @@ export default function Home() {
       />
     </div>
   );
-
 }

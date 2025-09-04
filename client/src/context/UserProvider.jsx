@@ -23,16 +23,19 @@ export function UserProvider({ children, shouldFetch = true }) {
         credentials: "include",
       });
       if (!res.ok) {
-        if (res.status === 401) {
-          setUser(null);
-          return;
-        } else {
+        if (res.status === 401 || res.status === 403) {
           if (import.meta.env.DEV) {
-            console.warn("Unexpected error fetching user:", res.status);
+            console.warn("Not logged in:", res.status);
           }
           setUser(null);
           return;
         }
+
+        if (import.meta.env.DEV) {
+          console.warn("Unexpected error fetching user:", res.status);
+        }
+        setUser(null);
+        return;
       }
       const json = await res.json();
       setUser(json);
