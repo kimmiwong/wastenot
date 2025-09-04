@@ -16,7 +16,6 @@ export default function SimpleHeader({ minimal = false }) {
   const [householdName, setHouseholdName] = useState("");
   const menuRef = useRef(null);
 
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -41,7 +40,10 @@ export default function SimpleHeader({ minimal = false }) {
   }, [menuOpen]);
 
   useEffect(() => {
+    if (!user) return;
+
     const fetchHousehold = async () => {
+      if (!user) return;
       try {
         const apiHost = import.meta.env.VITE_API_HOST;
         const response = await fetch(`${apiHost}/api/households/current`, {
@@ -52,19 +54,24 @@ export default function SimpleHeader({ minimal = false }) {
         const data = await response.json();
         setHouseholdName(data.name);
       } catch (err) {
-        console.error("Error fetching household:", err);
+        if (import.meta.env.DEV && err.message !== "401") {
+          console.error("Error fetching household:", err.message);
+        }
       }
     };
+    const timeout = setTimeout(() => {
+      fetchNotifications();
+      fetchHousehold();
+    }, 50);
 
-    fetchNotifications();
-    fetchHousehold();
-  }, []);
+    return () => clearTimeout(timeout);
+  }, [user]);
 
   return (
     <header className={classes.header}>
       <div className={classes.inner}>
         <div className={classes.leftSection}>
-          <Link to="/Home">
+          <Link to={user ? "/Home" : "/login"}>
             <img src={WasteNotLogo} alt="Logo" className={classes.logo} />
           </Link>
           <span className={classes.logoText}>WasteNot</span>
@@ -72,18 +79,19 @@ export default function SimpleHeader({ minimal = false }) {
 
         <div className={classes.rightSection}>
           {minimal ? (
-
             <Link to="/login" className={classes.logOut}>
               Login
             </Link>
           ) : (
-
             <>
               {user && (
                 <div className={classes.userInfo}>
                   <div className={classes.welcomeMessage}>
                     {householdName ? (
-                      <>Welcome to the <strong>{householdName} Household</strong></>
+                      <>
+                        Welcome to the{" "}
+                        <strong>{householdName} Household</strong>
+                      </>
                     ) : (
                       <>You are not in a household yet</>
                     )}
@@ -147,7 +155,12 @@ export default function SimpleHeader({ minimal = false }) {
                 <p>
                   Welcome, <strong>{user.username}</strong>
                 </p>
-                {householdName && (<p> You are in <strong>{householdName}</strong>'s household </p>)}
+                {householdName && (
+                  <p>
+                    {" "}
+                    You are in <strong>{householdName}</strong>'s household{" "}
+                  </p>
+                )}
                 <Link to="/logout" className={classes.mobileLogout}>
                   Logout
                 </Link>
@@ -162,7 +175,14 @@ export default function SimpleHeader({ minimal = false }) {
             <Link to="/Compost" className={classes.menuItem}>
               Compost Locations
             </Link>
-            <Link to="/HouseholdInfo" className={classes.menuItem}> Settings</Link>
+            <Link to="/HouseholdInfo" className={classes.menuItem}>
+              {" "}
+              Settings
+            </Link>
+            <Link to="/ContactUs" className={classes.menuItem}>
+              {" "}
+              Contact Us
+            </Link>
           </nav>
         </>
       )}

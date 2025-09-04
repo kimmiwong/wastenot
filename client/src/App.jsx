@@ -12,6 +12,7 @@ import HouseholdInfo from "./pages/HouseholdInfo";
 import LandingPage from "./components/LandingPage";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPassword from "./pages/ResetPassword";
+import ContactUs from "./pages/ContactUs";
 
 export default function App() {
   return (
@@ -21,21 +22,20 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/signup" element={<Signup />} /> */}
-        <Route path="/ResetPassword" element={<ResetPassword/>} />
+        <Route path="/ResetPassword" element={<ResetPassword />} />
+        <Route path="/logout" element={<Logout />} />
 
-        <Route
-          element={
-            <PrivateRoute>
-              <Layout />
-            </PrivateRoute>
-          }
-        >
-          <Route path="/Home" element={<Home />} />
-          <Route path="/recipe" element={<Recipe />} />
-          <Route path="/Favorites" element={<Favorites />} />
-          <Route path="/Compost" element={<Compost />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
+        {/* Protected Routes */}
+
+        <Route element={<PrivateRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/Home" element={<Home />} />
+            <Route path="/recipe" element={<Recipe />} />
+            <Route path="/Favorites" element={<Favorites />} />
+            <Route path="/Compost" element={<Compost />} />
+            <Route path="/HouseholdInfo" element={<HouseholdInfo />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
+          </Route>
         </Route>
       </Routes>
     </>
